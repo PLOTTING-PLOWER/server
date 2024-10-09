@@ -56,7 +56,7 @@ public class User extends BaseTimeEntity {
 
     @Builder
     public User(String nickname, String email, String password, String socialId, String profileImageUrl,
-                String profileMessage, LoginType loginType, boolean isAlarmAllowed, boolean isProfilePublic,
+                String profileMessage, LoginType loginType, Boolean isAlarmAllowed, Boolean isProfilePublic,
                 Role role, String fcmToken) {
         this.nickname = nickname;
         this.email = email;
