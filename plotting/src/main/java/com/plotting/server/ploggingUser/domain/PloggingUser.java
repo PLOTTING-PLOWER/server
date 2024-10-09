@@ -35,8 +35,8 @@ public class PloggingUser {
     private Boolean isAssigned;
 
     @Builder
-    public PloggingUser(User user, Plogging plogging, Boolean isAssigned ){
-        this.user =user;
+    public PloggingUser(User user, Plogging plogging, Boolean isAssigned){
+        this.user = user;
         this.plogging = plogging;
         this.isAssigned = isAssigned;
     }

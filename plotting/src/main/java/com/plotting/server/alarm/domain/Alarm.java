@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Table(name = "alarm")
 @Getter
@@ -26,14 +27,14 @@ public class Alarm {
     private User user;
 
     @Column(name = "alarm_date", nullable = false)
-    private Timestamp alarmDate;
+    private LocalDate alarmDate;
 
     @Column(name = "content", nullable = false)
     private String content;
 
     @Builder
-    public Alarm(User user, Timestamp alarmDate,String content ){
-        this.user =user;
+    public Alarm(User user, LocalDate alarmDate, String content){
+        this.user = user;
         this.alarmDate = alarmDate;
         this.content = content;
     }

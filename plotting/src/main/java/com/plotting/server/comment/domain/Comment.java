@@ -1,6 +1,7 @@
 package com.plotting.server.comment.domain;
 
 
+import com.plotting.server.global.BaseTimeEntity;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.sql.Timestamp;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +38,6 @@ public class Comment {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "created_date", nullable = false)
-    private Timestamp createdDate;
-
-    @Column(name = "modified_date")
-    private Timestamp modifiedDate;
-
     @Column(name = "depth", nullable = false)
     private Long depth;
 
@@ -50,13 +45,11 @@ public class Comment {
     private Boolean isCommentPublic;
 
     @Builder
-    public Comment(User user, Plogging plogging,Comment parentComment, String content, Timestamp createdDate,Timestamp modifiedDate, Long depth, Boolean isCommentPublic) {
+    public Comment(User user, Plogging plogging,Comment parentComment, String content, Long depth, Boolean isCommentPublic) {
         this.user = user;
         this.plogging = plogging;
         this.parentComment = parentComment;
         this.content = content;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
         this.depth = depth;
         this.isCommentPublic = isCommentPublic;
     }
