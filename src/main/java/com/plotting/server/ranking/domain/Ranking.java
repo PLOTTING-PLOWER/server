@@ -24,11 +24,11 @@ public class Ranking {
     private User user;
 
     @Column(name = "hour_rank", nullable = false)
-    private Long hour_rank;
+    private Long hourRank;
 
     @Builder
-    public Ranking(User user, Long hour_rank){
+    public Ranking(User user, Long hourRank){
         this.user = user;
-        this.hour_rank = hour_rank;
+        this.hourRank = hourRank;
     }
 }
