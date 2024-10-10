@@ -1,5 +1,6 @@
 package com.plotting.server.user.domain;
 
+import com.plotting.server.global.BaseTimeEntity;
 import com.plotting.server.user.domain.UserType.LoginType;
 import com.plotting.server.user.domain.UserType.Role;
 import jakarta.persistence.*;
