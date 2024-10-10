@@ -4,64 +4,413 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30f6f18d-0a7c-440e-a358-32800d8fe192" name="Changes" comment="">
+    <list default="true" id="577839ac-93a1-4ad7-b1a6-5c2966f12d36" name="Changes" comment=":heavy_plus_sign: add: Dockerfile 작성">
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/PlottingApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/alarm/application/AlarmService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/alarm/domain/Alarm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/alarm/dto/request/AlarmRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/alarm/dto/response/AlarmResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/alarm/exception/AlarmNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/alarm/presentation/AlarmController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/alarm/repository/AlarmRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/application/CardnewsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/domain/Card.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/domain/Cardnews.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/dto/request/CardnewsRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/dto/response/CardnewsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/exception/CardNewsNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/presentation/CardnewsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/cardnews/repository/CardnewsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/comment/application/CommentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/comment/domain/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/comment/dto/request/CommentRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/comment/dto/response/CommentResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/comment/exception/CommentNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/comment/presentation/CommentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/comment/repository/CommentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/global/BaseTimeEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/application/PloggingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/domain/Plogging.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/domain/PloggingStar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/domain/init/PloggingType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/dto/request/PloggingRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/dto/response/PloggingResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/exception/PloggingNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/presentation/PloggingController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/plogging/repository/PloggingRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ploggingUser/application/PloggingUserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ploggingUser/domain/PloggingUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ploggingUser/dto/request/PloggingUserRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ploggingUser/dto/response/PloggingUserResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ploggingUser/exception/PloggingUserNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ploggingUser/presentation/PloggingUserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ploggingUser/repository/PloggingUserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ranking/application/RankingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ranking/domain/Ranking.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ranking/dto/request/RankingRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ranking/dto/response/RankingResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ranking/exception/RankingNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ranking/presentation/RankingController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/ranking/repository/RankingRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/application/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/domain/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/domain/UserStar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/domain/init/LoginType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/dto/request/UserRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/dto/response/UserResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/exception/UserNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/presentation/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/main/java/com/plotting/server/user/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting/src/test/java/com/plotting/server/PlottingApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 6
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="plotting" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="plotting" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="plotting" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="feat/syj/plogging" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;syjdjr&quot;
+  }
 }</component>
-  <component name="ProjectId" id="2n8cjnglZucVQIb1mtlKshf5xCQ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="develop" />
+      </list>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/PLOTTING-PLOWER/server.git&quot;,
+    &quot;accountId&quot;: &quot;07e02a75-07cb-4c71-9273-a27f337c53a7&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2n8cn0EE5dkt0yJZuJ8mBfaYFcC" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.Build plotting.executor": "Run",
+    "Gradle.C:/Users/Administrator/Desktop/github_repo/server/plotting/build.gradle.executor": "Run",
+    "Gradle.plotting [bootJar].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "Spring Boot.PlottingApplication.executor": "Run",
+    "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/lee/Desktop/Code_BAG/ShwimPing/BE/build.gradle",
+    "last_opened_file_path": "C:/Users/Administrator/Desktop/github_repo/server/build.gradle",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Desktop\github_repo\server\plotting" />
+      <recent name="C:\Users\Administrator\Desktop\github_repo\server\plotting\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.plotting.server.plogging.domain" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.plotting [bootJar]">
+    <configuration name="plotting [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PlottingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ACTIVE_PROFILES" value="local" />
+      <module name="plotting.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.plotting.server.PlottingApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.plotting [bootJar]" />
+        <item itemvalue="Gradle.plotting [bootJar]" />
+        <item itemvalue="Gradle.plotting [bootJar]" />
+        <item itemvalue="Gradle.plotting [bootJar]" />
+        <item itemvalue="Gradle.plotting [bootJar]" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.300" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.300" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="30f6f18d-0a7c-440e-a358-32800d8fe192" name="Changes" comment="" />
-      <created>1728358282416</created>
+      <changelist id="577839ac-93a1-4ad7-b1a6-5c2966f12d36" name="Changes" comment="" />
+      <created>1728358307311</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1728358282416</updated>
-      <workItem from="1728358283613" duration="23000" />
-      <workItem from="1728366768302" duration="720000" />
+      <updated>1728358307311</updated>
+      <workItem from="1728358308422" duration="468000" />
+      <workItem from="1728358846349" duration="1260000" />
+      <workItem from="1728364757149" duration="1161000" />
+      <workItem from="1728366612237" duration="1441000" />
+      <workItem from="1728370826296" duration="2321000" />
+      <workItem from="1728394393746" duration="1089000" />
+      <workItem from="1728395674918" duration="241000" />
+      <workItem from="1728396100672" duration="1321000" />
+      <workItem from="1728451438406" duration="7329000" />
+      <workItem from="1728459275931" duration="730000" />
+      <workItem from="1728461781488" duration="3546000" />
+      <workItem from="1728489365727" duration="241000" />
+      <workItem from="1728489695913" duration="315000" />
+      <workItem from="1728539804719" duration="1568000" />
+      <workItem from="1728542771243" duration="49000" />
     </task>
+    <task id="LOCAL-00001" summary="➕add/ 기초 세팅">
+      <option name="closed" value="true" />
+      <created>1728366137477</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728366137477</updated>
+    </task>
+    <task id="LOCAL-00002" summary="➕add: 기초 세팅">
+      <option name="closed" value="true" />
+      <created>1728366179379</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728366179379</updated>
+    </task>
+    <task id="LOCAL-00003" summary="➕ add: 기초 세팅">
+      <option name="closed" value="true" />
+      <created>1728366199948</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728366199948</updated>
+    </task>
+    <task id="LOCAL-00004" summary="➕ add: 기초 세팅">
+      <option name="closed" value="true" />
+      <created>1728366385556</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1728366385556</updated>
+    </task>
+    <task id="LOCAL-00005" summary=":sparkles: feat: #5 플로깅 엔티티 작성&#10;:heavy_plus_sign: add: Dockerfile 작성">
+      <option name="closed" value="true" />
+      <created>1728454845954</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1728454845954</updated>
+    </task>
+    <task id="LOCAL-00006" summary=":sparkles: feat: #5 플로깅 엔티티 추가">
+      <option name="closed" value="true" />
+      <created>1728455699760</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1728455699760</updated>
+    </task>
+    <task id="LOCAL-00007" summary=":heavy_plus_sign: add: dockerfile 작성">
+      <option name="closed" value="true" />
+      <created>1728456572406</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1728456572406</updated>
+    </task>
+    <task id="LOCAL-00008" summary=":sparkles: feat: #5 플로깅 엔티티 작성">
+      <option name="closed" value="true" />
+      <created>1728457546880</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1728457546880</updated>
+    </task>
+    <task id="LOCAL-00009" summary=":sparkles: feat: #5 플로깅 엔티티 작성">
+      <option name="closed" value="true" />
+      <created>1728457806474</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1728457806474</updated>
+    </task>
+    <task id="LOCAL-00010" summary=":heavy_plus_sign: add: Dockerfile 작성">
+      <option name="closed" value="true" />
+      <created>1728459377436</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1728459377436</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="develop" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="➕add/ 기초 세팅" />
+    <MESSAGE value="➕add: 기초 세팅" />
+    <MESSAGE value="➕ add: 기초 세팅입니다" />
+    <MESSAGE value="➕ add: 기초 세팅" />
+    <MESSAGE value=":sparkles: feat: #5 플로깅 엔티티 작성&#10;:heavy_plus_sign: add: Dockerfile 작성" />
+    <MESSAGE value=":sparkles: feat: #5 플로깅 엔티티 추가" />
+    <MESSAGE value=":heavy_plus_sign: add: dockerfile 작성" />
+    <MESSAGE value=":sparkles: feat: #5 플로깅 엔티티 작성" />
+    <MESSAGE value=":heavy_plus_sign: add: Dockerfile 작성" />
+    <option name="LAST_COMMIT_MESSAGE" value=":heavy_plus_sign: add: Dockerfile 작성" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/build.gradle</url>
+          <line>19</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

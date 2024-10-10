@@ -1,6 +1,6 @@
 package com.plotting.server.plogging.domain;
 
-import com.plotting.server.plogging.domain.init.PloggingType;
+import com.plotting.server.plogging.domain.type.PloggingType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
