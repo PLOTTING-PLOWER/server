@@ -17,12 +17,12 @@ public class Card {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "card_image_url", nullable = false)
-    private String cardImageUrl;
-
     @JoinColumn(name = "cardnews_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Cardnews cardnews;
+
+    @Column(name = "card_image_url", nullable = false)
+    private String cardImageUrl;
 
     @Builder
     public Card(String cardImageUrl, Cardnews cardnews) {
