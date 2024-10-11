@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum LoginType {
+
     NAVER("naver"),
     GOOGLE("google"),
     SELF("self"),
