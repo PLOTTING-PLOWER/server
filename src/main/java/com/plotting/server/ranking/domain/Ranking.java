@@ -23,12 +23,12 @@ public class Ranking {
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Column(name = "rank", nullable = false)
-    private Long rank;
+    @Column(name = "hour_rank", nullable = false)
+    private Long hourRank;
 
     @Builder
-    public Ranking(User user, long rank){
+    public Ranking(User user, Long hourRank){
         this.user = user;
-        this.rank = rank;
+        this.hourRank = hourRank;
     }
 }
