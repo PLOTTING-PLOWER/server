@@ -3,6 +3,7 @@ package com.plotting.server.global.exception.handler;
 import com.plotting.server.global.exception.errorcode.ErrorCode;
 import com.plotting.server.global.exception.errorcode.GlobalErrorCode;
 import com.plotting.server.global.exception.response.ErrorResponse;
+import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +46,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(errorCode));
+    }
+
+    @ExceptionHandler(PloggingNotFoundException.class)
+    public ResponseEntity<Object> handleMemberNotFound(final PloggingNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
     }
 
     private ErrorResponse makeErrorResponse(ErrorCode errorCode) {
