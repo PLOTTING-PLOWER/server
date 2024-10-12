@@ -45,6 +45,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startLocation("서울 영등포구 여의동로 330 한강사업본부 여의도안내센터")
                     .startLatitude(BigDecimal.valueOf(37.5263886632))
                     .startLongitude(BigDecimal.valueOf(126.933612357))
+                    .endLocation("서울특별시 영등포구 여의동로 330")
                     .build();
 
             Plogging DUMMY_PLOGGING2 = Plogging.builder()
@@ -59,6 +60,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startLocation("서울특별시 송파구 올림픽로 424")
                     .startLatitude(BigDecimal.valueOf(37.5206868))
                     .startLongitude(BigDecimal.valueOf(127.1171114))
+                    .endLocation("")
                     .build();
 
             ploggingList.add(DUMMY_PLOGGING1);

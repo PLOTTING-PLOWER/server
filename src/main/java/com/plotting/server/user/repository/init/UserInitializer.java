@@ -57,11 +57,50 @@ public class UserInitializer implements ApplicationRunner {
                     .fcmToken("fcmToken")
                     .build();
 
+            User DUMMY_USER3 = User.builder()
+                    .nickname("user3")
+                    .email("user3@email.com")
+                    .password("password3")
+                    .profileImageUrl("profileImage3.png")
+                    .profileMessage("동작구 플로깅 전문가 입니다")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
+            User DUMMY_USER4 = User.builder()
+                    .nickname("user4")
+                    .email("user4@email.com")
+                    .password("password4")
+                    .profileImageUrl("profileImage4.png")
+                    .profileMessage("플로깅하면서 친해질 분들 즐겨찾기 해주세요!")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
+            User DUMMY_USER5 = User.builder()
+                    .nickname("user5")
+                    .email("user5@email.com")
+                    .password("password5")
+                    .profileImageUrl("profileImage5.png")
+                    .profileMessage("주로 주말에 플로깅 합니다. 같이 해요!")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
             User DUMMY_ADMIN = User.builder()
                     .nickname("admin")
                     .email("admin@email.com")
                     .password("adminPassword")
-                    .profileImageUrl("profileImage3.png")
+                    .profileImageUrl("profileImageAdmin.png")
                     .profileMessage("관리자 계정입니다")
                     .loginType(SELF)
                     .isAlarmAllowed(true)
@@ -72,6 +111,9 @@ public class UserInitializer implements ApplicationRunner {
 
             userList.add(DUMMY_USER1);
             userList.add(DUMMY_USER2);
+            userList.add(DUMMY_USER3);
+            userList.add(DUMMY_USER4);
+            userList.add(DUMMY_USER5);
             userList.add(DUMMY_ADMIN);
 
             userRepository.saveAll(userList);
