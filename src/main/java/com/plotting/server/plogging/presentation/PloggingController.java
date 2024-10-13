@@ -3,6 +3,7 @@ package com.plotting.server.plogging.presentation;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.PloggingService;
 import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
+import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,18 @@ public class PloggingController {
             @PathVariable Long ploggingId) {
 
         PloggingDetailResponse response = ploggingService.getPloggingDetail(ploggingId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "플로깅 참여자 조회", description = "플로깅 참여자 조회 화면입니다.")
+    @GetMapping("/{ploggingId}/users")
+    public ResponseEntity<ResponseTemplate<?>> getPloggingUserList(
+            @PathVariable Long ploggingId) {
+
+        PloggingUserListResponse response = ploggingService.getPloggingUserList(ploggingId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
