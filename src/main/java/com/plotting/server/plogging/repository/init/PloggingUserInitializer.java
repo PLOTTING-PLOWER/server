@@ -1,10 +1,10 @@
-package com.plotting.server.ploggingUser.repository.init;
+package com.plotting.server.plogging.repository.init;
 
 import com.plotting.server.global.util.DummyDataInit;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.repository.PloggingRepository;
-import com.plotting.server.ploggingUser.domain.PloggingUser;
-import com.plotting.server.ploggingUser.repository.PloggingUserRepository;
+import com.plotting.server.plogging.domain.PloggingUser;
+import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Order(3)
 @DummyDataInit
-public class PloggingUserInitializder implements ApplicationRunner {
+public class PloggingUserInitializer implements ApplicationRunner {
 
     private final PloggingUserRepository ploggingUserRepository;
     private final UserRepository userRepository;

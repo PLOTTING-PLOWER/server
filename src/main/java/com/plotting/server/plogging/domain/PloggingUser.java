@@ -1,15 +1,12 @@
-package com.plotting.server.ploggingUser.domain;
+package com.plotting.server.plogging.domain;
 
 
-import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
 
 @Table(name = "plogging_user")
 @Getter
@@ -29,7 +26,6 @@ public class PloggingUser {
     @JoinColumn(name = "plogging_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Plogging plogging;
-
 
     @Column(name = "is_assigned", nullable = false)
     private Boolean isAssigned;
