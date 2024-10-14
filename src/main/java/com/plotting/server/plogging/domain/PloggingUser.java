@@ -31,9 +31,17 @@ public class PloggingUser {
     private Boolean isAssigned;
 
     @Builder
-    public PloggingUser(User user, Plogging plogging, Boolean isAssigned){
+    public PloggingUser(User user, Plogging plogging, Boolean isAssigned) {
         this.user = user;
         this.plogging = plogging;
         this.isAssigned = isAssigned;
+    }
+
+    public static PloggingUser of(Plogging plogging, User user, Boolean isAssigned) {
+        return PloggingUser.builder()
+                .plogging(plogging)
+                .user(user)
+                .isAssigned(isAssigned)
+                .build();
     }
 }
