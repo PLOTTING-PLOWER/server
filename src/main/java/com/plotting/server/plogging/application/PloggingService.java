@@ -13,6 +13,7 @@ import com.plotting.server.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -49,14 +50,13 @@ public class PloggingService {
         return PloggingUserListResponse.of(currentPeople, maxPeople, ploggingUserList);
     }
 
-    @Transactional
-    public String joinPlogging(Long ploggingId, Long userId) {
-        Plogging plogging = getPlogging(ploggingId);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public String joinPlogging(Plogging plogging, Long userId) {
         User user = userService.getUser(userId);
 
         Boolean isAssigned = !plogging.getPloggingType().equals(ASSIGN);
 
-        ploggingUserRepository.save(PloggingUser.of(plogging, user, isAssigned));
+        ploggingUserRepository.saveAndFlush(PloggingUser.of(plogging, user, isAssigned));
 
         if (isAssigned) {
             return "참여 승인되었습니다.";

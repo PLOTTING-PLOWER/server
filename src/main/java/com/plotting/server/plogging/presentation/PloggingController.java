@@ -2,6 +2,7 @@ package com.plotting.server.plogging.presentation;
 
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.PloggingService;
+import com.plotting.server.plogging.application.PloggingServiceFacade;
 import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
 import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PloggingController {
 
     private final PloggingService ploggingService;
+    private final PloggingServiceFacade ploggingServiceFacade;
 
     @Operation(summary = "플로깅 상세 조회", description = "플로깅 상세 조회 화면입니다.")
     @GetMapping("/{ploggingId}/info")
@@ -55,7 +57,7 @@ public class PloggingController {
             @PathVariable Long ploggingId,
             @PathVariable Long userId) {
 
-        String response = ploggingService.joinPlogging(ploggingId, userId);
+        String response = ploggingServiceFacade.joinPlogging(ploggingId, userId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

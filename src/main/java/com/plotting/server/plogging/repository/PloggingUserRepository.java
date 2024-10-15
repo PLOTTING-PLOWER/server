@@ -15,4 +15,12 @@ public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long
 
     @Query("SELECT pu FROM PloggingUser pu WHERE pu.plogging.id = :ploggingId AND pu.isAssigned = true")
     List<PloggingUser> findActivePloggingUsersByPloggingId(Long ploggingId);
+
+    Boolean existsByPloggingIdAndUserId(Long ploggingId, Long userId);
+
+    @Query(value = "SELECT GET_LOCK(:key, 3000)", nativeQuery = true)
+    void getLock(String key);
+
+    @Query(value = "SELECT RELEASE_LOCK(:key)", nativeQuery = true)
+    void releaseLock(String key);
 }
