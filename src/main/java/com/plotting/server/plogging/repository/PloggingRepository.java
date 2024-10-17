@@ -1,8 +1,6 @@
 package com.plotting.server.plogging.repository;
 
 import com.plotting.server.plogging.domain.Plogging;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

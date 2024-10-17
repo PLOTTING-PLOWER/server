@@ -10,5 +10,5 @@ import java.util.List;
 public interface PloggingRepositoryCustom {
 
     List<PloggingResponse> findByFilters(List<String> region, LocalDate startDate, LocalDate endDate, PloggingType type,
-                                         Long spendTime, LocalDateTime startTime, String maxParticipants);
+                                       Long spendTime, LocalDateTime startTime, Long maxPeople);
 }
