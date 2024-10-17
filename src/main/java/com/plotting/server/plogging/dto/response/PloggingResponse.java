@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 public record PloggingResponse(
         String title,
-        Long currentPeople,
         Long maxPeople,
         PloggingType ploggingType,
         LocalDate recruitEndDate,
@@ -19,11 +18,10 @@ public record PloggingResponse(
         String startLocation
 ) {
     @Builder
-   public static PloggingResponse of(String title, Long currentPeople, Long maxPeople, PloggingType ploggingType,
+   public static PloggingResponse of(String title, Long maxPeople, PloggingType ploggingType,
                                      LocalDate recruitEndDate, LocalDateTime startTime, Long spendTime, String startLocation) {
        return PloggingResponse.builder()
                .title(title)
-               .currentPeople(currentPeople)
                .maxPeople(maxPeople)
                .ploggingType(ploggingType)
                .recruitEndDate(recruitEndDate)
