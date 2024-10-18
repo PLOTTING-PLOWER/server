@@ -8,6 +8,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,15 +23,15 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
     @Override
     public List<PloggingResponse> findByFilters(List<String> region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                                 Long spendTime, LocalDateTime startTime, Long maxPeople) {
-
-
-        return jpaQueryFactory.select(Projections.constructor(PloggingResponse.class,
-//                        plogging.title,
+        return jpaQueryFactory
+                .select(Projections.constructor(PloggingResponse.class,
+                        plogging.title,
                         plogging.maxPeople,
                         plogging.ploggingType,
                         plogging.recruitEndDate,
                         plogging.startTime,
-                        plogging.spendTime))
+                        plogging.spendTime,
+                        plogging.startLocation))
                 .from(plogging)
                 .where(filterByRegion(region),
                         filterByDate(startDate, endDate),
@@ -44,7 +45,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
 
     // List<String> region 의 값을 @requestParam 으로 받아서 처리 가능할까?
     private BooleanExpression filterByRegion(List<String> region) {
-        if (region == null || region.isEmpty()) {
+        if (ObjectUtils.isEmpty(region)) {
             return null;
         } else {
             return plogging.startLocation.in(region);
