@@ -2,7 +2,9 @@ package com.plotting.server.plogging.application;
 
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
+import com.plotting.server.plogging.domain.type.PloggingType;
 import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
+import com.plotting.server.plogging.dto.response.PloggingResponse;
 import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
 import com.plotting.server.plogging.dto.response.PloggingUserResponse;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.plotting.server.plogging.domain.type.PloggingType.ASSIGN;
@@ -30,6 +34,12 @@ public class PloggingService {
     private final UserService userService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
+
+    public List<PloggingResponse> findListByFilter(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
+                                                   Long spendTime, LocalDateTime startTime, Long maxPeople) {
+
+        return ploggingRepository.findByFilters(region, startDate, endDate, type, spendTime, startTime, maxPeople);
+    }
 
     public PloggingDetailResponse getPloggingDetail(Long ploggingId) {
         Plogging plogging = getPlogging(ploggingId);
