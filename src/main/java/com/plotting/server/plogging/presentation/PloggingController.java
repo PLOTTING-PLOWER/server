@@ -4,6 +4,7 @@ import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.PloggingService;
 import com.plotting.server.plogging.application.PloggingServiceFacade;
 import com.plotting.server.plogging.domain.type.PloggingType;
+import com.plotting.server.plogging.dto.request.PloggingRequest;
 import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
 import com.plotting.server.plogging.dto.response.PloggingResponse;
 import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
@@ -28,6 +29,17 @@ public class PloggingController {
 
     private final PloggingService ploggingService;
     private final PloggingServiceFacade ploggingServiceFacade;
+
+    @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다.")
+    @PostMapping()
+    public ResponseEntity<ResponseTemplate<?>> createPlogging(@RequestBody PloggingRequest ploggingRequest) {
+
+        ploggingService.createPlogging(ploggingRequest);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.EMPTY_RESPONSE);
+    }
 
     @Operation(summary = "플로깅 리스트 조회", description = "플로깅 리스트 조회 화면입니다.<br> region: 서울, startDate: 2024-10-01, endDate: 2025-10-01, type: DIRECT, spendTime: 60, startTime: 2024-10-01T10:00:00, maxPeople: 10")
     @GetMapping("/filter")
