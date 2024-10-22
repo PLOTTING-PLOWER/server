@@ -17,11 +17,9 @@ public record PloggingRequest(
         LocalDateTime startTime,
         Long spendTime,
         String startLocation,
-        String endLocation,
-        String startLongitude,
-        String startLatitude
+        String endLocation
 ) {
-    public Plogging toEntity() {
+    public Plogging toEntity(BigDecimal startLatitude, BigDecimal startLongitude) {
         return Plogging.builder()
                 .title(title)
                 .content(content)
