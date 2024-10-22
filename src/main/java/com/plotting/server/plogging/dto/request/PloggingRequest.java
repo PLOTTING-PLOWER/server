@@ -3,6 +3,7 @@ package com.plotting.server.plogging.dto.request;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.type.PloggingType;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -16,10 +17,12 @@ public record PloggingRequest(
         LocalDateTime startTime,
         Long spendTime,
         String startLocation,
-        String endLocation
+        String endLocation,
+        String startLongitude,
+        String startLatitude
 ) {
-    public Plogging toEntity(Plogging plogging) {
-        return Plogging .builder()
+    public Plogging toEntity() {
+        return Plogging.builder()
                 .title(title)
                 .content(content)
                 .maxPeople(maxPeople)
@@ -30,6 +33,8 @@ public record PloggingRequest(
                 .spendTime(spendTime)
                 .startLocation(startLocation)
                 .endLocation(endLocation)
+                .startLatitude(startLatitude)
+                .startLongitude(startLongitude)
                 .build();
     }
 }
