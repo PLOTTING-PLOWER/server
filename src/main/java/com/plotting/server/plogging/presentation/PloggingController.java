@@ -31,15 +31,15 @@ public class PloggingController {
     private final PloggingServiceFacade ploggingServiceFacade;
     private final PloggingFilterService ploggingFilterService;  //구현 후 service 로직 이동시키고 삭제할 수도 있음.
 
-    @Operation(summary = "플로깅 리스트 조회", description = "플로깅 리스트 조회 화면입니다.")
+    @Operation(summary = "플로깅 리스트 조회", description = "플로깅 리스트 조회 화면입니다.<br> region: 서울, startDate: 2024-10-01, endDate: 2025-10-01, type: DIRECT, spendTime: 60, startTime: 2024-10-01T10:00:00, maxPeople: 10")
     @GetMapping("/filter")
-    public ResponseEntity<ResponseTemplate<?>> findListByFilter(@RequestParam List<String> region,
-                                                                @RequestParam LocalDate startDate,
-                                                                @RequestParam LocalDate endDate,
+    public ResponseEntity<ResponseTemplate<?>> findListByFilter(@RequestParam(defaultValue = "서울") String region,
+                                                                @RequestParam(defaultValue = "2024-10-01") LocalDate startDate,
+                                                                @RequestParam(defaultValue = "2025-10-01") LocalDate endDate,
                                                                 @RequestParam PloggingType type,
                                                                 @RequestParam Long spendTime,
-                                                                @RequestParam LocalDateTime startTime,
-                                                                @RequestParam Long maxPeople) {
+                                                                @RequestParam(defaultValue = "2024-10-01T10:00:00") LocalDateTime startTime,
+                                                                @RequestParam(defaultValue = "1000") Long maxPeople) {
 
         List<PloggingResponse> response = ploggingFilterService.findListByFilter(region, startDate, endDate, type, spendTime, startTime, maxPeople);
 

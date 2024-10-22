@@ -7,6 +7,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ObjectUtils;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
@@ -21,7 +23,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<PloggingResponse> findByFilters(List<String> region, LocalDate startDate, LocalDate endDate, PloggingType type,
+    public List<PloggingResponse> findByFilters(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                                 Long spendTime, LocalDateTime startTime, Long maxPeople) {
         return jpaQueryFactory
                 .select(Projections.constructor(PloggingResponse.class,
@@ -34,8 +36,8 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
                         plogging.startLocation))
                 .from(plogging)
                 .where(filterByRegion(region),
-                        filterByDate(startDate, endDate),
                         filterByType(type),
+                        filterByDate(startDate, endDate),
                         filterBySpendTime(spendTime),
                         filterByStartTime(startTime),
                         filterByMaxPeople(maxPeople))
@@ -43,24 +45,19 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
                 .fetch();
     }
 
-    // List<String> region 의 값을 @requestParam 으로 받아서 처리 가능할까?
-    private BooleanExpression filterByRegion(List<String> region) {
+    private BooleanExpression filterByRegion(String region) {
         if (ObjectUtils.isEmpty(region)) {
             return null;
         } else {
-            return plogging.startLocation.in(region);
+            return plogging.startLocation.contains(region);
         }
     }
 
-    private BooleanExpression filterByDate(LocalDate startDate, LocalDate endDate) {
-        if (startDate == null && endDate == null) {
+    private BooleanExpression filterByDate (LocalDate startDate, LocalDate endDate) {
+        if (startDate == null || endDate == null) {
             return null;
-        } else if (startDate != null && endDate != null) {
-            return plogging.startTime.between(startDate.atStartOfDay(), endDate.atStartOfDay());
-        } else if (startDate != null) {
-            return plogging.startTime.goe(startDate.atStartOfDay());
         } else {
-            return plogging.startTime.loe(endDate.atStartOfDay());
+            return plogging.recruitStartDate.after(startDate).and(plogging.recruitEndDate.before(endDate));
         }
     }
 
@@ -84,7 +81,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
         if (startTime == null) {
             return null;
         } else {
-            return plogging.startTime.goe(startTime);
+            return plogging.startTime.after(startTime);
         }
     }
 

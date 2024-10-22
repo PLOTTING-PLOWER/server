@@ -16,7 +16,7 @@ public class PloggingFilterService {
 
     private final PloggingRepository ploggingRepository;
 
-    public List<PloggingResponse> findListByFilter(List<String> region, LocalDate startDate, LocalDate endDate, PloggingType type,
+    public List<PloggingResponse> findListByFilter(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                                  Long spendTime, LocalDateTime startTime, Long maxPeople) {
 
         return ploggingRepository.findByFilters(region, startDate, endDate, type, spendTime, startTime, maxPeople);
