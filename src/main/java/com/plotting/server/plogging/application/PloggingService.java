@@ -56,7 +56,7 @@ public class PloggingService {
 
         Boolean isAssigned = !plogging.getPloggingType().equals(ASSIGN);
 
-        ploggingUserRepository.saveAndFlush(PloggingUser.of(plogging, user, isAssigned));
+        ploggingUserRepository.save(PloggingUser.of(plogging, user, isAssigned));
 
         if (isAssigned) {
             return "참여 승인되었습니다.";
