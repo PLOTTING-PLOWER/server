@@ -8,7 +8,6 @@ import com.plotting.server.plogging.dto.response.PloggingUserResponse;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
-import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.plotting.server.plogging.domain.type.PloggingType.ASSIGN;
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
+import static com.plotting.server.plogging.util.PloggingConstants.*;
 
 @Slf4j
 @Service
@@ -27,7 +26,6 @@ import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode
 @Transactional(readOnly = true)
 public class PloggingService {
 
-    private final UserService userService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
@@ -51,18 +49,15 @@ public class PloggingService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public String joinPlogging(Plogging plogging, Long userId) {
-        User user = userService.getUser(userId);
+    public String joinDirectPlogging(Plogging plogging, User user) {
+        ploggingUserRepository.save(PloggingUser.of(plogging, user, true));
+        return DIRECT_COMPLETE.getMessage();
+    }
 
-        Boolean isAssigned = !plogging.getPloggingType().equals(ASSIGN);
-
-        ploggingUserRepository.save(PloggingUser.of(plogging, user, isAssigned));
-
-        if (isAssigned) {
-            return "참여 승인되었습니다.";
-        } else {
-            return "참여 요청이 완료되었습니다.";
-        }
+    @Transactional
+    public String joinAssignPlogging(Plogging plogging, User user) {
+        ploggingUserRepository.save(PloggingUser.of(plogging, user, false));
+        return ASSIGN_COMPLETE.getMessage();
     }
 
     public Plogging getPlogging(Long ploggingId) {
