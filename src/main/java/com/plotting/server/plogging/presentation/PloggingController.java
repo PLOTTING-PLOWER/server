@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Plogging", description = "플로깅 관련 API")
 @Slf4j
@@ -52,10 +53,10 @@ public class PloggingController {
     }
 
     @Operation(summary = "플로깅 참여", description = "플로깅할 때 선착순이라면 즉시 승인, 승인제라면 승인 대기 상태가 됩니다.")
-    @PostMapping("/{ploggingId}/{userId}")
+    @PostMapping("/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> joinPlogging(
             @PathVariable Long ploggingId,
-            @PathVariable Long userId) {
+            @RequestParam Long userId) {
 
         String response = ploggingServiceFacade.joinPlogging(ploggingId, userId);
 
