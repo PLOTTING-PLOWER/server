@@ -1,6 +1,6 @@
 package com.plotting.server.user.domain;
 
-import com.plotting.server.global.BaseTimeEntity;
+import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.user.domain.UserType.LoginType;
 import com.plotting.server.user.domain.UserType.Role;
 import jakarta.persistence.*;
@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class User extends BaseTimeEntity {
 
     @Id

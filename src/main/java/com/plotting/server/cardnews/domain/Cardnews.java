@@ -23,7 +23,7 @@ public class Cardnews {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(mappedBy = "cardnews")
+    @OneToMany(mappedBy = "cardnews", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cards = new ArrayList<>();
 
     @Builder

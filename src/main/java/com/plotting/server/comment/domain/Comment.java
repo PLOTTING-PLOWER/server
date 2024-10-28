@@ -1,7 +1,7 @@
 package com.plotting.server.comment.domain;
 
 
-import com.plotting.server.global.BaseTimeEntity;
+import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
@@ -9,8 +9,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
 
 @Table(name = "comment")
 @Getter
