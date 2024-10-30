@@ -1,5 +1,6 @@
 package com.plotting.server.plogging.presentation;
 
+import com.plotting.server.comment.application.CommentService;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.PloggingService;
 import com.plotting.server.plogging.application.PloggingServiceFacade;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/ploggings")
 public class PloggingController {
 
+    private final CommentService commentService;
     private final PloggingService ploggingService;
     private final PloggingServiceFacade ploggingServiceFacade;
 
@@ -63,5 +65,16 @@ public class PloggingController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "플로깅 댓글 조회", description = "플로깅 댓글 조회 화면입니다.")
+    @GetMapping("/{ploggingId}/comments")
+    public ResponseEntity<ResponseTemplate<?>> getCommentList(
+            @PathVariable Long ploggingId,
+            @RequestParam Long userId) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(commentService.getCommentList(ploggingId, userId)));
     }
 }
