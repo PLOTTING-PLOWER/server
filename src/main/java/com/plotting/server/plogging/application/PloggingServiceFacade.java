@@ -1,6 +1,8 @@
 package com.plotting.server.plogging.application;
 
 import com.plotting.server.plogging.domain.Plogging;
+import com.plotting.server.plogging.dto.request.PloggingRequest;
+import com.plotting.server.plogging.dto.response.GeocodeResponse;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,14 @@ public class PloggingServiceFacade {
 
     private final PloggingService ploggingService;
     private final PloggingUserRepository ploggingUserRepository;
+    private final GeocodeService geocodeService;
+
+    public void createPlogging(PloggingRequest ploggingRequest) {
+        GeocodeResponse start = geocodeService.getGeocode(ploggingRequest.startLocation());
+        GeocodeResponse dest = geocodeService.getGeocode(ploggingRequest.endLocation());
+
+        ploggingService.createPlogging(ploggingRequest, start, dest);
+    }
 
     @Transactional
     public String joinPlogging(Long ploggingId, Long userId) {

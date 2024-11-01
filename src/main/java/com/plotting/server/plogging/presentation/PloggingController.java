@@ -30,11 +30,12 @@ public class PloggingController {
     private final PloggingService ploggingService;
     private final PloggingServiceFacade ploggingServiceFacade;
 
+
     @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다.")
     @PostMapping()
     public ResponseEntity<ResponseTemplate<?>> createPlogging(@RequestBody PloggingRequest ploggingRequest) {
 
-        ploggingService.createPlogging(ploggingRequest);
+        ploggingServiceFacade.createPlogging(ploggingRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

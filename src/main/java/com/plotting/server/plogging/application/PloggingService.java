@@ -4,10 +4,7 @@ import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import com.plotting.server.plogging.dto.request.PloggingRequest;
-import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
-import com.plotting.server.plogging.dto.response.PloggingResponse;
-import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
-import com.plotting.server.plogging.dto.response.PloggingUserResponse;
+import com.plotting.server.plogging.dto.response.*;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
@@ -39,12 +36,8 @@ public class PloggingService {
 
     //플로깅 모임 등록
     @Transactional
-    public void createPlogging(PloggingRequest ploggingRequest) {
-        ploggingRepository.save(ploggingRequest.toEntity(BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
-        //(설계) 위도, 경도 받아오기
-        //외부 API로 위도, 경도 받아오기 -> 파사드 패턴 이용해서 (외부 서버 갔다오는 동안) 리소스(connection) 누수 : connection-pool
-        //api가 먼저 나오고
-        //비지니스 로직 나오고
+    public void createPlogging(PloggingRequest ploggingRequest, GeocodeResponse start, GeocodeResponse dest) {
+        ploggingRepository.save(ploggingRequest.toEntity(start.getLatitude(), start.getLongitude()));
     }
 
     // 필터링 검색
