@@ -21,6 +21,7 @@ import static com.plotting.server.plogging.fixture.PloggingFixture.PLOGGING;
 import static com.plotting.server.user.fixture.UserFixture.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
@@ -71,5 +72,18 @@ class CommentServiceTest {
 
         // then
         assertThat(CHILD_COMMENT.getId()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("댓글 삭제 테스트")
+    void deleteCommentTest() {
+        // given
+        given(commentRepository.findById(CHILD_COMMENT.getId())).willReturn(Optional.of(CHILD_COMMENT));
+
+        // when
+        commentService.deleteComment(CHILD_COMMENT.getId());
+
+        // then
+        verify(commentRepository).delete(CHILD_COMMENT);
     }
 }
