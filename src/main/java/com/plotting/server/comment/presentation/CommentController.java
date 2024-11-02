@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import static com.plotting.server.global.dto.ResponseTemplate.EMPTY_RESPONSE;
 
@@ -47,6 +48,18 @@ public class CommentController {
             @RequestBody CommentRequest request) {
 
         commentService.saveComment(ploggingId, userId, request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(EMPTY_RESPONSE);
+    }
+
+    @Operation(summary = "플로깅 댓글 삭제", description = "플로깅 댓글 삭제 API 입니다.")
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<ResponseTemplate<?>> deleteComment(
+            @PathVariable Long commentId) {
+
+        commentService.deleteComment(commentId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

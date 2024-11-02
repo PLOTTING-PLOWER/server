@@ -51,4 +51,15 @@ public class CommentService {
 
         commentRepository.save(commentRequest.toComment(plogging, user, parentComment, commentRequest));
     }
+
+    @Transactional
+    public void deleteComment(Long commentId) {
+        Comment comment = getComment(commentId);
+        commentRepository.delete(comment);
+    }
+
+    private Comment getComment(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException(COMMENT_NOT_FOUND));
+    }
 }
