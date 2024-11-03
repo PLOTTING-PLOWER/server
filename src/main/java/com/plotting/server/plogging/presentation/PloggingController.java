@@ -32,21 +32,27 @@ public class PloggingController {
 
 
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
-    @GetMapping("/home")
-    public ResponseEntity<ResponseTemplate<?>> getHome() {
+    @GetMapping("/home/{ploggingId}/{userId}")
+    public ResponseEntity<ResponseTemplate<?>> getHome(
+            @PathVariable Long userId,
+            @PathVariable Long ploggingId
+    ) {
 
-        ploggingService.getHome();
+        ploggingService.getHome(userId, ploggingId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(ResponseTemplate.EMPTY_RESPONSE));
     }
 
-    @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다.")
-    @PostMapping()
-    public ResponseEntity<ResponseTemplate<?>> createPlogging(@RequestBody PloggingRequest ploggingRequest) {
+    @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다. <br> startLocation: 서울특별시")
+    @PostMapping
+    public ResponseEntity<ResponseTemplate<?>> createPlogging(
+            @RequestParam Long userId,
+            @RequestBody PloggingRequest ploggingRequest
+    ) {
 
-        ploggingServiceFacade.createPlogging(ploggingRequest);
+        ploggingServiceFacade.createPlogging(userId, ploggingRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public record PloggingResponse(
         Long ploggingId,
         String title,
+        Long currentPeople,
         Long maxPeople,
         PloggingType ploggingType,
         LocalDate recruitEndDate,
@@ -21,10 +22,11 @@ public record PloggingResponse(
         String startLocation
 ) {
 
-    public static PloggingResponse from(Plogging plogging) {
+    public static PloggingResponse from(Plogging plogging, Long currentPeople) {
         return PloggingResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())
+                .currentPeople(currentPeople)
                 .maxPeople(plogging.getMaxPeople())
                 .ploggingType(plogging.getPloggingType())
                 .recruitEndDate(plogging.getRecruitEndDate())

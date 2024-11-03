@@ -2,6 +2,7 @@ package com.plotting.server.plogging.domain;
 
 import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.plogging.domain.type.PloggingType;
+import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,6 +23,10 @@ public class Plogging extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -61,17 +66,17 @@ public class Plogging extends BaseTimeEntity {
     private String endLocation;
 
     @Builder
-    public Plogging(String title, String content, Long maxPeople, PloggingType ploggingType,
-                    LocalDate recruitStartDate, LocalDateTime startTime, LocalDate recruitEndDate,
-                    Long spendTime, String startLocation, BigDecimal startLatitude,
-                    BigDecimal startLongitude, String endLocation) {
+    public Plogging(User user, String title, String content, Long maxPeople, PloggingType ploggingType,
+                    LocalDate recruitStartDate, LocalDate recruitEndDate, LocalDateTime startTime, Long spendTime,
+                    String startLocation, BigDecimal startLatitude, BigDecimal startLongitude, String endLocation) {
+        this.user = user;
         this.title = title;
         this.content = content;
         this.maxPeople = maxPeople;
         this.ploggingType = ploggingType;
         this.recruitStartDate = recruitStartDate;
-        this.startTime = startTime;
         this.recruitEndDate = recruitEndDate;
+        this.startTime = startTime;
         this.spendTime = spendTime;
         this.startLocation = startLocation;
         this.startLatitude = startLatitude;

@@ -3,6 +3,8 @@ package com.plotting.server.plogging.repository.init;
 import com.plotting.server.global.util.DummyDataInit;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.repository.PloggingRepository;
+import com.plotting.server.user.domain.User;
+import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -26,15 +28,20 @@ public class PloggingInitializer implements ApplicationRunner {
 
 
     private final PloggingRepository ploggingRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void run(ApplicationArguments args) {
         if (ploggingRepository.count() > 0) {
             log.info("[Plogging]더미 데이터 존재");
         } else {
+
+            User user = userRepository.findById(1L).orElseThrow();
+
             List<Plogging> ploggingList = new ArrayList<>();
 
             Plogging DUMMY_PLOGGING1 = Plogging.builder()
+                    .user(user)
                     .title("한강 플로깅")
                     .content("한강에서 같이 뛰면서 플로깅 하실 분들 구합니다!")
                     .maxPeople(5L)
@@ -50,6 +57,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .build();
 
             Plogging DUMMY_PLOGGING2 = Plogging.builder()
+                    .user(user)
                     .title("올림픽 공원 플로깅")
                     .content("올림픽 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(8L)
@@ -65,6 +73,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .build();
 
             Plogging DUMMY_PLOGGING3 = Plogging.builder()
+                    .user(user)
                     .title("손유진 공원 플로깅")
                     .content("손유진 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(10L)

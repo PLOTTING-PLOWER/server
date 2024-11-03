@@ -18,11 +18,11 @@ public class PloggingServiceFacade {
     private final PloggingUserRepository ploggingUserRepository;
     private final GeocodeService geocodeService;
 
-    public void createPlogging(PloggingRequest ploggingRequest) {
+    public void createPlogging(Long userId, PloggingRequest ploggingRequest) {
         GeocodeResponse start = geocodeService.getGeocode(ploggingRequest.startLocation());
         GeocodeResponse dest = geocodeService.getGeocode(ploggingRequest.endLocation());
 
-        ploggingService.createPlogging(ploggingRequest, start, dest);
+        ploggingService.createPlogging(userId, ploggingRequest, start, dest);
     }
 
     @Transactional

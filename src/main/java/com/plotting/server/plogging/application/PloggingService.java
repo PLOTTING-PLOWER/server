@@ -34,11 +34,9 @@ public class PloggingService {
     private final PloggingUserRepository ploggingUserRepository;
 
     //플로깅 홈
-    public void getHome() {
+    public void getHome(Long userId, Long ploggingId) {
 
-        log.info("플로깅 홈");
-
-        PloggingListResponse ploggingStar = getPloggingStar();
+        PloggingListResponse ploggingStar = getPloggingStar(ploggingId);
 
         for (PloggingResponse ploggingResponse : ploggingStar.ploggingResponseList()) {
             log.info("ploggingResponse: {}", ploggingResponse);
@@ -46,19 +44,22 @@ public class PloggingService {
     }
 
     // 플로깅 즐겨찾기
-    private PloggingListResponse getPloggingStar() {
+    private PloggingListResponse getPloggingStar(Long ploggingId) {
+        Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
 
         List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(PloggingResponse::from)
+                .map(ploggingResponse -> PloggingResponse.from(ploggingResponse, currentPeople))
                 .toList();
 
-        return PloggingListResponse.from(ploggingList);
+        return PloggingListResponse.from(currentPeople, ploggingList);
     }
 
     //플로깅 모임 등록
     @Transactional
-    public void createPlogging(PloggingRequest ploggingRequest, GeocodeResponse start, GeocodeResponse dest) {
-        ploggingRepository.save(ploggingRequest.toEntity(start.getLatitude(), start.getLongitude()));
+    public void createPlogging(Long userId, PloggingRequest ploggingRequest, GeocodeResponse start, GeocodeResponse dest) {
+        User user = userService.getUser(userId);
+        Plogging plogging = ploggingRequest.toPlogging(user, start.getLatitude(), start.getLongitude());
+        ploggingRepository.save(plogging);
     }
 
     // 필터링 검색

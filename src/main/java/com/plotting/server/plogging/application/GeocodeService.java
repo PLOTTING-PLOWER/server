@@ -3,9 +3,11 @@ package com.plotting.server.plogging.application;
 import com.plotting.server.plogging.dto.response.GeocodeResponse;
 import com.plotting.server.plogging.presentation.GeocodeClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GeocodeService {
@@ -19,7 +21,6 @@ public class GeocodeService {
     private String clientSecret;
 
     public GeocodeResponse getGeocode(String address) {
-        GeocodeResponse geocode = geocodeClient.getGeocode(clientId, clientSecret, address);
-        return geocode;
+        return geocodeClient.getGeocode(clientId, clientSecret, address);
     }
 }
