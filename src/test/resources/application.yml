@@ -3,18 +3,19 @@ spring:
     active: test
 
   datasource:
-    url: jdbc:h2:mem:plottingdb;MODE=MySQL;
-    username: sa
-    password: test
-    driver-class-name: org.h2.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/plottingtestdb
+    username: root
+    password: password
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show_sql: true
+    open-in-view: false
 
 server:
   env: test

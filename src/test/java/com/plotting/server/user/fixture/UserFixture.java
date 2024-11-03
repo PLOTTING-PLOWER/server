@@ -9,6 +9,7 @@ import static com.plotting.server.user.domain.UserType.LoginType.SELF;
 public class UserFixture {
     public static final User USER = User.builder()
             .nickname("유저")
+            .email("test@email.com")
             .profileImageUrl("https://profile.com")
             .profileMessage("프로필 메시지")
             .loginType(SELF)
