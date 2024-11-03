@@ -31,6 +31,17 @@ public class PloggingController {
     private final PloggingServiceFacade ploggingServiceFacade;
 
 
+    @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
+    @GetMapping("/home")
+    public ResponseEntity<ResponseTemplate<?>> getHome() {
+
+        ploggingService.getHome();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(ResponseTemplate.EMPTY_RESPONSE));
+    }
+
     @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다.")
     @PostMapping()
     public ResponseEntity<ResponseTemplate<?>> createPlogging(@RequestBody PloggingRequest ploggingRequest) {

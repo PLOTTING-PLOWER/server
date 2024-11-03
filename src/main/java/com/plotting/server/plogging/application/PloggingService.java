@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +32,28 @@ public class PloggingService {
     private final UserService userService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
+
+    //플로깅 홈
+    public void getHome() {
+
+        log.info("플로깅 홈");
+
+        PloggingListResponse ploggingStar = getPloggingStar();
+
+        for (PloggingResponse ploggingResponse : ploggingStar.ploggingResponseList()) {
+            log.info("ploggingResponse: {}", ploggingResponse);
+        }
+    }
+
+    // 플로깅 즐겨찾기
+    private PloggingListResponse getPloggingStar() {
+
+        List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
+                .map(PloggingResponse::from)
+                .toList();
+
+        return PloggingListResponse.from(ploggingList);
+    }
 
     //플로깅 모임 등록
     @Transactional

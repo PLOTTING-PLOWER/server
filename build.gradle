@@ -12,6 +12,9 @@ java {
 }
 
 configurations {
+	configureEach {
+		exclude group: 'commons-logging', module: 'commons-logging'
+	}
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -51,6 +54,13 @@ dependencies {
 
 	//OpenFeign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	//s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	//monitoring
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 tasks.named('test') {

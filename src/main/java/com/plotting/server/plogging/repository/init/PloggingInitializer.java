@@ -24,6 +24,7 @@ import static com.plotting.server.plogging.domain.type.PloggingType.DIRECT;
 @DummyDataInit
 public class PloggingInitializer implements ApplicationRunner {
 
+
     private final PloggingRepository ploggingRepository;
 
     @Override
@@ -63,8 +64,24 @@ public class PloggingInitializer implements ApplicationRunner {
                     .endLocation("")
                     .build();
 
+            Plogging DUMMY_PLOGGING3 = Plogging.builder()
+                    .title("손유진 공원 플로깅")
+                    .content("손유진 공원에서 같이 플로깅 어떄요?")
+                    .maxPeople(10L)
+                    .ploggingType(ASSIGN)
+                    .recruitStartDate(LocalDate.parse("2024-09-15"))
+                    .recruitEndDate(LocalDate.parse("2024-11-20"))
+                    .startTime(LocalDateTime.of(2024, 11, 21, 12, 0, 0))
+                    .spendTime(60L)
+                    .startLocation("서울특별시 송파구 올림픽로 424")
+                    .startLatitude(BigDecimal.valueOf(37.5206868))
+                    .startLongitude(BigDecimal.valueOf(127.1171114))
+                    .endLocation("")
+                    .build();
+
             ploggingList.add(DUMMY_PLOGGING1);
             ploggingList.add(DUMMY_PLOGGING2);
+            ploggingList.add(DUMMY_PLOGGING3);
 
             ploggingRepository.saveAll(ploggingList);
         }
