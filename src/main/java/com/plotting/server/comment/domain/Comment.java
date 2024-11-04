@@ -1,6 +1,7 @@
 package com.plotting.server.comment.domain;
 
 
+import com.plotting.server.comment.dto.request.CommentUpdateRequest;
 import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.user.domain.User;
@@ -52,9 +53,8 @@ public class Comment extends BaseTimeEntity {
         this.isCommentPublic = isCommentPublic;
     }
 
-    // 부모 댓글 설정
-    public void setParentComment(Comment parentComment) {
-        this.parentComment = parentComment;
+    public void updateComment(CommentUpdateRequest request) {
+        this.content = request.content();
+        this.isCommentPublic = request.isCommentPublic();
     }
-
 }

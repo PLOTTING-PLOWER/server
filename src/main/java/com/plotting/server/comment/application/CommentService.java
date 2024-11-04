@@ -2,6 +2,7 @@ package com.plotting.server.comment.application;
 
 import com.plotting.server.comment.domain.Comment;
 import com.plotting.server.comment.dto.request.CommentRequest;
+import com.plotting.server.comment.dto.request.CommentUpdateRequest;
 import com.plotting.server.comment.dto.response.CommentListResponse;
 import com.plotting.server.comment.dto.response.CommentResponse;
 import com.plotting.server.comment.exception.CommentNotFoundException;
@@ -50,6 +51,12 @@ public class CommentService {
                 : null;
 
         commentRepository.save(commentRequest.toComment(plogging, user, parentComment, commentRequest));
+    }
+
+    @Transactional
+    public void updateComment(Long commentId, CommentUpdateRequest request) {
+        Comment comment = getComment(commentId);
+        comment.updateComment(request);
     }
 
     @Transactional
