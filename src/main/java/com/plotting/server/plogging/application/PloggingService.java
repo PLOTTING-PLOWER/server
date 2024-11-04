@@ -8,6 +8,7 @@ import com.plotting.server.plogging.dto.response.*;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
+import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import static com.plotting.server.plogging.util.PloggingConstants.*;
 @Transactional(readOnly = true)
 public class PloggingService {
 
+    private final UserService userService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
