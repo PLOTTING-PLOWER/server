@@ -1,6 +1,8 @@
 package com.plotting.server.plogging.application;
 
 import com.plotting.server.plogging.domain.Plogging;
+import com.plotting.server.plogging.dto.request.PloggingRequest;
+import com.plotting.server.plogging.dto.response.GeocodeResponse;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
@@ -26,6 +28,14 @@ public class PloggingServiceFacade {
     private final UserRepository userRepository;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
+    private final GeocodeService geocodeService;
+
+    public void createPlogging(Long userId, PloggingRequest ploggingRequest) {
+        GeocodeResponse start = geocodeService.getGeocode(ploggingRequest.startLocation());
+        GeocodeResponse dest = geocodeService.getGeocode(ploggingRequest.endLocation());
+
+        ploggingService.createPlogging(userId, ploggingRequest, start, dest);
+    }
 
     public String joinPlogging(Long ploggingId, Long userId) {
         String response;
