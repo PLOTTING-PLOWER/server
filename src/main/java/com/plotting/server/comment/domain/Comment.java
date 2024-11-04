@@ -11,6 +11,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Table(name = "comment")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,6 +45,9 @@ public class Comment extends BaseTimeEntity {
 
     @Column(name = "is_comment_public", nullable = false)
     private Boolean isCommentPublic;
+
+    @OneToMany(mappedBy = "parentComment")
+    private List<Comment> childComments = new ArrayList<>();
 
     @Builder
     public Comment(User user, Plogging plogging,Comment parentComment, String content, Long depth, Boolean isCommentPublic) {

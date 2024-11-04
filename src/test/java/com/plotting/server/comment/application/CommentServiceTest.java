@@ -43,15 +43,13 @@ class CommentServiceTest {
     @DisplayName("댓글 조회 테스트")
     void getCommentListTest() {
         // given
-        given(ploggingService.getPlogging(PLOGGING.getId())).willReturn(PLOGGING);
-        given(userService.getUser(USER.getId())).willReturn(USER);
-        given(commentRepository.findCommentsByPloggingId(PLOGGING.getId())).willReturn(Arrays.asList(PARENT_COMMENT, CHILD_COMMENT));
+        given(commentRepository.findParentCommentsWithFetch(PLOGGING.getId())).willReturn(Arrays.asList(PARENT_COMMENT));
 
         // when
         CommentListResponse response = commentService.getCommentList(PLOGGING.getId(), USER.getId());
 
         // then
-        assertThat(response.comments()).hasSize(2);
+        assertThat(response.comments()).hasSize(1);
     }
 
     @Test

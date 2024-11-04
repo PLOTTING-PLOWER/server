@@ -29,13 +29,10 @@ public class CommentService {
     private final PloggingService ploggingService;
 
     public CommentListResponse getCommentList(Long ploggingId, Long userId) {
-        Plogging plogging = ploggingService.getPlogging(ploggingId);
-        User user = userService.getUser(userId);
-
         return CommentListResponse.from(
-                commentRepository.findCommentsByPloggingId(ploggingId)
+                commentRepository.findParentCommentsWithFetch(ploggingId)
                         .stream()
-                        .map(comment -> CommentResponse.of(plogging, user, comment))
+                        .map(comment -> CommentResponse.of(userId, comment))
                         .toList()
         );
     }

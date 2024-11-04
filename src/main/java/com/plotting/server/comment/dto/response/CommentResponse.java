@@ -2,15 +2,14 @@ package com.plotting.server.comment.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.plotting.server.comment.domain.Comment;
-import com.plotting.server.plogging.domain.Plogging;
-import com.plotting.server.user.domain.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Builder
 public record CommentResponse(
-        Long ploggingId,
         Long commentId,
         String profileImageUrl,
         String nickname,
@@ -20,11 +19,11 @@ public record CommentResponse(
         Long depth,
         Long parentCommentId,
         Boolean isCommentPublic,
-        Boolean isWriter
+        Boolean isWriter,
+        List<CommentResponse> childComments
 ) {
-    public static CommentResponse of(Plogging plogging, User user, Comment comment) {
+    public static CommentResponse of(Long userId, Comment comment) {
         return CommentResponse.builder()
-                .ploggingId(plogging.getId())
                 .commentId(comment.getId())
                 .profileImageUrl(comment.getUser().getProfileImageUrl())
                 .nickname(comment.getUser().getNickname())
@@ -33,7 +32,12 @@ public record CommentResponse(
                 .depth(comment.getDepth())
                 .parentCommentId(comment.getParentComment() != null ? comment.getParentComment().getId() : null)
                 .isCommentPublic(comment.getIsCommentPublic())
-                .isWriter(user.getId().equals(comment.getUser().getId()))
+                .isWriter(Objects.equals(userId, comment.getUser().getId()))
+                .childComments(
+                        comment.getChildComments().stream()
+                                .map(childComment -> CommentResponse.of(userId, childComment))
+                                .toList()
+                )
                 .build();
     }
 }
