@@ -3,6 +3,8 @@ package com.plotting.server.plogging.repository.init;
 import com.plotting.server.global.util.DummyDataInit;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.repository.PloggingRepository;
+import com.plotting.server.user.domain.User;
+import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -24,16 +26,22 @@ import static com.plotting.server.plogging.domain.type.PloggingType.DIRECT;
 @DummyDataInit
 public class PloggingInitializer implements ApplicationRunner {
 
+
     private final PloggingRepository ploggingRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void run(ApplicationArguments args) {
         if (ploggingRepository.count() > 0) {
             log.info("[Plogging]더미 데이터 존재");
         } else {
+
+            User user = userRepository.findById(1L).orElseThrow();
+
             List<Plogging> ploggingList = new ArrayList<>();
 
             Plogging DUMMY_PLOGGING1 = Plogging.builder()
+                    .user(user)
                     .title("한강 플로깅")
                     .content("한강에서 같이 뛰면서 플로깅 하실 분들 구합니다!")
                     .maxPeople(5L)
@@ -49,6 +57,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .build();
 
             Plogging DUMMY_PLOGGING2 = Plogging.builder()
+                    .user(user)
                     .title("올림픽 공원 플로깅")
                     .content("올림픽 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(8L)
@@ -63,8 +72,25 @@ public class PloggingInitializer implements ApplicationRunner {
                     .endLocation("")
                     .build();
 
+            Plogging DUMMY_PLOGGING3 = Plogging.builder()
+                    .user(user)
+                    .title("손유진 공원 플로깅")
+                    .content("손유진 공원에서 같이 플로깅 어떄요?")
+                    .maxPeople(10L)
+                    .ploggingType(ASSIGN)
+                    .recruitStartDate(LocalDate.parse("2024-09-15"))
+                    .recruitEndDate(LocalDate.parse("2024-11-20"))
+                    .startTime(LocalDateTime.of(2024, 11, 21, 12, 0, 0))
+                    .spendTime(60L)
+                    .startLocation("서울특별시 송파구 올림픽로 424")
+                    .startLatitude(BigDecimal.valueOf(37.5206868))
+                    .startLongitude(BigDecimal.valueOf(127.1171114))
+                    .endLocation("")
+                    .build();
+
             ploggingList.add(DUMMY_PLOGGING1);
             ploggingList.add(DUMMY_PLOGGING2);
+            ploggingList.add(DUMMY_PLOGGING3);
 
             ploggingRepository.saveAll(ploggingList);
         }

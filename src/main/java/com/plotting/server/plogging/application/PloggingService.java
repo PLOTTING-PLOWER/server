@@ -2,9 +2,9 @@ package com.plotting.server.plogging.application;
 
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
-import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
-import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
-import com.plotting.server.plogging.dto.response.PloggingUserResponse;
+import com.plotting.server.plogging.domain.type.PloggingType;
+import com.plotting.server.plogging.dto.request.PloggingRequest;
+import com.plotting.server.plogging.dto.response.*;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
@@ -28,6 +30,42 @@ public class PloggingService {
 
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
+
+    //플로깅 홈
+    public void getHome(Long userId, Long ploggingId) {
+
+        PloggingListResponse ploggingStar = getPloggingStar(ploggingId);
+
+        for (PloggingResponse ploggingResponse : ploggingStar.ploggingResponseList()) {
+            log.info("ploggingResponse: {}", ploggingResponse);
+        }
+    }
+
+    // 플로깅 즐겨찾기
+    private PloggingListResponse getPloggingStar(Long ploggingId) {
+        Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
+
+        List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
+                .map(ploggingResponse -> PloggingResponse.from(ploggingResponse, currentPeople))
+                .toList();
+
+        return PloggingListResponse.from(currentPeople, ploggingList);
+    }
+
+    //플로깅 모임 등록
+    @Transactional
+    public void createPlogging(Long userId, PloggingRequest ploggingRequest, GeocodeResponse start, GeocodeResponse dest) {
+        User user = userService.getUser(userId);
+        Plogging plogging = ploggingRequest.toPlogging(user, start.getLatitude(), start.getLongitude());
+        ploggingRepository.save(plogging);
+    }
+
+    // 필터링 검색
+    public List<PloggingResponse> findListByFilter(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
+                                                   Long spendTime, LocalDateTime startTime, Long maxPeople) {
+
+        return ploggingRepository.findByFilters(region, startDate, endDate, type, spendTime, startTime, maxPeople);
+    }
 
     public PloggingDetailResponse getPloggingDetail(Long ploggingId) {
         Plogging plogging = getPlogging(ploggingId);
