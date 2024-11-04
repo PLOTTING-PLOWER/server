@@ -1,6 +1,7 @@
 package com.plotting.server.comment.application;
 
 import com.plotting.server.comment.dto.request.CommentRequest;
+import com.plotting.server.comment.dto.request.CommentUpdateRequest;
 import com.plotting.server.comment.dto.response.CommentListResponse;
 import com.plotting.server.comment.repository.CommentRepository;
 import com.plotting.server.plogging.application.PloggingService;
@@ -72,6 +73,24 @@ class CommentServiceTest {
 
         // then
         assertThat(CHILD_COMMENT.getId()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("댓글 수정 테스트")
+    void updateCommentTest() {
+        // given
+        CommentUpdateRequest request = CommentUpdateRequest.builder()
+                .content("수정된 댓글 내용")
+                .isCommentPublic(true)
+                .build();
+
+        given(commentRepository.findById(CHILD_COMMENT.getId())).willReturn(Optional.of(CHILD_COMMENT));
+
+        // when
+        commentService.updateComment(CHILD_COMMENT.getId(), request);
+
+        // then
+        assertThat(CHILD_COMMENT.getContent()).isEqualTo(request.content());
     }
 
     @Test
