@@ -10,6 +10,7 @@ import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
+import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import static com.plotting.server.plogging.util.PloggingConstants.*;
 public class PloggingService {
 
     private final UserService userService;
+    private final UserRepository userRepository;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
@@ -41,6 +43,21 @@ public class PloggingService {
         for (PloggingResponse ploggingResponse : ploggingStar.ploggingResponseList()) {
             log.info("ploggingResponse: {}", ploggingResponse);
         }
+
+        PlowerListResponse plowerStar = getPlowerStar(userId);
+
+        for (PlowerResponse plowerResponse : plowerStar.plowerResponseList()) {
+            log.info("plowerResponse: {}", plowerResponse);
+        }
+    }
+
+    //플로워 즐겨찾기
+    private PlowerListResponse getPlowerStar(Long userId) {
+        List<PlowerResponse> userList = userRepository.findTop5Users().stream()
+                .map(user -> PlowerResponse.from(user.getId(), user.getProfileImageUrl()))
+                .toList();
+
+        return PlowerListResponse.from(userList);
     }
 
     // 플로깅 즐겨찾기
