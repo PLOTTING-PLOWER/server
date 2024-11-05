@@ -8,18 +8,18 @@ import lombok.Builder;
 @Builder
 public record CommentRequest(
         String content,
-        Long depth,
         Long parentCommentId,
+        Long depth,
         Boolean isCommentPublic
 ) {
-        public Comment toComment(Plogging plogging, User user, Comment parentComment, CommentRequest commentRequest) {
+        public Comment toComment(Plogging plogging, User user, Comment parentComment) {
                 return Comment.builder()
                         .plogging(plogging)
                         .user(user)
-                        .content(commentRequest.content())
-                        .depth(commentRequest.depth())
                         .parentComment(parentComment)
-                        .isCommentPublic(commentRequest.isCommentPublic())
+                        .content(content)
+                        .depth(depth)
+                        .isCommentPublic(isCommentPublic)
                         .build();
         }
 }

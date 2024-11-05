@@ -38,16 +38,16 @@ public class CommentService {
     }
 
     @Transactional
-    public void uploadComment(Long ploddingId, Long userId, CommentRequest commentRequest) {
-        Plogging plogging = ploggingService.getPlogging(ploddingId);
+    public void uploadComment(Long ploggingId, Long userId, CommentRequest commentRequest) {
+        Plogging plogging = ploggingService.getPlogging(ploggingId);
         User user = userService.getUser(userId);
 
-        Comment parentComment = commentRequest.parentCommentId() != null
+        Comment parentComment = commentRequest.parentCommentId() != 0L
                 ? commentRepository.findById(commentRequest.parentCommentId())
                     .orElseThrow(() -> new CommentNotFoundException(COMMENT_NOT_FOUND))
                 : null;
 
-        commentRepository.save(commentRequest.toComment(plogging, user, parentComment, commentRequest));
+        commentRepository.save(commentRequest.toComment(plogging, user, parentComment));
     }
 
     @Transactional
