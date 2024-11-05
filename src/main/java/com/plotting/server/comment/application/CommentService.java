@@ -38,7 +38,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void saveComment(Long ploddingId, Long userId, CommentRequest commentRequest) {
+    public void uploadComment(Long ploddingId, Long userId, CommentRequest commentRequest) {
         Plogging plogging = ploggingService.getPlogging(ploddingId);
         User user = userService.getUser(userId);
 

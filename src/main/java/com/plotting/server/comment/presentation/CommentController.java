@@ -3,6 +3,7 @@ package com.plotting.server.comment.presentation;
 import com.plotting.server.comment.application.CommentService;
 import com.plotting.server.comment.dto.request.CommentRequest;
 import com.plotting.server.comment.dto.request.CommentUpdateRequest;
+import com.plotting.server.comment.dto.response.CommentListResponse;
 import com.plotting.server.global.dto.ResponseTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,9 +38,11 @@ public class CommentController {
             @PathVariable Long ploggingId,
             @RequestParam Long userId) {
 
+        CommentListResponse response = commentService.getCommentList(ploggingId, userId);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ResponseTemplate.from(commentService.getCommentList(ploggingId, userId)));
+                .body(ResponseTemplate.from(response));
     }
 
     @Operation(summary = "플로깅 댓글 작성", description = "플로깅 댓글 작성 API 입니다.")
@@ -49,7 +52,7 @@ public class CommentController {
             @RequestParam Long userId,
             @RequestBody CommentRequest request) {
 
-        commentService.saveComment(ploggingId, userId, request);
+        commentService.uploadComment(ploggingId, userId, request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

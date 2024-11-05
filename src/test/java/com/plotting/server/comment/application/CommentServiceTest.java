@@ -54,7 +54,7 @@ class CommentServiceTest {
 
     @Test
     @DisplayName("댓글 작성 테스트")
-    void saveCommentTest() {
+    void uploadCommentTest() {
         // given
         CommentRequest request = CommentRequest.builder()
                 .content("대댓글 내용")
@@ -67,7 +67,7 @@ class CommentServiceTest {
         given(commentRepository.findById(PARENT_COMMENT.getId())).willReturn(Optional.of(PARENT_COMMENT));
 
         // when
-        commentService.saveComment(PLOGGING.getId(), USER.getId(), request);
+        commentService.uploadComment(PLOGGING.getId(), USER.getId(), request);
 
         // then
         assertThat(CHILD_COMMENT.getId()).isNotNull();
