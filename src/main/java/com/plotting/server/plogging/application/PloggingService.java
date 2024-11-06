@@ -1,5 +1,6 @@
 package com.plotting.server.plogging.application;
 
+import com.plotting.server.cardnews.application.CardnewsService;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.domain.type.PloggingType;
