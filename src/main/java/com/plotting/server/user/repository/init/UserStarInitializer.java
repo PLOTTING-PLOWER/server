@@ -1,7 +1,6 @@
 package com.plotting.server.user.repository.init;
 
 import com.plotting.server.global.util.DummyDataInit;
-import com.plotting.server.plogging.domain.PloggingStar;
 import com.plotting.server.user.domain.User;
 import com.plotting.server.user.domain.UserStar;
 import com.plotting.server.user.repository.UserRepository;

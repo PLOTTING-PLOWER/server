@@ -36,6 +36,7 @@ public class PloggingService {
     private final PloggingUserRepository ploggingUserRepository;
 
     //플로깅 홈
+    @Transactional
     public void getHome(Long userId, Long ploggingId) {
 
         PloggingListResponse ploggingStar = getPloggingStar(ploggingId);
