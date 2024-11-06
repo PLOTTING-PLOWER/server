@@ -1,9 +1,7 @@
 package com.plotting.server.cardnews.application;
 
-import com.plotting.server.cardnews.domain.Card;
 import com.plotting.server.cardnews.domain.Cardnews;
 import com.plotting.server.cardnews.dto.response.CardResponse;
-import com.plotting.server.cardnews.dto.response.CardResponseList;
 import com.plotting.server.cardnews.dto.response.CardnewsResponse;
 import com.plotting.server.cardnews.dto.response.CardnewsResponseList;
 import com.plotting.server.cardnews.exception.CardNewsNotFoundException;
