@@ -37,23 +37,16 @@ public class PloggingService {
 
     //플로깅 홈
     @Transactional
-    public void getHome(Long userId, Long ploggingId) {
-
+    public HomeResponse getHome(Long userId, Long ploggingId) {
         PloggingListResponse ploggingStar = getPloggingStar(ploggingId);
+        PlowerListResponse plowerStar = getPlowerStar();
+        User user = userService.getUser(userId);
 
-        for (PloggingResponse ploggingResponse : ploggingStar.ploggingResponseList()) {
-            log.info("ploggingResponse: {}", ploggingResponse);
-        }
-
-        PlowerListResponse plowerStar = getPlowerStar(userId);
-
-        for (PlowerResponse plowerResponse : plowerStar.plowerResponseList()) {
-            log.info("plowerResponse: {}", plowerResponse);
-        }
+        return HomeResponse.of(ploggingStar, plowerStar, user);
     }
 
     //플로워 즐겨찾기
-    private PlowerListResponse getPlowerStar(Long userId) {
+    private PlowerListResponse getPlowerStar() {
         List<PlowerResponse> userList = userRepository.findTop5Users().stream()
                 .map(user -> PlowerResponse.from(user.getId(), user.getProfileImageUrl()))
                 .toList();
