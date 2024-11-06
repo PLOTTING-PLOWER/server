@@ -1,5 +1,6 @@
 package com.plotting.server.global.exception.handler;
 
+import com.plotting.server.cardnews.exception.CardNewsNotFoundException;
 import com.plotting.server.global.exception.errorcode.ErrorCode;
 import com.plotting.server.global.exception.errorcode.GlobalErrorCode;
 import com.plotting.server.global.exception.response.ErrorResponse;
@@ -46,6 +47,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(errorCode));
+    }
+
+    @ExceptionHandler(CardNewsNotFoundException.class)
+    public ResponseEntity<Object> handleMemberNotFound(final CardNewsNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
     }
 
     @ExceptionHandler(PloggingNotFoundException.class)
