@@ -23,7 +23,6 @@ public class CardnewsService {
     private final CardnewsRepository cardnewsRepository;
 
     //카드뉴스 리스트 조회
-    @Transactional
     public CardnewsResponseList getCardnewsList() {
         List<CardnewsResponse> cardnewsList = cardnewsRepository.findAll().stream()
                 .map(CardnewsResponse::from)
@@ -33,7 +32,6 @@ public class CardnewsService {
     }
 
     //카드뉴스 상세 조회
-    @Transactional
     public CardResponse getCard(Long cardnewsId) {
         Cardnews cardnews = cardnewsRepository.findById(cardnewsId)
                 .orElseThrow(() -> new CardNewsNotFoundException(CARDNEWS_NOT_FOUND));

@@ -7,6 +7,8 @@ import com.plotting.server.global.exception.response.ErrorResponse;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,20 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    /**
-     * DTO @Valid 관련 exception 처리
-     */
+    private static final Logger log = LoggerFactory.getLogger("ErrorLogger");
+    private static final String LOG_FORMAT_INFO = "\n[🔵INFO] - ({} {})\n(cardnewsId: {}, role: {})\n{}\n {}: {}";
+    private static final String LOG_FORMAT_ERROR = "\n[🔴ERROR] - ({} {})\n(cardnewsId: {}, role: {})";
+
+    @ExceptionHandler(CardNewsNotFoundException.class)
+    public ResponseEntity<Object> handleCardNewsNotFound(final CardNewsNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(PloggingNotFoundException.class)
+    public ResponseEntity<Object> handlePloggingNotFound(final PloggingNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(
             @NonNull MethodArgumentNotValidException e,
@@ -47,16 +60,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(errorCode));
-    }
-
-    @ExceptionHandler(CardNewsNotFoundException.class)
-    public ResponseEntity<Object> handleMemberNotFound(final CardNewsNotFoundException e) {
-        return handleExceptionInternal(e.getErrorCode());
-    }
-
-    @ExceptionHandler(PloggingNotFoundException.class)
-    public ResponseEntity<Object> handleMemberNotFound(final PloggingNotFoundException e) {
-        return handleExceptionInternal(e.getErrorCode());
     }
 
     private ErrorResponse makeErrorResponse(ErrorCode errorCode) {

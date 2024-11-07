@@ -5,12 +5,12 @@ import lombok.Builder;
 
 @Builder
 public record CardnewsResponse(
-        Long id,
+        Long cardnewsId,
         String cardnewsTitle
 ) {
     public static CardnewsResponse from(Cardnews cardnews) {
         return CardnewsResponse.builder()
-                .id(cardnews.getId())
+                .cardnewsId(cardnews.getId())
                 .cardnewsTitle(cardnews.getTitle())
                 .build();
     }

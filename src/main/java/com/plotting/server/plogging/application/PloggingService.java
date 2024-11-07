@@ -36,7 +36,6 @@ public class PloggingService {
     private final PloggingUserRepository ploggingUserRepository;
 
     //플로깅 홈
-    @Transactional
     public HomeResponse getHome(Long userId, Long ploggingId) {
         PloggingListResponse ploggingStar = getPloggingStar(ploggingId);
         PlowerListResponse plowerStar = getPlowerStar();
@@ -48,7 +47,7 @@ public class PloggingService {
     //플로워 즐겨찾기
     private PlowerListResponse getPlowerStar() {
         List<PlowerResponse> userList = userRepository.findTop5Users().stream()
-                .map(user -> PlowerResponse.from(user.getId(), user.getProfileImageUrl()))
+                .map(user -> PlowerResponse.of(user.getId(), user.getProfileImageUrl()))
                 .toList();
 
         return PlowerListResponse.from(userList);
@@ -59,7 +58,7 @@ public class PloggingService {
         Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
 
         List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(ploggingResponse -> PloggingResponse.from(ploggingResponse, currentPeople))
+                .map(ploggingResponse -> PloggingResponse.of(ploggingResponse, currentPeople))
                 .toList();
 
         return PloggingListResponse.from(currentPeople, ploggingList);

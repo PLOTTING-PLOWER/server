@@ -25,7 +25,7 @@ public class UserStarInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (userStarRepository.count() > 0) {
-            log.info("[User]더미 데이터 존재");
+            log.info("[UserStar]더미 데이터 존재");
         } else {
             User DUMMY_USER1 = userRepository.findById(1L).orElseThrow();
             User DUMMY_USER2 = userRepository.findById(2L).orElseThrow();
@@ -104,7 +104,7 @@ public class UserStarInitializer implements ApplicationRunner {
 
 
             userStarRepository.saveAll(userStarList);
-            log.info("[PloggingStar] 더미 데이터 저장 완료");
+            log.info("[UserStar] 더미 데이터 저장 완료");
         }
     }
 }

@@ -5,15 +5,22 @@ import com.plotting.server.cardnews.dto.response.CardResponse;
 import com.plotting.server.cardnews.dto.response.CardnewsResponseList;
 import com.plotting.server.global.dto.ResponseTemplate;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller("/cardnews")
+@Tag(name = "Cardnews", description = "카드뉴스 관련 API")
+@Slf4j
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/cardnews")
 public class CardnewsController {
     private final CardnewsService cardnewsService;
 

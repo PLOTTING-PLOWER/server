@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u " +
-            "FROM User u LEFT OUTER JOIN UserStar s ON u.id = s.starUser.id " +
+            "FROM User u INNER JOIN UserStar s ON u.id = s.starUser.id " +
             "GROUP BY u.id " +
             "ORDER BY COUNT(s.id) DESC " +
             "LIMIT 5")
