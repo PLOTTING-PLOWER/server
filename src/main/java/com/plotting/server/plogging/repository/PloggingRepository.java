@@ -22,4 +22,6 @@ public interface PloggingRepository extends JpaRepository<Plogging, Long>, Plogg
 
     @Query("SELECT p.maxPeople FROM Plogging p WHERE p.id = :ploggingId")
     Long findMaxPeopleById(Long ploggingId);
+
+    List<Plogging> findAllByUserId(Long userId);
 }
