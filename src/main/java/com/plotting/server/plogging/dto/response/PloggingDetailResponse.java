@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Builder
 public record PloggingDetailResponse(
+        String creator,
         String title,
         String content,
         Long currentPeople,
@@ -25,6 +26,7 @@ public record PloggingDetailResponse(
 ) {
     public static PloggingDetailResponse of(Plogging plogging, Long currentPeople) {
         return PloggingDetailResponse.builder()
+                .creator(plogging.getUser().getNickname())
                 .title(plogging.getTitle())
                 .content(plogging.getContent())
                 .currentPeople(currentPeople)

@@ -1,10 +1,12 @@
 package com.plotting.server.global.exception.handler;
 
 import com.plotting.server.cardnews.exception.CardNewsNotFoundException;
+import com.plotting.server.comment.exception.CommentNotFoundException;
 import com.plotting.server.global.exception.errorcode.ErrorCode;
 import com.plotting.server.global.exception.errorcode.GlobalErrorCode;
 import com.plotting.server.global.exception.response.ErrorResponse;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
+import com.plotting.server.user.exception.UserNotFoundException;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -60,6 +62,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(errorCode));
+    }
+
+    @ExceptionHandler(PloggingNotFoundException.class)
+    public ResponseEntity<Object> handlePloggingNotFound(final PloggingNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFound(final UserNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<Object> handleCommentNotFound(final CommentNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
     }
 
     private ErrorResponse makeErrorResponse(ErrorCode errorCode) {

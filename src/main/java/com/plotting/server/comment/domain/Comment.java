@@ -1,6 +1,7 @@
 package com.plotting.server.comment.domain;
 
 
+import com.plotting.server.comment.dto.request.CommentUpdateRequest;
 import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.user.domain.User;
@@ -9,6 +10,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "comment")
 @Getter
@@ -42,6 +46,9 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "is_comment_public", nullable = false)
     private Boolean isCommentPublic;
 
+    @OneToMany(mappedBy = "parentComment")
+    private List<Comment> childComments = new ArrayList<>();
+
     @Builder
     public Comment(User user, Plogging plogging,Comment parentComment, String content, Long depth, Boolean isCommentPublic) {
         this.user = user;
@@ -52,9 +59,8 @@ public class Comment extends BaseTimeEntity {
         this.isCommentPublic = isCommentPublic;
     }
 
-    // 부모 댓글 설정
-    public void setParentComment(Comment parentComment) {
-        this.parentComment = parentComment;
+    public void updateComment(CommentUpdateRequest request) {
+        this.content = request.content();
+        this.isCommentPublic = request.isCommentPublic();
     }
-
 }

@@ -32,7 +32,7 @@ public class UserInitializer implements ApplicationRunner {
             List<User> userList = new ArrayList<>();
 
             User DUMMY_USER1 = User.builder()
-                    .nickname("user1")
+                    .nickname("슝슝이")
                     .email("user1@email.com")
                     .password("password1")
                     .profileImageUrl("profileImage1.png")
@@ -45,7 +45,7 @@ public class UserInitializer implements ApplicationRunner {
                     .build();
 
             User DUMMY_USER2 = User.builder()
-                    .nickname("user2")
+                    .nickname("피치")
                     .email("user2@email.com")
                     .password("password2")
                     .profileImageUrl("profileImage2.png")
@@ -58,7 +58,7 @@ public class UserInitializer implements ApplicationRunner {
                     .build();
 
             User DUMMY_USER3 = User.builder()
-                    .nickname("user3")
+                    .nickname("라이언")
                     .email("user3@email.com")
                     .password("password3")
                     .profileImageUrl("profileImage3.png")
@@ -71,7 +71,7 @@ public class UserInitializer implements ApplicationRunner {
                     .build();
 
             User DUMMY_USER4 = User.builder()
-                    .nickname("user4")
+                    .nickname("무민")
                     .email("user4@email.com")
                     .password("password4")
                     .profileImageUrl("profileImage4.png")
@@ -84,7 +84,7 @@ public class UserInitializer implements ApplicationRunner {
                     .build();
 
             User DUMMY_USER5 = User.builder()
-                    .nickname("user5")
+                    .nickname("버즈")
                     .email("user5@email.com")
                     .password("password5")
                     .profileImageUrl("profileImage5.png")
@@ -164,7 +164,7 @@ public class UserInitializer implements ApplicationRunner {
 
 
             User DUMMY_ADMIN = User.builder()
-                    .nickname("admin")
+                    .nickname("관리자")
                     .email("admin@email.com")
                     .password("adminPassword")
                     .profileImageUrl("profileImageAdmin.png")
