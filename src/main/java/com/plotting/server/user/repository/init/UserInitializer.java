@@ -96,6 +96,73 @@ public class UserInitializer implements ApplicationRunner {
                     .fcmToken("fcmToken")
                     .build();
 
+            User DUMMY_USER6 = User.builder()
+                    .nickname("user6")
+                    .email("user6@email.com")
+                    .password("password6")
+                    .profileImageUrl("profileImage6.png")
+                    .profileMessage("플로깅은 나의삶")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
+            User DUMMY_USER7 = User.builder()
+                    .nickname("user7")
+                    .email("user7@email.com")
+                    .password("password7")
+                    .profileImageUrl("profileImage7.png")
+                    .profileMessage("플로깅과 함께라면 어디든지..")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
+            User DUMMY_USER8 = User.builder()
+                    .nickname("user8")
+                    .email("user8@email.com")
+                    .password("password8")
+                    .profileImageUrl("profileImage8.png")
+                    .profileMessage("플로깅 모두 모여")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
+            User DUMMY_USER9 = User.builder()
+                    .nickname("user9")
+                    .email("user9@email.com")
+                    .password("password9")
+                    .profileImageUrl("profileImage9.png")
+                    .profileMessage("유럽 여행 대신 플로깅 여행")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
+            User DUMMY_USER10 = User.builder()
+                    .nickname("user10")
+                    .email("user10@email.com")
+                    .password("password10")
+                    .profileImageUrl("profileImage10.png")
+                    .profileMessage("기분이 좋다 플로깅 하니까")
+                    .loginType(SELF)
+                    .isAlarmAllowed(true)
+                    .isProfilePublic(true)
+                    .role(USER)
+                    .fcmToken("fcmToken")
+                    .build();
+
+
+
             User DUMMY_ADMIN = User.builder()
                     .nickname("관리자")
                     .email("admin@email.com")
@@ -114,6 +181,11 @@ public class UserInitializer implements ApplicationRunner {
             userList.add(DUMMY_USER3);
             userList.add(DUMMY_USER4);
             userList.add(DUMMY_USER5);
+            userList.add(DUMMY_USER6);
+            userList.add(DUMMY_USER7);
+            userList.add(DUMMY_USER8);
+            userList.add(DUMMY_USER9);
+            userList.add(DUMMY_USER10);
             userList.add(DUMMY_ADMIN);
 
             userRepository.saveAll(userList);
