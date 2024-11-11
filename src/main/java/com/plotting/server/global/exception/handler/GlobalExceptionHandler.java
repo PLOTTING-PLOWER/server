@@ -64,11 +64,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(makeErrorResponse(errorCode));
     }
 
-    @ExceptionHandler(PloggingNotFoundException.class)
-    public ResponseEntity<Object> handlePloggingNotFound(final PloggingNotFoundException e) {
-        return handleExceptionInternal(e.getErrorCode());
-    }
-
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFound(final UserNotFoundException e) {
         return handleExceptionInternal(e.getErrorCode());
