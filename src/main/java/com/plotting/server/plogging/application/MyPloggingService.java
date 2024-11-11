@@ -40,6 +40,11 @@ public class MyPloggingService {
         );
     }
 
+    @Transactional
+    public void deleteMyPlogging(Long ploggingId) {
+        ploggingRepository.deleteById(ploggingId);
+    }
+
     public MyPloggingUserListResponse getMyPloggingUser(Long ploggingId) {
         return MyPloggingUserListResponse.from(
                 ploggingUserRepository.findWaitingPloggingUserByPloggingIdWithFetch(ploggingId).stream()
@@ -62,8 +67,8 @@ public class MyPloggingService {
     }
 
     @Transactional
-    public void deleteMyPlogging(Long ploggingId) {
-        ploggingRepository.deleteById(ploggingId);
+    public void deletePloggingUser(Long ploggingUserId) {
+        ploggingUserRepository.deleteById(ploggingUserId);
     }
 
     private PloggingUser getPloggingUser(Long ploggingUserId) {

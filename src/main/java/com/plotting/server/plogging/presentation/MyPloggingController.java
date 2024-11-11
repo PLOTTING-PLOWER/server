@@ -41,6 +41,18 @@ public class MyPloggingController {
                 .body(ResponseTemplate.from(response));
     }
 
+    @Operation(summary = "플로깅 삭제", description = "내가 생성한 플로깅을 삭제합니다.")
+    @DeleteMapping("/created/{ploggingId}")
+    public ResponseEntity<ResponseTemplate<?>> deleteMyPlogging(
+            @PathVariable Long ploggingId) {
+
+        myPloggingService.deleteMyPlogging(ploggingId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(EMPTY_RESPONSE);
+    }
+
     @Operation(summary = "승인 대기 멤버 조회", description = "승인 대기 멤버를 조회합니다.")
     @GetMapping("/{ploggingId}/waiting/users")
     public ResponseEntity<ResponseTemplate<?>> getMyPloggingUser(
@@ -66,12 +78,12 @@ public class MyPloggingController {
                 .body(ResponseTemplate.from(message));
     }
 
-    @Operation(summary = "플로깅 삭제", description = "내가 생성한 플로깅을 삭제합니다.")
-    @DeleteMapping("/created/{ploggingId}")
-    public ResponseEntity<ResponseTemplate<?>> deleteMyPlogging(
-            @PathVariable Long ploggingId) {
+    @Operation(summary = "플로깅 참가 거절", description = "플로깅 참가 신청을 거절합니다.")
+    @DeleteMapping("/request/{ploggingUserId}")
+    public ResponseEntity<ResponseTemplate<?>> deletePloggingUser(
+            @PathVariable Long ploggingUserId) {
 
-        myPloggingService.deleteMyPlogging(ploggingId);
+        myPloggingService.deletePloggingUser(ploggingUserId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
