@@ -2,6 +2,7 @@ package com.plotting.server.plogging.presentation;
 
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.MyPloggingService;
+import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import static com.plotting.server.global.dto.ResponseTemplate.EMPTY_RESPONSE;
 
@@ -39,6 +42,19 @@ public class MyPloggingController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "플로깅 수정", description = "내가 만든 플로깅을 수정합니다.")
+    @PatchMapping("/created/{ploggingId}")
+    public ResponseEntity<ResponseTemplate<?>> updateMyPlogging(
+            @PathVariable Long ploggingId,
+            @RequestBody PloggingUpdateRequest request) {
+
+        myPloggingService.updatePlogging(ploggingId, request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(EMPTY_RESPONSE);
     }
 
     @Operation(summary = "플로깅 삭제", description = "내가 생성한 플로깅을 삭제합니다.")

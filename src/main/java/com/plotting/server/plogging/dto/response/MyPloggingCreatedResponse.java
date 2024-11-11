@@ -5,6 +5,7 @@ import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -12,12 +13,15 @@ public record MyPloggingCreatedResponse(
         Long ploggingId,
         PloggingType ploggingType,
         String title,
-        String startLocation,
+        String content,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime startTime,
         Long spendTime,
         Long currentPeople,
         Long maxPeople,
+        String startLocation,
+        LocalDate recruitStartDate,
+        LocalDate recruitEndDate,
         Boolean isRecruiting
 ) {
     public static MyPloggingCreatedResponse of(Plogging plogging, Long currentPeople, Boolean isRecruiting) {
@@ -25,11 +29,14 @@ public record MyPloggingCreatedResponse(
                 .ploggingId(plogging.getId())
                 .ploggingType(plogging.getPloggingType())
                 .title(plogging.getTitle())
-                .startLocation(plogging.getStartLocation())
+                .content(plogging.getContent())
                 .startTime(plogging.getStartTime())
                 .spendTime(plogging.getSpendTime())
                 .currentPeople(currentPeople)
                 .maxPeople(plogging.getMaxPeople())
+                .startLocation(plogging.getStartLocation())
+                .recruitStartDate(plogging.getRecruitStartDate())
+                .recruitEndDate(plogging.getRecruitEndDate())
                 .isRecruiting(isRecruiting)
                 .build();
     }

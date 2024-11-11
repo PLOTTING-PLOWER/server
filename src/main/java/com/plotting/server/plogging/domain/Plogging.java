@@ -2,6 +2,7 @@ package com.plotting.server.plogging.domain;
 
 import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.plogging.domain.type.PloggingType;
+import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
 import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -87,5 +88,15 @@ public class Plogging extends BaseTimeEntity {
         this.startLatitude = startLatitude;
         this.startLongitude = startLongitude;
         this.endLocation = endLocation;
+    }
+
+    public void update(PloggingUpdateRequest request) {
+        this.title = request.title();
+        this.content = request.content();
+        this.maxPeople = request.maxPeople();
+        this.recruitStartDate = request.recruitStartDate();
+        this.recruitEndDate = request.recruitEndDate();
+        this.startTime = request.startTime();
+        this.spendTime = request.spendTime();
     }
 }

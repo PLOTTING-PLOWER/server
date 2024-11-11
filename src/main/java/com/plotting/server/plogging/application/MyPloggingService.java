@@ -2,6 +2,7 @@ package com.plotting.server.plogging.application;
 
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
+import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
@@ -38,6 +39,12 @@ public class MyPloggingService {
                         })
                         .toList()
         );
+    }
+
+    @Transactional
+    public void updatePlogging(Long ploggingId, PloggingUpdateRequest request) {
+        Plogging plogging = ploggingService.getPlogging(ploggingId);
+        plogging.update(request);
     }
 
     @Transactional
