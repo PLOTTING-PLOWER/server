@@ -5,13 +5,13 @@ import lombok.Builder;
 
 @Builder
 public record MyPloggingUserResponse(
-        Long userId,
+        Long ploggingUserId,
         String nickname,
         String profileImageUrl
 ) {
     public static MyPloggingUserResponse from(PloggingUser ploggingUser) {
         return MyPloggingUserResponse.builder()
-                .userId(ploggingUser.getUser().getId())
+                .ploggingUserId(ploggingUser.getId())
                 .nickname(ploggingUser.getUser().getNickname())
                 .profileImageUrl(ploggingUser.getUser().getProfileImageUrl())
                 .build();
