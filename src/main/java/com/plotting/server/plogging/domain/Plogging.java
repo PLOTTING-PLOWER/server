@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "plogging")
 @Getter
@@ -64,6 +66,9 @@ public class Plogging extends BaseTimeEntity {
 
     @Column(name = "end_location")
     private String endLocation;
+
+    @OneToMany(mappedBy = "plogging", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PloggingUser> ploggingUsers = new ArrayList<>();
 
     @Builder
     public Plogging(User user, String title, String content, Long maxPeople, PloggingType ploggingType,

@@ -33,4 +33,9 @@ public class MyPloggingService {
                         .toList()
         );
     }
+
+    @Transactional
+    public void deleteMyPlogging(Long ploggingId) {
+        ploggingRepository.deleteById(ploggingId);
+    }
 }

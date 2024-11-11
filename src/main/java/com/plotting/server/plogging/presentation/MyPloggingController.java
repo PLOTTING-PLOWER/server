@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import static com.plotting.server.global.dto.ResponseTemplate.EMPTY_RESPONSE;
 
 @Tag(name = "MyPlogging", description = "내 플로깅 관련 API")
 @Slf4j
@@ -34,5 +38,18 @@ public class MyPloggingController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "내 플로깅 삭제", description = "내가 생성한 플로깅을 삭제합니다.")
+    @DeleteMapping("/created/{ploggingId}")
+    public ResponseEntity<ResponseTemplate<?>> deleteMyPlogging(
+            @PathVariable Long ploggingId
+    ) {
+
+        myPloggingService.deleteMyPlogging(ploggingId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(EMPTY_RESPONSE);
     }
 }

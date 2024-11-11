@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Builder
 public record MyPloggingCreatedResponse(
+        Long ploggingId,
         PloggingType ploggingType,
         String title,
         String startLocation,
@@ -21,6 +22,7 @@ public record MyPloggingCreatedResponse(
 ) {
     public static MyPloggingCreatedResponse of(Plogging plogging, Long currentPeople, Boolean isRecruiting) {
         return MyPloggingCreatedResponse.builder()
+                .ploggingId(plogging.getId())
                 .ploggingType(plogging.getPloggingType())
                 .title(plogging.getTitle())
                 .startLocation(plogging.getStartLocation())
