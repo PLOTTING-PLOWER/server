@@ -2,6 +2,8 @@ package com.plotting.server.plogging.application;
 
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedResponse;
+import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
+import com.plotting.server.plogging.dto.response.MyPloggingUserResponse;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.application.UserService;
@@ -23,13 +25,21 @@ public class MyPloggingService {
     private final PloggingUserRepository ploggingUserRepository;
 
     public MyPloggingCreatedListResponse getMyPloggingCreatedList(Long userId) {
-        return new MyPloggingCreatedListResponse(
+        return MyPloggingCreatedListResponse.from(
                 ploggingRepository.findAllByUserId(userId).stream()
                         .map(plogging -> {
                             Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
                             Boolean isRecruiting = plogging.getRecruitEndDate().isAfter(LocalDate.now());
                             return MyPloggingCreatedResponse.of(plogging, currentPeople, isRecruiting);
                         })
+                        .toList()
+        );
+    }
+
+    public MyPloggingUserListResponse getMyPloggingUser(Long ploggingId) {
+        return MyPloggingUserListResponse.from(
+                ploggingUserRepository.findWaitingPloggingUserByPloggingIdWithFetch(ploggingId).stream()
+                        .map(MyPloggingUserResponse::from)
                         .toList()
         );
     }

@@ -3,6 +3,7 @@ package com.plotting.server.plogging.presentation;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.MyPloggingService;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
+import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,10 @@ public class MyPloggingController {
 
     private final MyPloggingService myPloggingService;
 
-    @Operation(summary = "내 플로깅 목록 조회", description = "내가 생성한 플로깅 목록을 조회합니다.")
+    @Operation(summary = "내가 만든 플로깅 목록 조회", description = "내가 만든 플로깅 목록을 조회합니다.")
     @GetMapping("/created")
     public ResponseEntity<ResponseTemplate<?>> getMyPloggingCreatedList(
-            @RequestParam Long userId
-    ) {
+            @RequestParam Long userId) {
 
         MyPloggingCreatedListResponse response = myPloggingService.getMyPloggingCreatedList(userId);
 
@@ -40,11 +40,22 @@ public class MyPloggingController {
                 .body(ResponseTemplate.from(response));
     }
 
-    @Operation(summary = "내 플로깅 삭제", description = "내가 생성한 플로깅을 삭제합니다.")
+    @Operation(summary = "승인 대기 멤버 조회", description = "승인 대기 멤버를 조회합니다.")
+    @GetMapping("/{ploggingId}/waiting/users")
+    public ResponseEntity<ResponseTemplate<?>> getMyPloggingUser(
+            @PathVariable Long ploggingId) {
+
+        MyPloggingUserListResponse response = myPloggingService.getMyPloggingUser(ploggingId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "플로깅 삭제", description = "내가 생성한 플로깅을 삭제합니다.")
     @DeleteMapping("/created/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> deleteMyPlogging(
-            @PathVariable Long ploggingId
-    ) {
+            @PathVariable Long ploggingId) {
 
         myPloggingService.deleteMyPlogging(ploggingId);
 

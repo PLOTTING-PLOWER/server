@@ -23,4 +23,7 @@ public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long
 
     @Query(value = "SELECT RELEASE_LOCK(:key)", nativeQuery = true)
     void releaseLock(String key);
+
+    @Query("SELECT pu FROM PloggingUser pu JOIN FETCH pu.user WHERE pu.plogging.id = :ploggingId AND pu.isAssigned = false")
+    List<PloggingUser> findWaitingPloggingUserByPloggingIdWithFetch(Long ploggingId);
 }

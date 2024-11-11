@@ -8,7 +8,7 @@ import java.util.List;
 public record MyPloggingCreatedListResponse(
         List<MyPloggingCreatedResponse> myPloggings
 ) {
-    public MyPloggingCreatedListResponse from(List<MyPloggingCreatedResponse> myPloggings) {
+    public static MyPloggingCreatedListResponse from(List<MyPloggingCreatedResponse> myPloggings) {
         return MyPloggingCreatedListResponse.builder()
                 .myPloggings(myPloggings)
                 .build();
