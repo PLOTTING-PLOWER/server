@@ -45,4 +45,8 @@ public class PloggingUser {
                 .isAssigned(isAssigned)
                 .build();
     }
+
+    public void assign() {
+        this.isAssigned = true;
+    }
 }

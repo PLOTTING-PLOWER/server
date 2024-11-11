@@ -1,12 +1,14 @@
 package com.plotting.server.plogging.application;
 
+import com.plotting.server.plogging.domain.Plogging;
+import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserResponse;
+import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
-import com.plotting.server.user.application.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MyPloggingService {
 
-    private final UserService userService;
+    private final PloggingService ploggingService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
@@ -45,7 +49,25 @@ public class MyPloggingService {
     }
 
     @Transactional
+    public String updatePloggingUser(Long ploggingId, Long ploggingUserId) {
+        Plogging plogging = ploggingService.getPlogging(ploggingId);
+        PloggingUser ploggingUser = getPloggingUser(ploggingUserId);
+
+        if (ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId) >= plogging.getMaxPeople()) {
+            return "인원이 초과되었습니다.";
+        } else {
+            ploggingUser.assign();
+            return "승인되었습니다.";
+        }
+    }
+
+    @Transactional
     public void deleteMyPlogging(Long ploggingId) {
         ploggingRepository.deleteById(ploggingId);
+    }
+
+    private PloggingUser getPloggingUser(Long ploggingUserId) {
+        return ploggingUserRepository.findById(ploggingUserId)
+                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
     }
 }

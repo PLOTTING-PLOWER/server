@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import static com.plotting.server.global.dto.ResponseTemplate.EMPTY_RESPONSE;
 
@@ -50,6 +51,19 @@ public class MyPloggingController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "플로깅 참가 승인", description = "플로깅 참가 신청을 승인합니다.")
+    @PostMapping("/{ploggingId}/request/{ploggingUserId}")
+    public ResponseEntity<ResponseTemplate<?>> updatePloggingUser(
+            @PathVariable Long ploggingId,
+            @PathVariable Long ploggingUserId) {
+
+        String message = myPloggingService.updatePloggingUser(ploggingId, ploggingUserId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(message));
     }
 
     @Operation(summary = "플로깅 삭제", description = "내가 생성한 플로깅을 삭제합니다.")
