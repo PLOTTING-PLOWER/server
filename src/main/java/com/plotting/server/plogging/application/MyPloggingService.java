@@ -7,7 +7,7 @@ import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserResponse;
-import com.plotting.server.plogging.exception.PloggingNotFoundException;
+import com.plotting.server.plogging.exception.PloggingUserNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
+import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_USER_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -78,8 +78,8 @@ public class MyPloggingService {
         ploggingUserRepository.deleteById(ploggingUserId);
     }
 
-    private PloggingUser getPloggingUser(Long ploggingUserId) {
+    public PloggingUser getPloggingUser(Long ploggingUserId) {
         return ploggingUserRepository.findById(ploggingUserId)
-                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
+                .orElseThrow(() -> new PloggingUserNotFoundException(PLOGGING_USER_NOT_FOUND));
     }
 }

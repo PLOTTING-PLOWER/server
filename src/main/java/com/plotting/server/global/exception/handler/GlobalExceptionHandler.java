@@ -6,6 +6,7 @@ import com.plotting.server.global.exception.errorcode.ErrorCode;
 import com.plotting.server.global.exception.errorcode.GlobalErrorCode;
 import com.plotting.server.global.exception.response.ErrorResponse;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
+import com.plotting.server.plogging.exception.PloggingUserNotFoundException;
 import com.plotting.server.user.exception.UserNotFoundException;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
@@ -71,6 +72,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CommentNotFoundException.class)
     public ResponseEntity<Object> handleCommentNotFound(final CommentNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(PloggingUserNotFoundException.class)
+    public ResponseEntity<Object> handlePloggingUserNotFound(final PloggingUserNotFoundException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
 
