@@ -39,6 +39,7 @@ public class PloggingUserInitializer implements ApplicationRunner {
 
             Plogging DUMMY_PLOGGING1 = ploggingRepository.findById(1L).orElseThrow();
             Plogging DUMMY_PLOGGING2 = ploggingRepository.findById(2L).orElseThrow();
+            Plogging DUMMY_PLOGGING3 = ploggingRepository.findById(3L).orElseThrow();
 
             List<PloggingUser> ploggingUserList = new ArrayList<>();
 
@@ -72,11 +73,25 @@ public class PloggingUserInitializer implements ApplicationRunner {
                     .isAssigned(false)
                     .build();
 
+            PloggingUser DUMMY_PLOGGING_USER6 = PloggingUser.builder()
+                    .user(DUMMY_USER1)
+                    .plogging(DUMMY_PLOGGING2)
+                    .isAssigned(true)
+                    .build();
+
+            PloggingUser DUMMY_PLOGGING_USER7 = PloggingUser.builder()
+                    .user(DUMMY_USER1)
+                    .plogging(DUMMY_PLOGGING3)
+                    .isAssigned(true)
+                    .build();
+
             ploggingUserList.add(DUMMY_PLOGGING_USER1);
             ploggingUserList.add(DUMMY_PLOGGING_USER2);
             ploggingUserList.add(DUMMY_PLOGGING_USER3);
             ploggingUserList.add(DUMMY_PLOGGING_USER4);
             ploggingUserList.add(DUMMY_PLOGGING_USER5);
+            ploggingUserList.add(DUMMY_PLOGGING_USER6);
+            ploggingUserList.add(DUMMY_PLOGGING_USER7);
 
             ploggingUserRepository.saveAll(ploggingUserList);
         }

@@ -8,6 +8,7 @@ import com.plotting.server.plogging.dto.response.MyPloggingCreatedResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserResponse;
 import com.plotting.server.plogging.exception.PloggingUserNotFoundException;
+import com.plotting.server.plogging.dto.response.MonthlyPloggingListResponse;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_USER_NOT_FOUND;
 
@@ -76,6 +78,10 @@ public class MyPloggingService {
     @Transactional
     public void deletePloggingUser(Long ploggingUserId) {
         ploggingUserRepository.deleteById(ploggingUserId);
+    }
+
+    public MonthlyPloggingListResponse getMonthlyPlogging(Long userId) {
+        return MonthlyPloggingListResponse.from(ploggingUserRepository.findMonthlyPloggingStatsByUserId(userId));
     }
 
     public PloggingUser getPloggingUser(Long ploggingUserId) {

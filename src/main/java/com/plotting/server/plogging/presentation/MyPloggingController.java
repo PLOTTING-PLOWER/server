@@ -3,6 +3,7 @@ package com.plotting.server.plogging.presentation;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.MyPloggingService;
 import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
+import com.plotting.server.plogging.dto.response.MonthlyPloggingListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -104,5 +105,17 @@ public class MyPloggingController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(EMPTY_RESPONSE);
+    }
+
+    @Operation(summary = "월별 플로깅 통계 조회", description = "월별 플로깅 통계를 조회합니다.")
+    @GetMapping("/months")
+    public ResponseEntity<ResponseTemplate<?>> getMonthlyPlogging(
+            @RequestParam Long userId) {
+
+        MonthlyPloggingListResponse response = myPloggingService.getMonthlyPlogging(userId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
     }
 }
