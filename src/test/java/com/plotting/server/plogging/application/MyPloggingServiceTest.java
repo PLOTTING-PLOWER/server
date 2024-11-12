@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static com.plotting.server.plogging.fixture.PloggingFixture.PLOGGING;
 import static com.plotting.server.plogging.fixture.PloggingUserFixture.PLOGGING_USER2;
+import static com.plotting.server.user.fixture.UserFixture.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -124,5 +125,19 @@ class MyPloggingServiceTest {
 
         // then
         verify(ploggingUserRepository).deleteById(PLOGGING_USER2.getId());
+    }
+
+    @Test
+    @DisplayName("월별 플로깅 통계 조회 테스트")
+    void getMonthlyPloggingTest() {
+        // given
+        given(ploggingUserRepository.findMonthlyPloggingStatsByUserId(anyLong()))
+                .willReturn(List.of());
+
+        // when
+        myPloggingService.getMonthlyPlogging(USER.getId());
+
+        // then
+        verify(ploggingUserRepository).findMonthlyPloggingStatsByUserId(USER.getId());
     }
 }
