@@ -22,7 +22,7 @@ public record PloggingResponse(
         String startLocation
 ) {
 
-    public static PloggingResponse from(Plogging plogging, Long currentPeople) {
+    public static PloggingResponse of(Plogging plogging, Long currentPeople) {
         return PloggingResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())

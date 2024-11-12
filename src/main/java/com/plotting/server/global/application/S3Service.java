@@ -38,6 +38,8 @@ public class S3Service {
         try {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(multipartFile.getContentType());
+            metadata.setContentLength(multipartFile.getSize()); // 파일 길이 추가
+
             amazonS3.putObject(new PutObjectRequest(bucket, fileLocation, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
@@ -47,6 +49,7 @@ public class S3Service {
             throw new FileConvertFailException(GlobalErrorCode.FILE_CONVERT_FAIL);
         }
     }
+
 
     public void deleteFile(String fileUrl) {
         // URL에서 파일 이름 추출

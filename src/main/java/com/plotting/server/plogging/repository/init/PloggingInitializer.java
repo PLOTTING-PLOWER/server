@@ -74,8 +74,8 @@ public class PloggingInitializer implements ApplicationRunner {
 
             Plogging DUMMY_PLOGGING3 = Plogging.builder()
                     .user(user)
-                    .title("손유진 공원 플로깅")
-                    .content("손유진 공원에서 같이 플로깅 어떄요?")
+                    .title("동작 공원 플로깅")
+                    .content("동작 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(10L)
                     .ploggingType(ASSIGN)
                     .recruitStartDate(LocalDate.parse("2024-09-15"))
