@@ -3,12 +3,9 @@ package com.plotting.server.plogging.application;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
-import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
-import com.plotting.server.plogging.dto.response.MyPloggingCreatedResponse;
-import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
-import com.plotting.server.plogging.dto.response.MyPloggingUserResponse;
+import com.plotting.server.plogging.dto.response.*;
+import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.exception.PloggingUserNotFoundException;
-import com.plotting.server.plogging.dto.response.MonthlyPloggingListResponse;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 
+import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_USER_NOT_FOUND;
 
 @Slf4j
@@ -27,7 +24,6 @@ import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode
 @Transactional(readOnly = true)
 public class MyPloggingService {
 
-    private final PloggingService ploggingService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
@@ -45,7 +41,7 @@ public class MyPloggingService {
 
     @Transactional
     public void updatePlogging(Long ploggingId, PloggingUpdateRequest request) {
-        Plogging plogging = ploggingService.getPlogging(ploggingId);
+        Plogging plogging = getPlogging(ploggingId);
         plogging.update(request);
     }
 
@@ -64,7 +60,7 @@ public class MyPloggingService {
 
     @Transactional
     public String updatePloggingUser(Long ploggingId, Long ploggingUserId) {
-        Plogging plogging = ploggingService.getPlogging(ploggingId);
+        Plogging plogging = getPlogging(ploggingId);
         PloggingUser ploggingUser = getPloggingUser(ploggingUserId);
 
         if (ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId) >= plogging.getMaxPeople()) {
@@ -82,6 +78,11 @@ public class MyPloggingService {
 
     public MonthlyPloggingListResponse getMonthlyPlogging(Long userId) {
         return MonthlyPloggingListResponse.from(ploggingUserRepository.findMonthlyPloggingStatsByUserId(userId));
+    }
+
+    public Plogging getPlogging(Long ploggingId) {
+        return ploggingRepository.findById(ploggingId)
+                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
     }
 
     public PloggingUser getPloggingUser(Long ploggingUserId) {
