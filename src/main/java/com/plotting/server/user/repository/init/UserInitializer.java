@@ -5,6 +5,7 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -22,6 +23,9 @@ import static com.plotting.server.user.domain.UserType.Role.USER;
 @DummyDataInit
 public class UserInitializer implements ApplicationRunner {
 
+    @Value("${cloud.aws.s3.endpoint}")
+    private String s3Endpoint;
+
     private final UserRepository userRepository;
 
     @Override
@@ -35,7 +39,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("슝슝이")
                     .email("user1@email.com")
                     .password("password1")
-                    .profileImageUrl("profileImage1.png")
+                    .profileImageUrl(s3Endpoint + "/profile/soong.png")
                     .profileMessage("플로깅 열심히 하는 1인입니다 :)")
                     .loginType(SELF)
                     .isAlarmAllowed(true)
@@ -48,7 +52,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("피치")
                     .email("user2@email.com")
                     .password("password2")
-                    .profileImageUrl("profileImage2.png")
+                    .profileImageUrl(s3Endpoint + "/profile/apeach.png")
                     .profileMessage("플로깅 자주 해요!!")
                     .loginType(SELF)
                     .isAlarmAllowed(true)
@@ -61,7 +65,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("라이언")
                     .email("user3@email.com")
                     .password("password3")
-                    .profileImageUrl("profileImage3.png")
+                    .profileImageUrl(s3Endpoint + "/profile/lion.jpg")
                     .profileMessage("동작구 플로깅 전문가 입니다")
                     .loginType(SELF)
                     .isAlarmAllowed(true)
@@ -74,7 +78,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("무민")
                     .email("user4@email.com")
                     .password("password4")
-                    .profileImageUrl("profileImage4.png")
+                    .profileImageUrl(s3Endpoint + "/profile/moomin.png")
                     .profileMessage("플로깅하면서 친해질 분들 즐겨찾기 해주세요!")
                     .loginType(SELF)
                     .isAlarmAllowed(true)
@@ -87,7 +91,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("버즈")
                     .email("user5@email.com")
                     .password("password5")
-                    .profileImageUrl("profileImage5.png")
+                    .profileImageUrl(s3Endpoint + "/profile/buz.jpg")
                     .profileMessage("주로 주말에 플로깅 합니다. 같이 해요!")
                     .loginType(SELF)
                     .isAlarmAllowed(true)

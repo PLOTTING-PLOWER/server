@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum PloggingErrorCode implements ErrorCode {
     PLOGGING_NOT_FOUND(HttpStatus.NOT_FOUND, "Plogging not found"),
+    PLOGGING_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "Plogging user not found"),
     ;
 
     private final HttpStatus httpStatus;

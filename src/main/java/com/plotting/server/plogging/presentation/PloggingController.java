@@ -36,7 +36,6 @@ public class PloggingController {
     private final PloggingService ploggingService;
     private final PloggingServiceFacade ploggingServiceFacade;
 
-
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
     @GetMapping("/home/{ploggingId}/{userId}")
     public ResponseEntity<ResponseTemplate<?>> getHome(
