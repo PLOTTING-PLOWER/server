@@ -1,9 +1,13 @@
 package com.plotting.server.user.presentation;
 
 import com.plotting.server.global.dto.ResponseTemplate;
+import com.plotting.server.user.application.AuthService;
 import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
+import com.plotting.server.user.dto.request.LoginRequest;
 import com.plotting.server.user.dto.request.SignUpRequest;
+import com.plotting.server.user.dto.response.LoginResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserService userService;
+    private final AuthService authService;
 
     // 회원가입 엔드 포인트 :POST /auth/signUp
     @PostMapping("/signup")
@@ -27,4 +32,9 @@ public class AuthController {
         return ResponseEntity.ok("signup successful");
     }
 
+    @PostMapping("/login")
+    ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest){
+        LoginResponse response = authService.login(loginRequest);
+        return ResponseEntity.ok(response);
+    }
 }
