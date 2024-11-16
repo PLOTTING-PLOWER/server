@@ -4,6 +4,7 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,12 +22,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(()->new UsernameNotFoundException("user not found email: " + email));
+                .orElseThrow(()->new UsernameNotFoundException("user not found email "));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                Collections.emptyList()     // 권한이 없다고 가정
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
         );
     }
 }

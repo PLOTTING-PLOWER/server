@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     // 일반 로그인 엔드 포인트
-    @PostMapping("/login")
+    @PostMapping("/login/self")
     ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest){
         log.info("-----일반 로그인-----");
         LoginResponse response = authService.login(loginRequest);
