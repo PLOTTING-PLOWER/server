@@ -35,32 +35,52 @@ public class CardInitializer implements ApplicationRunner {
 
             List<Card> cardList = new ArrayList<>();
 
-            Cardnews DATA_Cardnews1 = cardnewsRepository.findById(1L).orElseThrow();
-            Cardnews DATA_Cardnews2 = cardnewsRepository.findById(2L).orElseThrow();
-            Cardnews DATA_Cardnews3 = cardnewsRepository.findById(3L).orElseThrow();
+            final Cardnews CARDNEWS1 = cardnewsRepository.findById(1L).orElseThrow();
+            final Cardnews CARDNEWS2 = cardnewsRepository.findById(2L).orElseThrow();
+            final Cardnews CARDNEWS3 = cardnewsRepository.findById(3L).orElseThrow();
 
-            Card DUMMY_Card1 = Card.builder()
-                    .cardnews(DATA_Cardnews1)
+            final Card CARD1 = Card.builder()
+                    .cardnews(CARDNEWS1)
                     .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_1.png")
+                    .build();
+
+            final Card CARD2 = Card.builder()
+                    .cardnews(CARDNEWS1)
                     .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_2.png")
+                    .build();
+
+            final Card CARD3 = Card.builder()
+                    .cardnews(CARDNEWS1)
                     .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_3.png")
                     .build();
 
-            Card DUMMY_Card2 = Card.builder()
-                    .cardnews(DATA_Cardnews2)
+            final Card CARD4 = Card.builder()
+                    .cardnews(CARDNEWS2)
                     .cardImageUrl(s3Endpoint + "/plogging/plogging_1.png")
+                    .build();
+
+            final Card CARD5 = Card.builder()
+                    .cardnews(CARDNEWS2)
                     .cardImageUrl(s3Endpoint + "/plogging/plogging_2.png")
+                    .build();
+
+            final Card CARD6 = Card.builder()
+                    .cardnews(CARDNEWS2)
                     .cardImageUrl(s3Endpoint + "/plogging/plogging_3.png")
                     .build();
 
-            Card DUMMY_Card3 = Card.builder()
-                    .cardnews(DATA_Cardnews3)
+            final Card CARD7 = Card.builder()
+                    .cardnews(CARDNEWS3)
                     .cardImageUrl(s3Endpoint + "/plogging_info/plogging_info_1.png")
                     .build();
 
-            cardList.add(DUMMY_Card1);
-            cardList.add(DUMMY_Card2);
-            cardList.add(DUMMY_Card3);
+            cardList.add(CARD1);
+            cardList.add(CARD2);
+            cardList.add(CARD3);
+            cardList.add(CARD4);
+            cardList.add(CARD5);
+            cardList.add(CARD6);
+            cardList.add(CARD7);
 
             cardRepository.saveAll(cardList);
 
