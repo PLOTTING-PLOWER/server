@@ -52,7 +52,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("피치")
                     .email("user2@email.com")
                     .password("password2")
-                    .profileImageUrl(s3Endpoint + "/profile/apeach.png")
+                    .profileImageUrl(s3Endpoint + "/profile/apeach.png  ")
                     .profileMessage("플로깅 자주 해요!!")
                     .loginType(SELF)
                     .isAlarmAllowed(true)

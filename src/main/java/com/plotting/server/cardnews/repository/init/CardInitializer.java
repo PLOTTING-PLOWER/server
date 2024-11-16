@@ -41,37 +41,37 @@ public class CardInitializer implements ApplicationRunner {
 
             final Card CARD1 = Card.builder()
                     .cardnews(CARDNEWS1)
-                    .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_1.png")
+                    .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_1")
                     .build();
 
             final Card CARD2 = Card.builder()
                     .cardnews(CARDNEWS1)
-                    .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_2.png")
+                    .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_2")
                     .build();
 
             final Card CARD3 = Card.builder()
                     .cardnews(CARDNEWS1)
-                    .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_3.png")
+                    .cardImageUrl(s3Endpoint + "/plastic/zeroPlastic_3")
                     .build();
 
             final Card CARD4 = Card.builder()
                     .cardnews(CARDNEWS2)
-                    .cardImageUrl(s3Endpoint + "/plogging/plogging_1.png")
+                    .cardImageUrl(s3Endpoint + "/plogging/plogging_1")
                     .build();
 
             final Card CARD5 = Card.builder()
                     .cardnews(CARDNEWS2)
-                    .cardImageUrl(s3Endpoint + "/plogging/plogging_2.png")
+                    .cardImageUrl(s3Endpoint + "/plogging/plogging_2")
                     .build();
 
             final Card CARD6 = Card.builder()
                     .cardnews(CARDNEWS2)
-                    .cardImageUrl(s3Endpoint + "/plogging/plogging_3.png")
+                    .cardImageUrl(s3Endpoint + "/plogging/plogging_3")
                     .build();
 
             final Card CARD7 = Card.builder()
                     .cardnews(CARDNEWS3)
-                    .cardImageUrl(s3Endpoint + "/plogging_info/plogging_info_1.png")
+                    .cardImageUrl(s3Endpoint + "/plogging_info/plogging_info_1")
                     .build();
 
             cardList.add(CARD1);
