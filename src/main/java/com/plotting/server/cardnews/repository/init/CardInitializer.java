@@ -30,7 +30,7 @@ public class CardInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (cardRepository.count() > 0) {
-            log.info("[Card]더미 데이터 존재");
+            log.info("[Card]데이터 존재");
         } else {
 
             List<Card> cardList = new ArrayList<>();
