@@ -2,6 +2,7 @@ package com.plotting.server.user.application;
 
 import com.plotting.server.user.domain.User;
 import com.plotting.server.user.dto.request.SignUpRequest;
+import com.plotting.server.user.exception.UserAlreadyExistsException;
 import com.plotting.server.user.exception.UserNotFoundException;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_ALREADY_EXISTS;
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NOT_FOUND;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class UserService {
         log.info("Registering user with email: {}", signUpRequest.email());
         // 이메일 중복 체크
         if (userRepository.existsByEmail(signUpRequest.email())){
-            throw new RuntimeException("Email already exists");
+            throw new UserAlreadyExistsException(USER_ALREADY_EXISTS);
         }
 
         User user = signUpRequest.toUser(passwordEncoder);
