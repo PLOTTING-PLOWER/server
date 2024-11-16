@@ -22,10 +22,7 @@ public record PloggingMapResponse(
         Long spendTime,
         String startLocation,
         BigDecimal startLatitude,
-        BigDecimal startLongitude,
-        BigDecimal averageLatitude,   // 클러스터 평균 위도
-        BigDecimal averageLongitude,  // 클러스터 평균 경도
-        Integer clusterCount          // 클러스터 내 모임 개수
+        BigDecimal startLongitude// 클러스터 내 모임 개수
 ) {
 
     public static PloggingMapResponse forbasic(Plogging plogging, Long currentPeople) {
@@ -41,25 +38,6 @@ public record PloggingMapResponse(
                 .startLocation(plogging.getStartLocation())
                 .startLatitude(plogging.getStartLatitude())
                 .startLongitude(plogging.getStartLongitude())
-                .build();
-    }
-
-    public static PloggingMapResponse forCluster(Plogging plogging, Long currentPeople,BigDecimal averageLatitude, BigDecimal averageLongitude, int count) {
-        return PloggingMapResponse.builder()
-                .ploggingId(plogging.getId())
-                .title(plogging.getTitle())
-                .currentPeople(currentPeople)
-                .maxPeople(plogging.getMaxPeople())
-                .ploggingType(plogging.getPloggingType())
-                .recruitEndDate(plogging.getRecruitEndDate())
-                .startTime(plogging.getStartTime())
-                .spendTime(plogging.getSpendTime())
-                .startLocation(plogging.getStartLocation())
-                .startLatitude(plogging.getStartLatitude())
-                .startLongitude(plogging.getStartLongitude())
-                .averageLatitude(averageLatitude)   // 평균 위도
-                .averageLongitude(averageLongitude) // 평균 경도
-                .clusterCount(count)                // 클러스터 내 모임 개수
                 .build();
     }
 }

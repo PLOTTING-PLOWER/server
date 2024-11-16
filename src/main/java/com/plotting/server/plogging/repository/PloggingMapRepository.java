@@ -20,12 +20,4 @@ public interface PloggingMapRepository extends JpaRepository<Plogging, Long> {
                                        @Param("lon") BigDecimal lon,
                                        @Param("radius") double radius);
 
-
-    @Query("SELECT AVG(p.startLatitude), AVG(p.startLongitude), COUNT(p) " +
-            "FROM Plogging p WHERE p.startLatitude BETWEEN (:lat - :radius / 111.0) AND (:lat + :radius / 111.0) " +
-            "AND p.startLongitude BETWEEN (:lon - (:radius / (111.0 * cos(radians(:lat))))) " +
-            "AND (:lon + (:radius / (111.0 * cos(radians(:lat)))))")
-    List<Object[]> findClustersInRadius(@Param("lat") BigDecimal lat,
-                                        @Param("lon") BigDecimal lon,
-                                        @Param("radius") double radius);
 }
