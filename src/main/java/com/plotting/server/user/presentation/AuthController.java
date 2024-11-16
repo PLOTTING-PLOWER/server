@@ -32,8 +32,10 @@ public class AuthController {
         return ResponseEntity.ok("signup successful");
     }
 
+    // 일반 로그인 엔드 포인트
     @PostMapping("/login")
     ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest){
+        log.info("-----일반 로그인-----");
         LoginResponse response = authService.login(loginRequest);
         return ResponseEntity.ok(response);
     }
