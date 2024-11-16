@@ -83,8 +83,8 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startTime(LocalDateTime.of(2024, 10, 21, 12, 0, 0))
                     .spendTime(60L)
                     .startLocation("서울특별시 송파구 올림픽로 424")
-                    .startLatitude(BigDecimal.valueOf(37.5206868))
-                    .startLongitude(BigDecimal.valueOf(127.1171114))
+                    .startLatitude(BigDecimal.valueOf(37.515887298579436))
+                    .startLongitude(BigDecimal.valueOf(127.13082790374756))
                     .endLocation("")
                     .build();
 

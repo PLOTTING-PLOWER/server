@@ -1,11 +1,13 @@
 package com.plotting.server.plogging.presentation;
 
 import com.plotting.server.global.dto.ResponseTemplate;
+import com.plotting.server.plogging.application.PloggingMapService;
 import com.plotting.server.plogging.application.PloggingService;
 import com.plotting.server.plogging.application.PloggingServiceFacade;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import com.plotting.server.plogging.dto.request.PloggingRequest;
 import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
+import com.plotting.server.plogging.dto.response.PloggingMapResponse;
 import com.plotting.server.plogging.dto.response.PloggingResponse;
 import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +38,7 @@ public class PloggingController {
 
     private final PloggingService ploggingService;
     private final PloggingServiceFacade ploggingServiceFacade;
+    private final PloggingMapService ploggingMapService;
 
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
     @GetMapping("/home/{ploggingId}/{userId}")
@@ -116,5 +120,19 @@ public class PloggingController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "맵 내의 플로깅 조회", description = "지정된 좌표 범위 내에서 플로깅 정보를 조회합니다.")
+    @GetMapping("/map/info")
+    public ResponseEntity<ResponseTemplate<?>> getPloggingInBounds(
+            @RequestParam BigDecimal lat1,
+            @RequestParam BigDecimal lon1,
+            @RequestParam int zoom
+    ) {
+        List<PloggingMapResponse> response = ploggingMapService.getPloggingInBounds(lat1, lon1, zoom);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+
     }
 }
