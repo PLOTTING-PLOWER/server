@@ -25,7 +25,7 @@ public record PloggingMapResponse(
         BigDecimal startLongitude// 클러스터 내 모임 개수
 ) {
 
-    public static PloggingMapResponse forbasic(Plogging plogging, Long currentPeople) {
+    public static PloggingMapResponse of(Plogging plogging, Long currentPeople) {
         return PloggingMapResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())

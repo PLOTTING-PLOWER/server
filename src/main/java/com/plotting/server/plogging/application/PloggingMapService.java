@@ -26,7 +26,7 @@ public class PloggingMapService {
         return ploggings.stream()
                 .map(p -> {
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
-                    return PloggingMapResponse.forbasic(p, currentPeople);
+                    return PloggingMapResponse.of(p, currentPeople);
                 })
                 .collect(Collectors.toList());
     }
