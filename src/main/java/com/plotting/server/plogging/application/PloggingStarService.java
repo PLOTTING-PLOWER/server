@@ -1,10 +1,10 @@
 package com.plotting.server.plogging.application;
 
-import com.plotting.server.plogging.domain.Plogging;
+import com.plotting.server.plogging.domain.PloggingStar;
 import com.plotting.server.plogging.dto.response.MyPloggingStarListResponse;
-import com.plotting.server.plogging.dto.response.PloggingListResponse;
 import com.plotting.server.plogging.dto.response.PloggingResponse;
-import com.plotting.server.plogging.repository.PloggingRepository;
+import com.plotting.server.plogging.exception.PloggingStarNotFoundException;
+import com.plotting.server.plogging.exception.errorcode.PloggingErrorCode;
 import com.plotting.server.plogging.repository.PloggingStarRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.application.UserService;
@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -22,15 +21,11 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PloggingStarService {
     private final PloggingStarRepository ploggingStarRepository;
-
-    private final PloggingRepository ploggingRepository;
-
     private final UserService userService;
     private final PloggingService ploggingService;
     private final PloggingUserRepository ploggingUserRepository;
 
     public MyPloggingStarListResponse getMyPloggingStarList(Long userId){
-
         // 사용자가 즐겨찾기한 플로깅 데이터
         List<PloggingResponse> ploggingResponses = ploggingStarRepository.findPloggingByUserId(userId)
                 .stream()
@@ -41,5 +36,14 @@ public class PloggingStarService {
                 .toList();
 
         return MyPloggingStarListResponse.from(ploggingResponses);
+    }
+
+    @Transactional
+    public void deleteUserStar(Long userId, Long ploggingId) {
+        PloggingStar ploggingStar = ploggingStarRepository.findByUserIdAndPloggingId(userId, ploggingId)
+                .orElseThrow(() -> new PloggingStarNotFoundException(PloggingErrorCode.PLOGGING_STAR_NOT_FOUND));
+
+        log.info("Deleting ploggingStar: {}", ploggingStar);
+        ploggingStarRepository.delete(ploggingStar);
     }
 }
