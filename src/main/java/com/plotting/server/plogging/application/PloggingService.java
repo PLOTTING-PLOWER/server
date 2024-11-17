@@ -1,5 +1,6 @@
 package com.plotting.server.plogging.application;
 
+import com.plotting.server.alarm.application.AlarmService;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.domain.type.PloggingType;
@@ -31,6 +32,7 @@ import static com.plotting.server.plogging.util.PloggingConstants.*;
 public class PloggingService {
 
     private final UserService userService;
+    private final AlarmService alarmService;
     private final UserRepository userRepository;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
@@ -101,12 +103,14 @@ public class PloggingService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String joinDirectPlogging(Plogging plogging, User user) {
         ploggingUserRepository.save(PloggingUser.of(plogging, user, true));
+        alarmService.saveDirectAlarm(user, plogging.getUser(), plogging);
         return DIRECT_COMPLETE.getMessage();
     }
 
     @Transactional
     public String joinAssignPlogging(Plogging plogging, User user) {
         ploggingUserRepository.save(PloggingUser.of(plogging, user, false));
+        alarmService.saveAssignAlarm(user, plogging.getUser(), plogging);
         return ASSIGN_COMPLETE.getMessage();
     }
 
