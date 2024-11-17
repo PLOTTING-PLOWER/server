@@ -38,7 +38,7 @@ public class UserStarController {
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
-    @Operation(summary = "유저 즐겨 찾기 추가", description = "내가 즐겨찾기 한 사람 해제")
+    @Operation(summary = "유저 즐겨 찾기 추가", description = "내가 즐겨찾기 한 사람 추가")
     @PostMapping("/add")
     public ResponseEntity<ResponseTemplate<?>> addUserStar(@RequestBody UserStarRequest request){
         log.info("addUserStarRequest: {}", request); // 요청 데이터 로그 출력
