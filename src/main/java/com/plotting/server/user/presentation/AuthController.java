@@ -26,17 +26,21 @@ public class AuthController {
 
     // 회원가입 엔드 포인트 :POST /auth/signUp
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequest signUpRequest){
+    public ResponseEntity<ResponseTemplate<?>> signUp(@RequestBody SignUpRequest signUpRequest){
         log.info("-----signUp-----");
         userService.registerUser(signUpRequest);
-        return ResponseEntity.ok("signup successful");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(ResponseTemplate.EMPTY_RESPONSE));
     }
 
     // 일반 로그인 엔드 포인트
     @PostMapping("/login/self")
-    ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest){
+    public ResponseEntity<ResponseTemplate<?>> login(@Valid @RequestBody LoginRequest loginRequest){
         log.info("-----일반 로그인-----");
         LoginResponse response = authService.login(loginRequest);
-        return ResponseEntity.ok(response);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
     }
 }
