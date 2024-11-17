@@ -31,7 +31,7 @@ public class AuthController {
         userService.registerUser(signUpRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ResponseTemplate.from(ResponseTemplate.EMPTY_RESPONSE));
+                .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
     // 일반 로그인 엔드 포인트

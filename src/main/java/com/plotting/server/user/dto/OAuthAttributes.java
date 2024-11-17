@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 @Getter
-@Data
 @Builder
 public class OAuthAttributes {
     // OAuth2User의 속성을 파싱, User 엔티티로 변환
@@ -64,7 +63,7 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public User toEntity(){
+    public User toUser(){
         return User.builder()
                 .nickname(nickname)
                 .email(email)

@@ -33,16 +33,16 @@ public class CustomOAuth2UserService implements OAuth2UserService <OAuth2UserReq
         String registrationId = userRequest.getClientRegistration().getRegistrationId();    // 구글, 네이버
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        System.out.println("registrationId: " + registrationId);
-        System.out.println("attributes: " + oAuth2User.getAttributes());
+        //log.info("registrationId: " + registrationId);
+        //log.info("attributes: " + oAuth2User.getAttributes());
 
         // 사용자 정보 매핑
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        System.out.println("Mapped Attributes: " + attributes.getAttributes());
+        //log.info("Mapped Attributes: " + attributes.getAttributes());
 
         // 사용자 정보 저장 또는 업데이트
         User user = saveOrUpdate(attributes);
-        log.info("------user------"+ user);
+        //log.info("------user------"+ user);
         return new DefaultOAuth2User(
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name())),
                 oAuth2User.getAttributes(),
@@ -51,7 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService <OAuth2UserReq
 
     private User saveOrUpdate(OAuthAttributes attributes){
         User user = userRepository.findByEmail(attributes.getEmail())
-                .orElse(attributes.toEntity());
+                .orElse(attributes.toUser());
 //        user.update(attributes.getName(), attributes.getPicture());    굳이 필요하지 않을것같아서!!!
         return userRepository.save(user);
     }

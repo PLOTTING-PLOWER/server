@@ -45,7 +45,7 @@ public class AuthService {
 //            String refreshToken = jwtUtil.generateRefreshToken(user);
 
             // 토큰 및 로그인 성공 메시지 반환
-            return new LoginResponse("Login successful", token, user.getEmail());
+            return LoginResponse.of("Login successful", token, user.getEmail());
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid email or password");
         }

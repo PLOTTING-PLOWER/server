@@ -6,6 +6,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,17 +17,21 @@ import java.util.Date;
 @Slf4j
 @Component
 public class JwtUtil {
+    // secretKey를 외부에서 접근 가능하도록 getter 추가
+    @Getter
+    private final String secretKey; // secretKey 저장
     private final Key key;
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 2;    // 2시간
     private final String ISSUER = "plotting";
 
     public JwtUtil(@Value("${jwt.secret}") String secretKey) {
+        this.secretKey = secretKey; // secretKey를 필드에 저장
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     public String generateToken(User user) {    //사용자 정보를 포함하는 JWT 토큰을 생성
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getId().toString())
                 .claim("nickname", user.getNickname())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
