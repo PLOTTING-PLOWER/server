@@ -1,5 +1,6 @@
 package com.plotting.server.plogging.application;
 
+import com.plotting.server.alarm.application.AlarmService;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
@@ -17,6 +18,8 @@ import java.time.LocalDate;
 
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_USER_NOT_FOUND;
+import static com.plotting.server.plogging.util.PloggingConstants.DIRECT_COMPLETE;
+import static com.plotting.server.plogging.util.PloggingConstants.FULL_RECRUIT;
 
 @Slf4j
 @Service
@@ -24,6 +27,7 @@ import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode
 @Transactional(readOnly = true)
 public class MyPloggingService {
 
+    private final AlarmService alarmService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
@@ -64,10 +68,11 @@ public class MyPloggingService {
         PloggingUser ploggingUser = getPloggingUser(ploggingUserId);
 
         if (ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId) >= plogging.getMaxPeople()) {
-            return "인원이 초과되었습니다.";
+            return FULL_RECRUIT.getMessage();
         } else {
             ploggingUser.assign();
-            return "승인되었습니다.";
+            alarmService.saveCompleteAlarm(ploggingUser.getUser(), plogging.getUser(), plogging);
+            return DIRECT_COMPLETE.getMessage();
         }
     }
 

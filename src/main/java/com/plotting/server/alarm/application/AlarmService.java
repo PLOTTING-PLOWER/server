@@ -13,21 +13,24 @@ import static com.plotting.server.plogging.util.PloggingConstants.*;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class AlarmService {
 
     private final AlarmRepository alarmRepository;
 
-    @Transactional
     public void saveDirectAlarm(User participant, User creator, Plogging plogging) {
         alarmRepository.save(Alarm.of(participant, plogging.getTitle() + DIRECT_PARTICIPANT.getMessage()));
         alarmRepository.save(Alarm.of(creator, participant.getNickname() + NAME.getMessage() + plogging.getTitle() + DIRECT_PARTICIPANT.getMessage()));
     }
 
-    @Transactional
     public void saveAssignAlarm(User participant, User creator, Plogging plogging) {
         alarmRepository.save(Alarm.of(participant, plogging.getTitle() + ASSIGN_COMPLETE_PARTICIPANT.getMessage()));
         alarmRepository.save(Alarm.of(creator, participant.getNickname() + NAME.getMessage() + plogging.getTitle() + ASSIGN_PARTICIPANT.getMessage()));
+    }
+
+    public void saveCompleteAlarm(User participant, User creator, Plogging plogging) {
+        alarmRepository.save(Alarm.of(participant, plogging.getTitle() + DIRECT_COMPLETE_PARTICIPANT.getMessage()));
+        alarmRepository.save(Alarm.of(creator, participant.getNickname() + NAME.getMessage() + plogging.getTitle() + DIRECT_PARTICIPANT.getMessage()));
     }
 }
