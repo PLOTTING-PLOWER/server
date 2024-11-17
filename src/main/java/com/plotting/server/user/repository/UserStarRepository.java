@@ -1,8 +1,6 @@
 package com.plotting.server.user.repository;
 
-import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.user.domain.UserStar;
-import com.plotting.server.user.dto.response.MyUserStarResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,4 +15,5 @@ public interface UserStarRepository extends JpaRepository<UserStar, Long> {
     List<UserStar> findAllByUserIdWithUser(Long userId);
 
     Optional<UserStar> findByUserIdAndStarUserId(Long userId, Long userStarId);
+    boolean existsByUserIdAndStarUserId(Long userId, Long starUserId);
 }

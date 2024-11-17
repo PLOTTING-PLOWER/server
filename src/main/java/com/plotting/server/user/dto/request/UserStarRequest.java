@@ -3,8 +3,8 @@ package com.plotting.server.user.dto.request;
 import lombok.Builder;
 
 @Builder
-public record RemoveUserStarRequest (
+public record UserStarRequest(
         Long userId,
-        Long userStarId
+        Long starUserId
 ){
 }

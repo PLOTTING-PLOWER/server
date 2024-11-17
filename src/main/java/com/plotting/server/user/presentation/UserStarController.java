@@ -2,7 +2,7 @@ package com.plotting.server.user.presentation;
 
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.user.application.UserStarService;
-import com.plotting.server.user.dto.request.RemoveUserStarRequest;
+import com.plotting.server.user.dto.request.UserStarRequest;
 import com.plotting.server.user.dto.response.MyUserStarListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +30,19 @@ public class UserStarController {
 
     @Operation(summary = "유저 즐겨 찾기 해제", description = "내가 즐겨찾기 한 사람 해제")
     @DeleteMapping("/remove")
-    public ResponseEntity<ResponseTemplate<?>> removeUserStar(@RequestBody RemoveUserStarRequest request){
+    public ResponseEntity<ResponseTemplate<?>> removeUserStar(@RequestBody UserStarRequest request){
         log.info("RemoveUserStarRequest: {}", request); // 요청 데이터 로그 출력
-        userStarService.removeUserStar(request.userId(), request.userStarId());
+        userStarService.deleteUserStar(request.userId(), request.starUserId());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.EMPTY_RESPONSE);
+    }
+
+    @Operation(summary = "유저 즐겨 찾기 추가", description = "내가 즐겨찾기 한 사람 해제")
+    @PostMapping("/add")
+    public ResponseEntity<ResponseTemplate<?>> addUserStar(@RequestBody UserStarRequest request){
+        log.info("addUserStarRequest: {}", request); // 요청 데이터 로그 출력
+        userStarService.addUserStar(request.userId(), request.starUserId());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.EMPTY_RESPONSE);
