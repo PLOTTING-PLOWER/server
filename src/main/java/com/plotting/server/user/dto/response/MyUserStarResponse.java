@@ -13,10 +13,10 @@ public record MyUserStarResponse(
 ) {
     public static MyUserStarResponse from(UserStar userStar) {
         return MyUserStarResponse.builder()
-                .userId(userStar.getUser().getId())
-                .profileImageUrl(userStar.getUser().getProfileImageUrl())
-                .nickname(userStar.getUser().getNickname())
-                .profileMessage(userStar.getUser().getProfileMessage())
+                .userId(userStar.getStarUser().getId())
+                .profileImageUrl(userStar.getStarUser().getProfileImageUrl())
+                .nickname(userStar.getStarUser().getNickname())
+                .profileMessage(userStar.getStarUser().getProfileMessage())
                 .build();
     }
 }
