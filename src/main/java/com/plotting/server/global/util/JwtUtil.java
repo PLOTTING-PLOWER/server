@@ -54,7 +54,7 @@ public class JwtUtil {
 
     public String getIdFromToken(String token) {     // 토큰에서 이메일 (사용자 식별자) 추출
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        return Long.parseLong(claims.getSubject());
+        return claims.getSubject();
     }
 
 
