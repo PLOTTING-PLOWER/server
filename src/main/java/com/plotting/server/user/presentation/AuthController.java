@@ -70,8 +70,9 @@ public class AuthController {
         User user =userRepository.save(User.createTestUser(tokenRequest.nickname()));
 
         String token = jwtUtil.generateToken(user);
+        String refreshToken = jwtUtil.generateRefreshToken(user);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(token));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(LoginResponse.of(token, refreshToken)));
     }
 
     @Operation(summary = "Access Token 재발급", description = "유효한 Refresh Token을 사용해 Access Token을 재발급")

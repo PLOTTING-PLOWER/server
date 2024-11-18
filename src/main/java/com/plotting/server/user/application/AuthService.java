@@ -53,7 +53,7 @@ public class AuthService {
             refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
 
             // 토큰 및 로그인 성공 메시지 반환
-            return LoginResponse.of("Login successful", token, refreshToken, user.getEmail());
+            return LoginResponse.of(token, refreshToken);
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid email or password");
         }
