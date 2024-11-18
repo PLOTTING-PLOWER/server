@@ -2,6 +2,7 @@ package com.plotting.server.user.application;
 
 import com.plotting.server.user.domain.User;
 import com.plotting.server.user.dto.request.SignUpRequest;
+import com.plotting.server.user.dto.response.MyProfileResponse;
 import com.plotting.server.user.exception.UserAlreadyExistsException;
 import com.plotting.server.user.exception.UserNotFoundException;
 import com.plotting.server.user.repository.UserRepository;
@@ -26,6 +27,10 @@ public class UserService {
     public User getUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+    }
+
+    public MyProfileResponse getMyProfile(Long userId){
+        return MyProfileResponse.from(getUser(userId));
     }
 
     @Transactional
