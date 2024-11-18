@@ -46,6 +46,7 @@ public class MyPloggingService {
     @Transactional
     public void updatePlogging(Long ploggingId, PloggingUpdateRequest request) {
         Plogging plogging = getPlogging(ploggingId);
+        alarmService.saveUpdatePloggingAlarm(plogging);
         plogging.update(request);
     }
 
