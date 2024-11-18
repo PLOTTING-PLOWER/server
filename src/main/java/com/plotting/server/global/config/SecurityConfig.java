@@ -37,8 +37,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf ->csrf.disable())        // CSRF 보호 비활성화 (REST API를 위한 설정)
                 .authorizeHttpRequests(auth->auth    // 권한 설정
-                        .requestMatchers("/auth/**",
-                                "/swagger-ui/", "/v3/api-docs/", "/swagger-resources/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
