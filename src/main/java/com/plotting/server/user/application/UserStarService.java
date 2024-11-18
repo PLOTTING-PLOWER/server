@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_STAR_NOT_FOUND;
 
@@ -24,7 +25,6 @@ public class UserStarService {
     private final UserStarRepository userStarRepository;
     private final UserService userService;
 
-
     public MyUserStarListResponse getMyUserStarList(Long userId) {
         List<MyUserStarResponse> myUserStarList = userStarRepository.findAllByUserIdWithUser(userId)
                 .stream()
@@ -36,27 +36,17 @@ public class UserStarService {
     }
 
     @Transactional
-    public void deleteUserStar(Long userId, Long starUserId) {
-        UserStar userStar = userStarRepository.findByUserIdAndStarUserId(userId, starUserId)
-                .orElseThrow(() -> new UserStarNotFoundException(USER_STAR_NOT_FOUND));
+    public void updateUserStar(Long userId, Long starUserId) {
+        Optional<UserStar> userStar = userStarRepository.findByUserIdAndStarUserId(userId, starUserId);
 
-        log.info("Deleting UserStar: {}", userStar);
-        userStarRepository.delete(userStar);
-    }
-
-    @Transactional
-    public void addUserStar(Long userId, Long starUserId) {
-        if(userStarRepository.existsByUserIdAndStarUserId(userId, starUserId)){
-            throw new RuntimeException("이미 즐겨찾기에 추가된 사용자입니다.");
+        if(userStar.isPresent()){       // 있으면 삭제
+            log.info("Deleting UserStar: {}", userStar);
+            userStarRepository.delete(userStar.get());
+        }else{      // 없으면 추가
+            log.info("Creating UserStar: {}", userStar);
+            User user = userService.getUser(userId);
+            User starUser = userService.getUser(starUserId);
+            userStarRepository.save(UserStar.of(user, starUser));
         }
-        User user = userService.getUser(userId);
-        User starUser = userService.getUser(starUserId);
-
-        UserStar userStar= UserStar.builder()
-                .user(user)
-                .starUser(starUser)
-                .build();
-
-        userStarRepository.save(userStar);
     }
 }

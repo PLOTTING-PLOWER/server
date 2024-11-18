@@ -28,21 +28,11 @@ public class UserStarController {
                 .body(ResponseTemplate.from(response));
     }
 
-    @Operation(summary = "유저 즐겨 찾기 해제", description = "내가 즐겨찾기 한 사람 해제")
-    @DeleteMapping("/remove")
-    public ResponseEntity<ResponseTemplate<?>> removeUserStar(@RequestBody UserStarRequest request){
-        log.info("RemoveUserStarRequest: {}", request); // 요청 데이터 로그 출력
-        userStarService.deleteUserStar(request.userId(), request.starUserId());
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseTemplate.EMPTY_RESPONSE);
-    }
-
-    @Operation(summary = "유저 즐겨 찾기 추가", description = "내가 즐겨찾기 한 사람 추가")
-    @PostMapping("/add")
-    public ResponseEntity<ResponseTemplate<?>> addUserStar(@RequestBody UserStarRequest request){
-        log.info("addUserStarRequest: {}", request); // 요청 데이터 로그 출력
-        userStarService.addUserStar(request.userId(), request.starUserId());
+    @Operation(summary = "유저 즐겨 찾기 추가/삭제", description = "내가 즐겨찾기 한 사람 추가")
+    @PostMapping("/update")
+    public ResponseEntity<ResponseTemplate<?>> updateUserStar(@RequestBody UserStarRequest request){
+        log.info("updateStarRequest: {}", request); // 요청 데이터 로그 출력
+        userStarService.updateUserStar(request.userId(), request.starUserId());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.EMPTY_RESPONSE);
