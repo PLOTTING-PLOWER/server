@@ -4,7 +4,6 @@ import com.plotting.server.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -45,15 +44,17 @@ public class JwtUtil {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        }catch (JwtException | IllegalArgumentException e){
-            log.error("Invalid JWT token: {}", e.getMessage());
-            return false;
+        }catch (JwtException e) {
+            log.error("Invalid JWT token. Reason: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.error("Token is null or empty. Reason: {}", e.getMessage());
         }
+        return false;
     }
 
-    public String getEmailFromToken(String token) {     // 토큰에서 이메일 (사용자 식별자) 추출
+    public String getIdFromToken(String token) {     // 토큰에서 이메일 (사용자 식별자) 추출
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        return claims.getSubject();
+        return Long.parseLong(claims.getSubject());
     }
 
 
