@@ -30,7 +30,7 @@ public class PloggingStarController {
                 .body(ResponseTemplate.from(response));
     }
 
-    @Operation(summary = "플로깅 즐겨 찾기 업데이트", description = "내가 즐겨찾기 한 사람 추가")
+    @Operation(summary = "플로깅 즐겨 찾기 업데이트", description = "내가 즐겨찾기 한 사람 업데이트")
     @PostMapping("/update")
     public ResponseEntity<ResponseTemplate<?>> updatePloggingStar(@RequestBody PloggingStarRequest request){
         log.info("updatePloggingStarRequest: {}", request); // 요청 데이터 로그 출력
