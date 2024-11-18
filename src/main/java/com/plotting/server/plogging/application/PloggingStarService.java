@@ -4,8 +4,6 @@ import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingStar;
 import com.plotting.server.plogging.dto.response.MyPloggingStarListResponse;
 import com.plotting.server.plogging.dto.response.PloggingResponse;
-import com.plotting.server.plogging.exception.PloggingStarNotFoundException;
-import com.plotting.server.plogging.exception.errorcode.PloggingErrorCode;
 import com.plotting.server.plogging.repository.PloggingStarRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.application.UserService;
