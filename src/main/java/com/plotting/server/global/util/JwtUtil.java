@@ -21,6 +21,7 @@ public class JwtUtil {
     private final String secretKey; // secretKey 저장
     private final Key key;
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 2;    // 2시간
+    private final long REFRESH_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;    // 7일
     private final String ISSUER = "plotting";
 
     public JwtUtil(@Value("${jwt.secret}") String secretKey) {
@@ -52,10 +53,16 @@ public class JwtUtil {
         return false;
     }
 
-    public String getIdFromToken(String token) {     // 토큰에서 이메일 (사용자 식별자) 추출
+    public Long getIdFromToken(String token) {     // 토큰에서 Id (사용자 식별자) 추출
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        return claims.getSubject();
+        return Long.parseLong(claims.getSubject());
     }
-
-
+    public String generateRefreshToken(User user) {
+        return Jwts.builder()
+                .setSubject(user.getId().toString())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() +REFRESH_EXPIRATION_TIME))
+                .signWith(key)
+                .compact();
+    }
 }

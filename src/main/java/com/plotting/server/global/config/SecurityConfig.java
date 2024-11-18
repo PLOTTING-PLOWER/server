@@ -3,6 +3,7 @@ package com.plotting.server.global.config;
 import com.plotting.server.global.filter.JwtAuthenticationFilter;
 import com.plotting.server.global.util.JwtUtil;
 import com.plotting.server.user.application.CustomOAuth2UserService;
+import com.plotting.server.user.application.RefreshTokenService;
 import com.plotting.server.user.application.UserDetailsServiceImpl;
 import com.plotting.server.user.presentation.CustomAuthenticationSuccessHandler;
 import com.plotting.server.user.repository.UserRepository;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableMethodSecurity
@@ -31,6 +33,7 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration; // 추가
+    private final RefreshTokenService refreshTokenService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -88,7 +91,7 @@ public class SecurityConfig {
 
     @Bean
     public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(){
-        return new CustomAuthenticationSuccessHandler(userRepository, jwtUtil);
+        return new CustomAuthenticationSuccessHandler(userRepository, refreshTokenService,jwtUtil);
     }
 
     @Bean

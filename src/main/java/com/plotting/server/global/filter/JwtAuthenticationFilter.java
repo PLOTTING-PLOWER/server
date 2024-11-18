@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(request);   // request 헤더에서 토큰 추출
 
         if(token != null && jwtUtil.validateToken(token)) {
-            Long userId = Long.valueOf(jwtUtil.getIdFromToken(token));
+            Long userId =jwtUtil.getIdFromToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUserId(userId);
             log.info("Extracted userId from JWT: {}", userId);
 
