@@ -7,6 +7,7 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.dto.request.LoginRequest;
 import com.plotting.server.user.dto.request.SignUpRequest;
 import com.plotting.server.user.dto.response.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class AuthController {
     private final AuthService authService;
 
     // 회원가입 엔드 포인트 :POST /auth/signUp
+    @Operation(summary = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseTemplate<?>> signUp(@RequestBody SignUpRequest signUpRequest){
         log.info("-----signUp-----");
@@ -35,6 +37,7 @@ public class AuthController {
     }
 
     // 일반 로그인 엔드 포인트
+    @Operation(summary = "로그인" ,description = "일반 회원 로그인")
     @PostMapping("/login/self")
     public ResponseEntity<ResponseTemplate<?>> login(@Valid @RequestBody LoginRequest loginRequest){
         log.info("-----일반 로그인-----");
