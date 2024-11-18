@@ -30,4 +30,11 @@ public class UserStar {
         this.user = user;
         this.starUser = starUser;
     }
+
+    public static UserStar of(User user, User starUser) {
+        return UserStar.builder()
+                .user(user)
+                .starUser(starUser)
+                .build();
+    }
 }
