@@ -4,7 +4,6 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.domain.UserStar;
 import com.plotting.server.user.dto.response.MyUserStarListResponse;
 import com.plotting.server.user.dto.response.MyUserStarResponse;
-import com.plotting.server.user.exception.UserStarNotFoundException;
 import com.plotting.server.user.repository.UserStarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
-import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_STAR_NOT_FOUND;
 
 @Service
 @Slf4j
@@ -32,7 +29,7 @@ public class UserStarService {
                 .toList();
 
         // UserStar -> MyUserStarResponse로 매핑
-        return MyUserStarListResponse.of(myUserStarList);
+        return MyUserStarListResponse.from(myUserStarList);
     }
 
     @Transactional

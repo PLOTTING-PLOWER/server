@@ -8,7 +8,7 @@ import java.util.List;
 public record MyUserStarListResponse(
         List<MyUserStarResponse> responses
 ) {
-    public static MyUserStarListResponse of(List<MyUserStarResponse> responses) {
+    public static MyUserStarListResponse from(List<MyUserStarResponse> responses) {
         return MyUserStarListResponse.builder()
                 .responses(responses)
                 .build();
