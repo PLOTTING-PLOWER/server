@@ -72,6 +72,9 @@ public class AuthController {
         String token = jwtUtil.generateToken(user);
         String refreshToken = jwtUtil.generateRefreshToken(user);
 
+        // 테스트 토큰 Redis에 Refresh Token 저장 코드 -> 필요없을시 주석 처리 ㄱㄱ
+        refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
+
         return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(LoginResponse.of(token, refreshToken)));
     }
 
