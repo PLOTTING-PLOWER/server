@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         throw new UnsupportedOperationException("Use loadUserById instead."); // 이메일 기반 검색 사용 안함
     }
 
-    public UserDetails loadUserById(Long userId) {
+    public UserDetails loadUserByUserId(Long userId) {
         log.info("Attempting to load user by id: {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new UsernameNotFoundException("user not found userId "));
