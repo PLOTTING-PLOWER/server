@@ -44,4 +44,12 @@ public class AlarmService {
                         Alarm.of(user, plogging.getUser().getNickname() + NAME.getMessage() + plogging.getTitle() + PLOGGING_UPDATE.getMessage())
                 ));
     }
+
+    public void saveDeletePloggingAlarm(Plogging plogging) {
+        ploggingUserRepository.findActivePloggingUsersByPloggingId(plogging.getId()).stream()
+                .map(PloggingUser::getUser)
+                .forEach(user -> alarmRepository.save(
+                        Alarm.of(user, plogging.getUser().getNickname() + NAME.getMessage() + plogging.getTitle() + PLOGGING_DELETE.getMessage())
+                ));
+    }
 }

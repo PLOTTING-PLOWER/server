@@ -52,6 +52,8 @@ public class MyPloggingService {
 
     @Transactional
     public void deleteMyPlogging(Long ploggingId) {
+        Plogging plogging = getPlogging(ploggingId);
+        alarmService.saveDeletePloggingAlarm(plogging);
         ploggingRepository.deleteById(ploggingId);
     }
 
