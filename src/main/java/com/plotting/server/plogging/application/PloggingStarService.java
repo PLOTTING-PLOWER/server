@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,39 +29,24 @@ public class PloggingStarService {
     private final PloggingUserRepository ploggingUserRepository;
 
     public MyPloggingStarListResponse getMyPloggingStarList(Long userId){
-        // 사용자가 즐겨찾기한 플로깅 데이터
-        List<PloggingResponse> ploggingResponses = ploggingStarRepository.findPloggingByUserId(userId)
-                .stream()
-                .map(plogging -> {
-                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
-                    return PloggingResponse.of(plogging, currentPeople);
-                })
-                .toList();
 
-        return MyPloggingStarListResponse.from(ploggingResponses);
+        return MyPloggingStarListResponse.from(ploggingStarRepository.findPloggingByUserId(userId).stream()
+                .map(plogging -> PloggingResponse.of(plogging, ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId()))                )
+                .toList());
     }
 
     @Transactional
-    public void deleteUserStar(Long userId, Long ploggingId) {
-        PloggingStar ploggingStar = ploggingStarRepository.findByUserIdAndPloggingId(userId, ploggingId)
-                .orElseThrow(() -> new PloggingStarNotFoundException(PloggingErrorCode.PLOGGING_STAR_NOT_FOUND));
+    public void updatePloggingStar(Long userId, Long ploggingId){
+        Optional<PloggingStar> ploggingStar = ploggingStarRepository.findByUserIdAndPloggingId(userId, ploggingId);
 
-        log.info("Deleting ploggingStar: {}", ploggingStar);
-        ploggingStarRepository.delete(ploggingStar);
-    }
+        if(ploggingStar.isPresent()){
+            log.info("Deleting ploggingStar: {}", ploggingStar);
+            ploggingStarRepository.delete(ploggingStar.get());
+        }else{
+            Plogging plogging = ploggingService.getPlogging(ploggingId);
+            User user = userService.getUser(userId);
 
-    @Transactional
-    public void addPloggingStar(Long userId, Long ploggingId) {
-        if(ploggingStarRepository.existsByUserIdAndPloggingId(userId, ploggingId)) {
-            throw new RuntimeException("PloggingStar already exists");
+            ploggingStarRepository.save(PloggingStar.of(user, plogging));
         }
-        Plogging plogging = ploggingService.getPlogging(ploggingId);
-        User user = userService.getUser(userId);
-
-        PloggingStar ploggingStar = PloggingStar.builder()
-                .user(user)
-                .plogging(plogging).build();
-
-        ploggingStarRepository.save(ploggingStar);
     }
 }

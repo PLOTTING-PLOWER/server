@@ -30,23 +30,14 @@ public class PloggingStarController {
                 .body(ResponseTemplate.from(response));
     }
 
-    @Operation(summary = "플로깅 즐겨 찾기 해제", description = "내가 즐겨찾기 한 플로깅 해제")
-    @DeleteMapping("/remove")
-    public ResponseEntity<ResponseTemplate<?>> removePloggingStar(@RequestBody PloggingStarRequest request){
-        log.info("RemovePloggingStarRequest: {}", request); // 요청 데이터 로그 출력
-        ploggingStarService.deleteUserStar(request.userId(), request.ploggingId());
+    @Operation(summary = "플로깅 즐겨 찾기 업데이트", description = "내가 즐겨찾기 한 사람 추가")
+    @PostMapping("/update")
+    public ResponseEntity<ResponseTemplate<?>> updatePloggingStar(@RequestBody PloggingStarRequest request){
+        log.info("updatePloggingStarRequest: {}", request); // 요청 데이터 로그 출력
+        ploggingStarService.updatePloggingStar(request.userId(), request.ploggingId());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
-    @Operation(summary = "플로깅 즐겨 찾기 추가", description = "내가 즐겨찾기 한 사람 추가")
-    @PostMapping("/add")
-    public ResponseEntity<ResponseTemplate<?>> addPloggingStar(@RequestBody PloggingStarRequest request){
-        log.info("addPloggingStarRequest: {}", request); // 요청 데이터 로그 출력
-        ploggingStarService.addPloggingStar(request.userId(), request.ploggingId());
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseTemplate.EMPTY_RESPONSE);
-    }
 }
