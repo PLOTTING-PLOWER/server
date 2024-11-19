@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.info("User found: {}", user.getEmail());
 
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
+                String.valueOf(user.getId()),
                 user.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
         );
