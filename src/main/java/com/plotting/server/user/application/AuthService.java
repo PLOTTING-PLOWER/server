@@ -26,7 +26,6 @@ import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NO
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
-    private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -49,9 +48,6 @@ public class AuthService {
             String token = jwtUtil.generateToken(user);
             String refreshToken = jwtUtil.generateRefreshToken(user);
 
-            // Redis에 Refresh Token 저장
-            refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
-
             // 토큰 및 로그인 성공 메시지 반환
             return LoginResponse.of(token, refreshToken);
         } catch (BadCredentialsException e) {
@@ -68,13 +64,6 @@ public class AuthService {
 
         // refresh 토큰에서 사용자 id 추출
         Long userId = jwtUtil.getIdFromToken(refreshToken);
-
-        //refresh token이 유효한지 확인
-        String storedToken = refreshTokenService.getRefreshToken(userId);
-        if (storedToken == null || !storedToken.equals(refreshToken)) {
-            log.error("Stored token and provided token do not match for userId: {}", userId);
-            throw new TokenNotValidateException(TOKEN_NOT_VALIDATE);
-        }
 
         // 새로운 Access Token 생성
         User user = userRepository.findById(userId)

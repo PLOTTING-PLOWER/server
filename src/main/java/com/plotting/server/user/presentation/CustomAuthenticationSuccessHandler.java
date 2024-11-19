@@ -1,7 +1,6 @@
 package com.plotting.server.user.presentation;
 
 import com.plotting.server.global.util.JwtUtil;
-import com.plotting.server.user.application.RefreshTokenService;
 import com.plotting.server.user.domain.User;
 import com.plotting.server.user.domain.UserType.LoginType;
 import com.plotting.server.user.domain.UserType.Role;
@@ -22,7 +21,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
-    private final RefreshTokenService refreshTokenService;
     private final JwtUtil jwtUtil;
 
     // 인증 성공 시
@@ -50,9 +48,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         //Jwt 토큰 생성
         String token = jwtUtil.generateToken(user);
         String refreshToken = jwtUtil.generateRefreshToken(user);
-
-        // 토큰 저장
-        refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
 
 
         // 클라이언트에 토큰 전달

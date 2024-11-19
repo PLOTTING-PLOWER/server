@@ -3,7 +3,6 @@ package com.plotting.server.global.config;
 import com.plotting.server.global.filter.JwtAuthenticationFilter;
 import com.plotting.server.global.util.JwtUtil;
 import com.plotting.server.user.application.CustomOAuth2UserService;
-import com.plotting.server.user.application.RefreshTokenService;
 import com.plotting.server.user.application.UserDetailsServiceImpl;
 import com.plotting.server.user.presentation.CustomAuthenticationSuccessHandler;
 import com.plotting.server.user.repository.UserRepository;
@@ -33,7 +32,6 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration; // 추가
-    private final RefreshTokenService refreshTokenService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -91,7 +89,7 @@ public class SecurityConfig {
 
     @Bean
     public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(){
-        return new CustomAuthenticationSuccessHandler(userRepository, refreshTokenService,jwtUtil);
+        return new CustomAuthenticationSuccessHandler(userRepository,jwtUtil);
     }
 
     @Bean

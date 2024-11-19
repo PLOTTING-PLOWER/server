@@ -13,8 +13,6 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOriginPattern("http://localhost:8080"); // 로컬 호스 개방
-        config.addAllowedOrigin("http://43.203.55.24:8081"); // 배포 서버
-        config.addAllowedOrigin("http://43.203.55.24:8080"); // 배포 서버
         config.addAllowedMethod("*");       // 모든 HTTP 메서드 허용 (GET, POST 등)
         config.addAllowedHeader("*");       // 모든 헤더 허용
         config.setAllowCredentials(true);   // 인증 정보 허용 (Authorization 헤더 포함)

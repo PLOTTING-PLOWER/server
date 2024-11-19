@@ -4,7 +4,6 @@ import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.global.exception.errorcode.ErrorCode;
 import com.plotting.server.global.util.JwtUtil;
 import com.plotting.server.user.application.AuthService;
-import com.plotting.server.user.application.RefreshTokenService;
 import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
 import com.plotting.server.user.dto.request.LoginRequest;
@@ -37,7 +36,6 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-    private final RefreshTokenService refreshTokenService;
 
     // 회원가입 엔드 포인트 :POST /auth/signUp
     @Operation(summary = "회원가입")
@@ -71,9 +69,6 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(user);
         String refreshToken = jwtUtil.generateRefreshToken(user);
-
-        // 테스트 토큰 Redis에 Refresh Token 저장 코드 -> 필요없을시 주석 처리 ㄱㄱ
-        refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(LoginResponse.of(token, refreshToken)));
     }
