@@ -78,6 +78,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .content("동작 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(10L)
                     .ploggingType(ASSIGN)
+                      
                     .recruitStartDate(LocalDate.parse("2024-09-15"))
                     .recruitEndDate(LocalDate.parse("2024-11-20"))
                     .startTime(LocalDateTime.of(2024, 11, 21, 12, 0, 0))
