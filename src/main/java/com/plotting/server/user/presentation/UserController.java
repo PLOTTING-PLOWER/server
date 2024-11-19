@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +26,10 @@ public class UserController {
     private final UserService userService;
 
     @Operation(summary = "프로필 조회", description = "마이페이지 프로필 조회")
-    @GetMapping("/mypage/profile/{userId}")
-    public ResponseEntity<ResponseTemplate<?>> getMyProfile(@PathVariable Long userId) {
+    @GetMapping("/mypage/profile")
+    public ResponseEntity<ResponseTemplate<?>> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
 
-        MyProfileResponse response = userService.getMyProfile(userId);
+        MyProfileResponse response = userService.getMyProfile(Long.valueOf(userDetails.getUsername()));     // userDetails.getUsername() => 유저 Id 반환
 
         return ResponseEntity
                 .status(HttpStatus.OK)
