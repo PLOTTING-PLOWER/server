@@ -4,7 +4,6 @@ import com.plotting.server.user.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,7 @@ public class JwtUtil {
     private final String secretKey; // secretKey 저장
     private final Key key;
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 2;    // 2시간
+    private final long REFRESH_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;    // 7일
     private final String ISSUER = "plotting";
 
     public JwtUtil(@Value("${jwt.secret}") String secretKey) {
@@ -45,16 +45,24 @@ public class JwtUtil {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        }catch (JwtException | IllegalArgumentException e){
-            log.error("Invalid JWT token: {}", e.getMessage());
-            return false;
+        }catch (JwtException e) {
+            log.error("Invalid JWT token. Reason: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.error("Token is null or empty. Reason: {}", e.getMessage());
         }
+        return false;
     }
 
-    public String getEmailFromToken(String token) {     // 토큰에서 이메일 (사용자 식별자) 추출
+    public Long getIdFromToken(String token) {     // 토큰에서 Id (사용자 식별자) 추출
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        return claims.getSubject();
+        return Long.parseLong(claims.getSubject());
     }
-
-
+    public String generateRefreshToken(User user) {
+        return Jwts.builder()
+                .setSubject(user.getId().toString())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() +REFRESH_EXPIRATION_TIME))
+                .signWith(key)
+                .compact();
+    }
 }
