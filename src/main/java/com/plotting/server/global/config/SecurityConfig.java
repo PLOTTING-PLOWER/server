@@ -13,13 +13,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -35,7 +34,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf ->csrf.disable())        // CSRF 보호 비활성화 (REST API를 위한 설정)
+                .csrf(AbstractHttpConfigurer::disable)        // CSRF 보호 비활성화 (REST API를 위한 설정)
                 .authorizeHttpRequests(auth->auth    // 권한 설정
                         .requestMatchers("/auth/**",
                                 "/swagger-ui/", "/v3/api-docs/", "/swagger-resources/**").permitAll()
@@ -45,7 +44,6 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 비활성화 (JWT 사용)
                 // JWT 인증 필터
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-
                 // OAuth2 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(auth -> auth
