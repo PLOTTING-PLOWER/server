@@ -1,18 +1,13 @@
 package com.plotting.server.user.presentation;
 
 import com.plotting.server.global.dto.ResponseTemplate;
-import com.plotting.server.global.exception.errorcode.ErrorCode;
 import com.plotting.server.global.util.JwtUtil;
 import com.plotting.server.user.application.AuthService;
 import com.plotting.server.user.application.UserService;
-import com.plotting.server.user.domain.User;
 import com.plotting.server.user.dto.request.LoginRequest;
 import com.plotting.server.user.dto.request.RefreshTokenRequest;
 import com.plotting.server.user.dto.request.SignUpRequest;
-import com.plotting.server.user.dto.request.TestTokenRequest;
 import com.plotting.server.user.dto.response.LoginResponse;
-import com.plotting.server.user.exception.TokenNotValidateException;
-import com.plotting.server.user.exception.UserNotFoundException;
 import com.plotting.server.user.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,8 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NOT_FOUND;
 
 @Tag(name="Auth", description = "인증 관련 api")
 @Slf4j
@@ -62,15 +55,13 @@ public class AuthController {
     // 토큰 생성 API
     @Operation(summary = "jwt 토큰 생성", description = "테스트용 jwt 토큰 생성")
     @PostMapping("/test-token")
-    public ResponseEntity<ResponseTemplate<?>> generateToken(@RequestBody TestTokenRequest tokenRequest){
+    public ResponseEntity<ResponseTemplate<?>> generateToken(@RequestBody Long userId){
         log.info("----creadte jwt test token ----");
 
-        User user =userRepository.save(User.createTestUser(tokenRequest.nickname()));
+        String token = jwtUtil.generateToken(userService.getUser(userId));
+        //String refreshToken = jwtUtil.generateRefreshToken(user);
 
-        String token = jwtUtil.generateToken(user);
-        String refreshToken = jwtUtil.generateRefreshToken(user);
-
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(LoginResponse.of(token, refreshToken)));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(token));
     }
 
     @Operation(summary = "Access Token 재발급", description = "유효한 Refresh Token을 사용해 Access Token을 재발급")
