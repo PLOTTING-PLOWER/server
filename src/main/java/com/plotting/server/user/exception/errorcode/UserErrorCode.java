@@ -11,6 +11,7 @@ public enum UserErrorCode implements ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User not found"),
     USER_STAR_NOT_FOUND(HttpStatus.NOT_FOUND, "UserStar not found"),
     USER_ALREADY_EXISTS(HttpStatus.ALREADY_REPORTED, "User already exists"),
+    TOKEN_NOT_VALIDATE(HttpStatus.UNAUTHORIZED, "token not validate"),
     ;
 
     private final HttpStatus httpStatus;
