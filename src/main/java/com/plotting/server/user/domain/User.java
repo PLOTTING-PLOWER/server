@@ -92,7 +92,6 @@ public class User extends BaseTimeEntity {
     public void update(MyProfileUpdateRequest request){
         this.nickname = request.nickname();
         this.profileMessage = request.profileMessage();
-        this.profileImageUrl= request.profileImageUrl();
         this.isProfilePublic = request.isProfilePublic();
     }
 

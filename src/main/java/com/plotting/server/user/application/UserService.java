@@ -1,5 +1,6 @@
 package com.plotting.server.user.application;
 
+import com.plotting.server.global.application.S3Service;
 import com.plotting.server.plogging.application.MyPloggingService;
 import com.plotting.server.plogging.dto.response.PloggingStatsResponse;
 import com.plotting.server.ranking.application.RankingService;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_ALREADY_EXISTS;
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NOT_FOUND;
@@ -34,6 +36,7 @@ public class UserService {
     private final UserStarRepository userStarRepository;
     private final RankingService rankingService;
     private final MyPloggingService myPloggingService;
+    private final S3Service s3Service;
 
     public User getUser(Long userId) {
         return userRepository.findById(userId)
@@ -73,10 +76,16 @@ public class UserService {
     }
 
     @Transactional
-    public void updateMyProfile(Long userId, MyProfileUpdateRequest myProfileRequest){
+    public void updateMyProfile(Long userId, MultipartFile profileImage, MyProfileUpdateRequest myProfileRequest){
         log.info("-----updateMyProfile-----");
 
-        getUser(userId).update(myProfileRequest);
+        User user = getUser(userId);
+        if(profileImage!=null && !profileImage.isEmpty()){
+            s3Service.deleteFile(user.getProfileImageUrl());    // 기존 이미지 제거
+            s3Service.uploadFile(profileImage, "profile-images");   // 이미지 추가
+        }
+
+        user.update(myProfileRequest);
 
     }
 }
