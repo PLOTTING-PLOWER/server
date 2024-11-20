@@ -7,14 +7,12 @@ import lombok.Builder;
 public record MyProfileUpdateRequest(
         String nickname,
         String profileMessage,
-        String profileImageUrl,
         Boolean isProfilePublic
 ) {
     public static MyProfileUpdateRequest from(User user) {
         return MyProfileUpdateRequest.builder()
                 .nickname(user.getNickname())
                 .profileMessage(user.getProfileMessage())
-                .profileImageUrl(user.getProfileImageUrl())
                 .isProfilePublic(user.getIsProfilePublic())
                 .build();
     }

@@ -1,5 +1,6 @@
 package com.plotting.server.user.presentation;
 
+import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
@@ -10,10 +11,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "user", description = "사용자 관련 API")
 @Slf4j
@@ -25,9 +28,9 @@ public class UserController {
 
     @Operation(summary = "프로필 조회", description = "마이페이지 프로필 조회")
     @GetMapping("/mypage/profile")
-    public ResponseEntity<ResponseTemplate<?>> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<ResponseTemplate<?>> getMyProfile(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        MyProfileResponse response = userService.getMyProfile(Long.valueOf(userDetails.getUsername()));     // userDetails.getUsername() => 유저 Id 반환
+        MyProfileResponse response = userService.getMyProfile(Long.valueOf(jwtUserDetails.userId()));     // userDetails.getUsername() => 유저 Id 반환
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -36,9 +39,9 @@ public class UserController {
 
     @Operation(summary = "프로필 상세정보 조회", description = "다른 사용자 프로필 상세정보 조회")
     @GetMapping("/profile/{profileId}")
-    public ResponseEntity<ResponseTemplate<?>> getDetailProfile(@PathVariable Long profileId, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<ResponseTemplate<?>> getDetailProfile(@PathVariable Long profileId, @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        DetailProfileResponse response = userService.getDetailProfile(profileId, Long.valueOf(userDetails.getUsername()));     // userDetails.getUsername() => 유저 Id 반환
+        DetailProfileResponse response = userService.getDetailProfile(profileId, Long.valueOf(jwtUserDetails.userId()));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -46,12 +49,13 @@ public class UserController {
     }
 
     @Operation(summary = "프로필 수정" , description = "마이페이지 프로필 수정")
-    @PatchMapping("/mypage/profile/edit")
+    @PatchMapping(value="/mypage/profile/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResponseTemplate<?>> updateMyProfile(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody MyProfileUpdateRequest myProfileRequest){
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImage,
+            @RequestPart(value = "profileData") MyProfileUpdateRequest myProfileRequest){
 
-        userService.updateMyProfile(Long.valueOf(userDetails.getUsername()), myProfileRequest);
+        userService.updateMyProfile(Long.valueOf(jwtUserDetails.userId()), profileImage, myProfileRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
