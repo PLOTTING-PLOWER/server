@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,12 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/mypage")
 public class UserController {
     private final UserService userService;
 
     @Operation(summary = "프로필 조회", description = "마이페이지 프로필 조회")
-    @GetMapping("/mypage/profile")
+    @GetMapping("/profile")
     public ResponseEntity<ResponseTemplate<?>> getMyProfile(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
         MyProfileResponse response = userService.getMyProfile(Long.valueOf(jwtUserDetails.userId()));     // userDetails.getUsername() => 유저 Id 반환
@@ -38,7 +37,7 @@ public class UserController {
     }
 
     @Operation(summary = "프로필 상세정보 조회", description = "다른 사용자 프로필 상세정보 조회")
-    @GetMapping("/profile/{profileId}")
+    @GetMapping("/{profileId}")
     public ResponseEntity<ResponseTemplate<?>> getDetailProfile(@PathVariable Long profileId, @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
         DetailProfileResponse response = userService.getDetailProfile(profileId, Long.valueOf(jwtUserDetails.userId()));
@@ -49,7 +48,7 @@ public class UserController {
     }
 
     @Operation(summary = "프로필 수정" , description = "마이페이지 프로필 수정")
-    @PatchMapping(value="/mypage/profile/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PatchMapping(value="/profile/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResponseTemplate<?>> updateMyProfile(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @RequestPart(value = "profileImage", required = false) MultipartFile profileImage,
@@ -61,6 +60,9 @@ public class UserController {
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
+
+    @Operation(summary = "회원 탈퇴", description = "탈퇴하기")
+    @
 
 
 }

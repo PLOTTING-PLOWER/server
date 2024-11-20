@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/mypage/star/users")
+@RequestMapping("/star/users")
 public class UserStarController {
 
     private final UserStarService userStarService;

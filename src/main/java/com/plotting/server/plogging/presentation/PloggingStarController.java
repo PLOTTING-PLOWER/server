@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/mypage/star/plogging")
+@RequestMapping("/star/plogging")
 public class PloggingStarController {
 
     private final PloggingStarService ploggingStarService;
