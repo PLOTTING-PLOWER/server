@@ -2,7 +2,7 @@ package com.plotting.server.user.presentation;
 
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.user.application.UserService;
-import com.plotting.server.user.domain.User;
+import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import com.plotting.server.user.dto.response.DetailProfileResponse;
 import com.plotting.server.user.dto.response.MyProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,5 +44,19 @@ public class UserController {
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
     }
+
+    @Operation(summary = "프로필 수정" , description = "마이페이지 프로필 수정")
+    @PatchMapping("/mypage/profile/edit")
+    public ResponseEntity<ResponseTemplate<?>> updateMyProfile(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody MyProfileUpdateRequest myProfileRequest){
+
+        userService.updateMyProfile(Long.valueOf(userDetails.getUsername()), myProfileRequest);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.EMPTY_RESPONSE);
+    }
+
 
 }

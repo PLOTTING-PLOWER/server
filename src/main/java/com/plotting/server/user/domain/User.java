@@ -3,6 +3,7 @@ package com.plotting.server.user.domain;
 import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.user.domain.UserType.LoginType;
 import com.plotting.server.user.domain.UserType.Role;
+import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -86,6 +87,13 @@ public class User extends BaseTimeEntity {
                 .isProfilePublic(true)       // 프로필 공개 여부
                 .fcmToken("test_fcm_token")  // 임시 FCM 토큰
                 .build();
+    }
+
+    public void update(MyProfileUpdateRequest request){
+        this.nickname = request.nickname();
+        this.profileMessage = request.profileMessage();
+        this.profileImageUrl= request.profileImageUrl();
+        this.isProfilePublic = request.isProfilePublic();
     }
 
 }

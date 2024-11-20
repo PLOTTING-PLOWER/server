@@ -5,6 +5,7 @@ import com.plotting.server.plogging.dto.response.PloggingStatsResponse;
 import com.plotting.server.ranking.application.RankingService;
 import com.plotting.server.ranking.domain.Ranking;
 import com.plotting.server.user.domain.User;
+import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import com.plotting.server.user.dto.request.SignUpRequest;
 import com.plotting.server.user.dto.response.DetailProfileResponse;
 import com.plotting.server.user.dto.response.MyProfileResponse;
@@ -58,7 +59,7 @@ public class UserService {
     }
 
     public DetailProfileResponse getDetailProfile(Long profileId, Long viewerId) {
-        log.info("-----getDetailProfile----- ");
+//        log.info("-----getDetailProfile----- ");
         User user = getUser(profileId);
         if (!user.getIsProfilePublic()) {
             throw new ProfileNotPublicException(USER_NOT_FOUND);
@@ -69,5 +70,13 @@ public class UserService {
         PloggingStatsResponse ploggingStats= myPloggingService.getPloggingStats(profileId);
 
         return DetailProfileResponse.of(user, isStar, ranking, ploggingStats.totalPloggingNumber(), ploggingStats.totalPloggingTime());
+    }
+
+    @Transactional
+    public void updateMyProfile(Long userId, MyProfileUpdateRequest myProfileRequest){
+        log.info("-----updateMyProfile-----");
+
+        getUser(userId).update(myProfileRequest);
+
     }
 }
