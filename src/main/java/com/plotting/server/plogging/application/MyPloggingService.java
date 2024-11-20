@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_USER_NOT_FOUND;
@@ -88,5 +90,23 @@ public class MyPloggingService {
     public PloggingUser getPloggingUser(Long ploggingUserId) {
         return ploggingUserRepository.findById(ploggingUserId)
                 .orElseThrow(() -> new PloggingUserNotFoundException(PLOGGING_USER_NOT_FOUND));
+    }
+
+    public PloggingStatsResponse getPloggingStats(Long ploggingUserId){
+        List<PloggingTimeResponse> ploggingTimes = ploggingRepository.findAllPloggingTimeByUserId(ploggingUserId);
+
+        long totalPloggingNumber = ploggingTimes.stream()
+                .filter(p -> p.startTime().plusMinutes(p.spendTime()).isBefore(LocalDateTime.now())) // 종료된 플로깅 필터링
+                .count();
+
+        long totalPloggingTime = ploggingTimes.stream()
+                .filter(p -> p.startTime().plusMinutes(p.spendTime()).isBefore(LocalDateTime.now())) // 종료된 플로깅 필터링
+                .mapToLong(PloggingTimeResponse::spendTime) // spendTime 합산
+                .sum();
+
+        return PloggingStatsResponse.builder()
+                .totalPloggingNumber(totalPloggingNumber)
+                .totalPloggingTime(totalPloggingTime)
+                .build();
     }
 }
