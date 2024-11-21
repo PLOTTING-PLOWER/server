@@ -1,15 +1,15 @@
 package com.plotting.server.plogging.presentation;
 
+import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.PloggingStarService;
-import com.plotting.server.plogging.dto.request.PloggingStarRequest;
 import com.plotting.server.plogging.dto.response.MyPloggingStarListResponse;
-import com.plotting.server.user.dto.request.UserStarRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -22,8 +22,8 @@ public class PloggingStarController {
 
     @Operation(summary = "플로깅 즐겨 찾기 목록 조회", description = "내가 추가한 즐겨찾기 한 플로깅 목록을 조회합니다.")
     @GetMapping("/list")
-    public ResponseEntity<ResponseTemplate<?>> getMyPloggingStarList(@RequestParam Long userId){
-        MyPloggingStarListResponse response = ploggingStarService.getMyPloggingStarList(userId);
+    public ResponseEntity<ResponseTemplate<?>> getMyPloggingStarList(@AuthenticationPrincipal JwtUserDetails jwtUserDetails){
+        MyPloggingStarListResponse response = ploggingStarService.getMyPloggingStarList(jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -31,10 +31,11 @@ public class PloggingStarController {
     }
 
     @Operation(summary = "플로깅 즐겨 찾기 업데이트", description = "내가 즐겨찾기 한 사람 업데이트")
-    @PostMapping("/update")
-    public ResponseEntity<ResponseTemplate<?>> updatePloggingStar(@RequestBody PloggingStarRequest request){
-        log.info("updatePloggingStarRequest: {}", request); // 요청 데이터 로그 출력
-        ploggingStarService.updatePloggingStar(request.userId(), request.ploggingId());
+    @PostMapping("/update/{ploggingId}")
+    public ResponseEntity<ResponseTemplate<?>> updatePloggingStar(
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
+            @PathVariable Long ploggingId){
+        ploggingStarService.updatePloggingStar(jwtUserDetails.userId(), ploggingId);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.EMPTY_RESPONSE);
