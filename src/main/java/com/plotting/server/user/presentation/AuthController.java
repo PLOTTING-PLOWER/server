@@ -65,8 +65,8 @@ public class AuthController {
 
     // 토큰 생성 API
     @Operation(summary = "jwt 토큰 생성", description = "테스트용 jwt 토큰 생성")
-    @PostMapping("/test-token/{userId}")
-    public ResponseEntity<ResponseTemplate<?>> generateToken(@PathVariable Long userId){
+    @PostMapping("/test-token")
+    public ResponseEntity<ResponseTemplate<?>> generateToken(@RequestParam Long userId){
         log.info("----creadte jwt test token ----");
 
         String token = jwtUtil.generateToken(userService.getUser(userId));

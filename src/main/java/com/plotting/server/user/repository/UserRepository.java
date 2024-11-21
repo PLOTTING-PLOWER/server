@@ -27,9 +27,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "ORDER BY COUNT(s.id) DESC " +
             "LIMIT 5")
     List<User> findTop5Users();
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE User u SET u.role = :role WHERE u.id= :userId")
-    void updateUserRoleById(Long userId, Role role);
 }

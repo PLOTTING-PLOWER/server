@@ -46,7 +46,6 @@ public class User extends BaseTimeEntity {
     @Column(name = "is_profile_public", nullable = false)
     private Boolean isProfilePublic;
 
-    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
@@ -91,6 +90,10 @@ public class User extends BaseTimeEntity {
         this.nickname = request.nickname();
         this.profileMessage = request.profileMessage();
         this.isProfilePublic = request.isProfilePublic();
+    }
+
+    public void updateRole(Role role){
+        this.role = role;
     }
 
 }

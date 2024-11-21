@@ -23,7 +23,7 @@ public class UserStarService {
     private final UserService userService;
 
     public MyUserStarListResponse getMyUserStarList(Long userId) {
-        List<MyUserStarResponse> myUserStarList = userStarRepository.findAllByUserIdWithUser(userId)
+        List<MyUserStarResponse> myUserStarList = userStarRepository.findAllByUserIdWithFetch(userId)
                 .stream()
                 .map(MyUserStarResponse::from)
                 .toList();

@@ -55,7 +55,7 @@ public class CustomOAuth2UserService implements OAuth2UserService <OAuth2UserReq
                 .map(existingUser -> {
                     // 탈퇴 상태라면 상태를 활성화로 변경
                     if (existingUser.getRole() == Role.WITHDRAWN) {
-                        existingUser.setRole(Role.USER);
+                        existingUser.updateRole(Role.USER);
                     }
                     // 기존 정보를 업데이트 (필요한 경우 추가 필드를 업데이트 가능)
                     return existingUser;

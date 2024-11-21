@@ -61,7 +61,7 @@ public class UserService {
         Ranking ranking = rankingService.getRanking(profileId);
         PloggingStatsResponse ploggingStats= myPloggingService.getPloggingStats(profileId);
 
-        return DetailProfileResponse.of(user, isStar, ranking, ploggingStats.totalPloggingNumber(), ploggingStats.totalPloggingTime());
+        return DetailProfileResponse.of(user, isStar, ranking, ploggingStats);
     }
 
     @Transactional

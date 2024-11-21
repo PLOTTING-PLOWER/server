@@ -104,9 +104,6 @@ public class MyPloggingService {
                 .mapToLong(PloggingTimeResponse::spendTime) // spendTime 합산
                 .sum();
 
-        return PloggingStatsResponse.builder()
-                .totalPloggingNumber(totalPloggingNumber)
-                .totalPloggingTime(totalPloggingTime)
-                .build();
+        return PloggingStatsResponse.of(totalPloggingNumber, totalPloggingTime);
     }
 }

@@ -101,7 +101,7 @@ public class AuthService {
 
     @Transactional
     public void updateUserRoleWithdraw(Long userId) {
-        userRepository.updateUserRoleById(userId, Role.WITHDRAWN);
+        userService.getUser(userId).updateRole(Role.WITHDRAWN);
     }
 }
 
