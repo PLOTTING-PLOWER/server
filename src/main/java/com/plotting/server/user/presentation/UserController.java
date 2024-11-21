@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<ResponseTemplate<?>> getMyProfile(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        MyProfileResponse response = userService.getMyProfile(Long.valueOf(jwtUserDetails.userId()));     // userDetails.getUsername() => 유저 Id 반환
+        MyProfileResponse response = userService.getMyProfile(jwtUserDetails.userId());     // userDetails.getUsername() => 유저 Id 반환
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -40,7 +40,7 @@ public class UserController {
     @GetMapping("/{profileId}")
     public ResponseEntity<ResponseTemplate<?>> getDetailProfile(@PathVariable Long profileId, @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        DetailProfileResponse response = userService.getDetailProfile(profileId, Long.valueOf(jwtUserDetails.userId()));
+        DetailProfileResponse response = userService.getDetailProfile(profileId, jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -54,7 +54,7 @@ public class UserController {
             @RequestPart(value = "profileImage", required = false) MultipartFile profileImage,
             @RequestPart(value = "profileData") MyProfileUpdateRequest myProfileRequest){
 
-        userService.updateMyProfile(Long.valueOf(jwtUserDetails.userId()), profileImage, myProfileRequest);
+        userService.updateMyProfile(jwtUserDetails.userId(), profileImage, myProfileRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
