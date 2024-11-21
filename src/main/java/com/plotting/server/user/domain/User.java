@@ -5,10 +5,7 @@ import com.plotting.server.user.domain.UserType.LoginType;
 import com.plotting.server.user.domain.UserType.Role;
 import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Table(name = "user")
 @Getter
@@ -49,6 +46,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "is_profile_public", nullable = false)
     private Boolean isProfilePublic;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;

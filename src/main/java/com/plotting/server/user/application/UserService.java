@@ -6,6 +6,7 @@ import com.plotting.server.plogging.dto.response.PloggingStatsResponse;
 import com.plotting.server.ranking.application.RankingService;
 import com.plotting.server.ranking.domain.Ranking;
 import com.plotting.server.user.domain.User;
+import com.plotting.server.user.domain.UserType.Role;
 import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import com.plotting.server.user.dto.request.SignUpRequest;
 import com.plotting.server.user.dto.response.DetailProfileResponse;
@@ -32,7 +33,6 @@ import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NO
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final UserStarRepository userStarRepository;
     private final RankingService rankingService;
     private final MyPloggingService myPloggingService;
@@ -47,25 +47,14 @@ public class UserService {
         return MyProfileResponse.from(getUser(userId));
     }
 
-    @Transactional
-    public User registerUser(SignUpRequest signUpRequest) {
-        log.info("Registering user with email: {}", signUpRequest.email());
-        // 이메일 중복 체크
-        if (userRepository.existsByEmail(signUpRequest.email())){
-            throw new UserAlreadyExistsException(USER_ALREADY_EXISTS);
-        }
-
-        User user = signUpRequest.toUser(passwordEncoder);
-
-        // DB에 사용자 정보 저장
-        return userRepository.save(user);
-    }
-
     public DetailProfileResponse getDetailProfile(Long profileId, Long viewerId) {
 //        log.info("-----getDetailProfile----- ");
         User user = getUser(profileId);
         if (!user.getIsProfilePublic()) {
             throw new ProfileNotPublicException(USER_NOT_FOUND);
+        }
+        if(user.getRole() == Role.WITHDRAWN){       // 탈퇴여부
+            throw new UserNotFoundException(USER_NOT_FOUND);
         }
 
         Boolean isStar = userStarRepository.existsByUserIdAndStarUserId(viewerId, profileId);
