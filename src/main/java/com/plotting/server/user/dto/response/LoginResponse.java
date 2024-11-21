@@ -4,16 +4,14 @@ import lombok.Builder;
 
 @Builder
 public record LoginResponse(
-        String message,
         String token,
-        String email
+        String refreshToken
 ) {
     // 정적 팩토리 메서드 추가
-    public static LoginResponse of(String message, String token, String email) {
+    public static LoginResponse of(String token, String refreshToken) {
         return LoginResponse.builder()
-                .message(message)
                 .token(token)
-                .email(email)
+                .refreshToken(refreshToken)
                 .build();
     }
 }
