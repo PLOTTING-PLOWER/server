@@ -43,11 +43,10 @@ public class PloggingController {
     private final PloggingMapService ploggingMapService;
 
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
-    @GetMapping("/home/{ploggingId}/{userId}")
+    @GetMapping("/home/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> getHome(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
-            @PathVariable Long ploggingId
-    ) {
+            @PathVariable Long ploggingId) {
 
         ploggingService.getHome(jwtUserDetails.userId(), ploggingId);
 
@@ -60,8 +59,7 @@ public class PloggingController {
     @PostMapping
     public ResponseEntity<ResponseTemplate<?>> createPlogging(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
-            @RequestBody PloggingRequest ploggingRequest
-    ) {
+            @RequestBody PloggingRequest ploggingRequest) {
 
         ploggingServiceFacade.createPlogging(jwtUserDetails.userId(), ploggingRequest);
 
@@ -129,12 +127,12 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> getPloggingInBounds(
             @RequestParam BigDecimal lat1,
             @RequestParam BigDecimal lon1,
-            @RequestParam int zoom
-    ) {
+            @RequestParam int zoom) {
+
         List<PloggingMapResponse> response = ploggingMapService.getPloggingInBounds(lat1, lon1, zoom);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
-
     }
 }
