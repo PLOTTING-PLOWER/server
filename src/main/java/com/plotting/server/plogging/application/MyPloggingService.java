@@ -93,14 +93,13 @@ public class MyPloggingService {
     }
 
     public PloggingStatsResponse getPloggingStats(Long ploggingUserId){
-        List<PloggingTimeResponse> ploggingTimes = ploggingRepository.findAllPloggingTimeByUserId(ploggingUserId);
-
-        long totalPloggingNumber = ploggingTimes.stream()
+        List<PloggingTimeResponse> ploggingTimes = ploggingRepository.findAllPloggingTimeByUserId(ploggingUserId)
+                .stream()
                 .filter(p -> p.startTime().plusMinutes(p.spendTime()).isBefore(LocalDateTime.now())) // 종료된 플로깅 필터링
-                .count();
-
+                .toList();
+        
+        long totalPloggingNumber = ploggingTimes.size();
         long totalPloggingTime = ploggingTimes.stream()
-                .filter(p -> p.startTime().plusMinutes(p.spendTime()).isBefore(LocalDateTime.now())) // 종료된 플로깅 필터링
                 .mapToLong(PloggingTimeResponse::spendTime) // spendTime 합산
                 .sum();
 
