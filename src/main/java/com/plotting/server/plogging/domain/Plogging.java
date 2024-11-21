@@ -3,6 +3,7 @@ package com.plotting.server.plogging.domain;
 import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
+import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,6 +16,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 
 @Table(name = "plogging")
 @Getter
@@ -56,6 +59,9 @@ public class Plogging extends BaseTimeEntity {
     @Column(name = "spend_time", nullable = false)
     private Long spendTime;
 
+    @Column(name ="end_time", nullable = false)
+    private LocalDateTime endTime;
+
     @Column(name = "start_location", nullable = false)
     private String startLocation;
 
@@ -88,6 +94,7 @@ public class Plogging extends BaseTimeEntity {
         this.startLatitude = startLatitude;
         this.startLongitude = startLongitude;
         this.endLocation = endLocation;
+        calculateEndTime();
     }
 
     public void update(PloggingUpdateRequest request) {
@@ -98,5 +105,14 @@ public class Plogging extends BaseTimeEntity {
         this.recruitEndDate = request.recruitEndDate();
         this.startTime = request.startTime();
         this.spendTime = request.spendTime();
+        calculateEndTime();
+    }
+
+    public void calculateEndTime(){
+        if(this.startTime != null && this.spendTime != null){
+            this.endTime = this.startTime.plusMinutes(this.spendTime);
+        }else{
+            throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
+        }
     }
 }

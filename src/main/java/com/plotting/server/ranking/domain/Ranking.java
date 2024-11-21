@@ -26,9 +26,17 @@ public class Ranking {
     @Column(name = "hour_rank", nullable = false)
     private Long hourRank;
 
+    @Column(name="total_hours", nullable=false)
+    private Long totalHours;    // 총 참여 시간
+
+    @Column(name="total_count", nullable = false)
+    private Long totalCount;   // 총 참여 횟수
+
     @Builder
-    public Ranking(User user, Long hourRank){
+    public Ranking(User user, Long hourRank, Long totalHours, Long totalCount) {
         this.user = user;
         this.hourRank = hourRank;
+        this.totalHours = totalHours;
+        this.totalCount = totalCount;
     }
 }
