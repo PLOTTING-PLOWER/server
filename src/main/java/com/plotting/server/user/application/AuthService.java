@@ -103,6 +103,10 @@ public class AuthService {
     public void updateUserRoleWithdraw(Long userId) {
         userService.getUser(userId).updateRole(Role.WITHDRAWN);
     }
+
+    public boolean isNicknameAvailable(String nickname) {
+        return !userRepository.existsByNickname(nickname);
+    }
 }
 
 

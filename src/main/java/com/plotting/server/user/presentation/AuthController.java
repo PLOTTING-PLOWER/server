@@ -42,6 +42,16 @@ public class AuthController {
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
+    @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복 체크")
+    @GetMapping("/check-nickname")
+    public ResponseEntity<ResponseTemplate<?>> checkNickname(@RequestParam String nickname){
+        log.info("-----check nickname-----");
+        boolean isAvailable = authService.isNicknameAvailable(nickname);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(isAvailable));
+    }
+
     // 일반 로그인 엔드 포인트
     @Operation(summary = "로그인" ,description = "일반 회원 로그인")
     @PostMapping("/login/self")
