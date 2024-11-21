@@ -78,7 +78,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("무민")
                     .email("user4@email.com")
                     .password("password4")
-                    .profileImageUrl(s3Endpoint + "/profile/moomin.png")
+                    .profileImageUrl(s3Endpoint + "/profile/moomin.jpg")
                     .profileMessage("플로깅하면서 친해질 분들 즐겨찾기 해주세요!")
                     .loginType(SELF)
                     .isAlarmAllowed(true)

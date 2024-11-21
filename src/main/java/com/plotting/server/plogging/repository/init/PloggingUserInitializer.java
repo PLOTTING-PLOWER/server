@@ -64,7 +64,7 @@ public class PloggingUserInitializer implements ApplicationRunner {
             PloggingUser DUMMY_PLOGGING_USER4 = PloggingUser.builder()
                     .user(DUMMY_USER4)
                     .plogging(DUMMY_PLOGGING2)
-                    .isAssigned(true)
+                    .isAssigned(false)
                     .build();
 
             PloggingUser DUMMY_PLOGGING_USER5 = PloggingUser.builder()
