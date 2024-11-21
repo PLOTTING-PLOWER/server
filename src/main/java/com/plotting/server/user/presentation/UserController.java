@@ -61,8 +61,4 @@ public class UserController {
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
-    @Operation(summary = "회원 탈퇴", description = "탈퇴하기")
-    @
-
-
 }

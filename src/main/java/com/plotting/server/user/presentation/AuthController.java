@@ -45,7 +45,7 @@ public class AuthController {
     // 일반 로그인 엔드 포인트
     @Operation(summary = "로그인" ,description = "일반 회원 로그인")
     @PostMapping("/login/self")
-    public ResponseEntity<ResponseTemplate<?>> login(@Valid @RequestBody LoginRequest loginRequest){
+    public ResponseEntity<ResponseTemplate<?>> login(@RequestBody LoginRequest loginRequest){
         log.info("-----self login-----");
         LoginResponse response = authService.login(loginRequest);
         return ResponseEntity

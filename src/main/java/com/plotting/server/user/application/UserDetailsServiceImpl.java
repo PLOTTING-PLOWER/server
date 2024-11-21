@@ -20,7 +20,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        throw new UnsupportedOperationException("Use loadUserById instead."); // 이메일 기반 검색 사용 안함
+        // 이메일 기반 인증
+        log.info("Attempting to load user by email: {}", email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        log.info("Loaded user: {}, password: {}", user.getEmail(), user.getPassword());
+        return JwtUserDetails.from(user); // JwtUserDetails 객체 반환
     }
 
     public JwtUserDetails loadUserByUserId(Long userId) {
