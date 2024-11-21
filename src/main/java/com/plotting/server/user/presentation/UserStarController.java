@@ -3,7 +3,6 @@ package com.plotting.server.user.presentation;
 import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.user.application.UserStarService;
-import com.plotting.server.user.dto.request.UserStarRequest;
 import com.plotting.server.user.dto.response.MyUserStarListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
