@@ -1,5 +1,6 @@
 package com.plotting.server.plogging.presentation;
 
+import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.PloggingMapService;
 import com.plotting.server.plogging.application.PloggingService;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -43,11 +45,11 @@ public class PloggingController {
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
     @GetMapping("/home/{ploggingId}/{userId}")
     public ResponseEntity<ResponseTemplate<?>> getHome(
-            @PathVariable Long userId,
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @PathVariable Long ploggingId
     ) {
 
-        ploggingService.getHome(userId, ploggingId);
+        ploggingService.getHome(jwtUserDetails.userId(), ploggingId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -57,11 +59,11 @@ public class PloggingController {
     @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다. <br> startLocation: 서울특별시")
     @PostMapping
     public ResponseEntity<ResponseTemplate<?>> createPlogging(
-            @RequestParam Long userId,
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @RequestBody PloggingRequest ploggingRequest
     ) {
 
-        ploggingServiceFacade.createPlogging(userId, ploggingRequest);
+        ploggingServiceFacade.createPlogging(jwtUserDetails.userId(), ploggingRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -113,9 +115,9 @@ public class PloggingController {
     @PostMapping("/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> joinPlogging(
             @PathVariable Long ploggingId,
-            @RequestParam Long userId) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        String response = ploggingServiceFacade.joinPlogging(ploggingId, userId);
+        String response = ploggingServiceFacade.joinPlogging(ploggingId, jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
