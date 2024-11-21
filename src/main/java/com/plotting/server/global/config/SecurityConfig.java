@@ -31,13 +31,14 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration; // 추가
 
+    String[] WHITE_LIST = new String[]{"/auth/**", "/swagger-ui/", "/v3/api-docs/", "/swagger-resources/**", "/global/health-check", "/cardnews/**"};
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)        // CSRF 보호 비활성화 (REST API를 위한 설정)
-                .authorizeHttpRequests(auth->auth    // 권한 설정
-                        .requestMatchers("/auth/**",
-                                "/swagger-ui/", "/v3/api-docs/", "/swagger-resources/**", "/global/health-check").permitAll()
+                .authorizeHttpRequests(auth -> auth    // 권한 설정
+                        .requestMatchers(WHITE_LIST).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -52,7 +53,7 @@ public class SecurityConfig {
                         .redirectionEndpoint(redirect -> redirect
                                 .baseUri("/login/oauth2/code/*") // 인증 후 리디렉션 설정
                         )
-                        .userInfoEndpoint(userInfo->userInfo
+                        .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService())         // 사용자 정보 처리
                         )
                         .successHandler(customAuthenticationSuccessHandler())   // 성공 시 JWT 발급
@@ -75,17 +76,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public CustomOAuth2UserService customOAuth2UserService(){
+    public CustomOAuth2UserService customOAuth2UserService() {
         return new CustomOAuth2UserService(userRepository);
     }
 
     @Bean
-    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(){
+    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler(userRepository, jwtUtil);
     }
 
