@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 비활성화 (JWT 사용)
                 // JWT 인증 필터
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+
                 // OAuth2 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(auth -> auth
@@ -54,7 +55,7 @@ public class SecurityConfig {
                         .redirectionEndpoint(redirect -> redirect
                                 .baseUri("/login/oauth2/code/*") // 인증 후 리디렉션 설정
                         )
-                        .userInfoEndpoint(userInfo -> userInfo
+                        .userInfoEndpoint(userInfo->userInfo
                                 .userService(customOAuth2UserService())         // 사용자 정보 처리
                         )
                         .successHandler(customAuthenticationSuccessHandler())   // 성공 시 JWT 발급

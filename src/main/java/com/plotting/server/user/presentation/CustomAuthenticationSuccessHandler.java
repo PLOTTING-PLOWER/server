@@ -47,10 +47,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         //Jwt 토큰 생성
         String token = jwtUtil.generateToken(user);
+        String refreshToken = jwtUtil.generateRefreshToken(user);
+
 
         // 클라이언트에 토큰 전달
         response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write("{\"token\": \"" + token + "\", \"message\": \"Login successful\"}");
+        response.getWriter().write("{\"token\": \"" + token + "\", \"refreshToken\": \"" + refreshToken + "\",\"message\": \"Login successful\"}");
     }
-
 }
