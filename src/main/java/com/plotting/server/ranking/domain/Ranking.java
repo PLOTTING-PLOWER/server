@@ -39,4 +39,5 @@ public class Ranking {
         this.totalHours = totalHours;
         this.totalCount = totalCount;
     }
+
 }

@@ -8,6 +8,8 @@ import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.exception.PloggingUserNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
+import com.plotting.server.ranking.dto.response.UpdateRankingListResponse;
+import com.plotting.server.ranking.dto.response.UpdateRankingResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -104,5 +106,15 @@ public class MyPloggingService {
                 .sum();
 
         return PloggingStatsResponse.of(totalPloggingNumber, totalPloggingTime);
+    }
+
+    public UpdateRankingListResponse getMonthlyPloggingStats(LocalDateTime now){
+        LocalDateTime startOfMonth = now.withDayOfMonth(1).toLocalDate().atStartOfDay();
+        LocalDateTime startOfNextMonth = startOfMonth.plusMonths(1);
+
+        log.info("");
+        List<UpdateRankingResponse> monthlyRanking = ploggingRepository.findMonthlyPloggingTimeByUserId(startOfMonth,startOfNextMonth, now);
+
+        return UpdateRankingListResponse.from(monthlyRanking);
     }
 }

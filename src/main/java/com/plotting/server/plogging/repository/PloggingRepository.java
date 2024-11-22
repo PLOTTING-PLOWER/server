@@ -1,12 +1,13 @@
 package com.plotting.server.plogging.repository;
 
 import com.plotting.server.plogging.domain.Plogging;
-import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.dto.response.PloggingTimeResponse;
+import com.plotting.server.ranking.dto.response.UpdateRankingResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,4 +33,15 @@ public interface PloggingRepository extends JpaRepository<Plogging, Long>, Plogg
             "JOIN pu.plogging p " +
             "WHERE pu.user.id = :userId AND pu.isAssigned = true")
     List<PloggingTimeResponse> findAllPloggingTimeByUserId(Long userId);
+
+    @Query("SELECT new com.plotting.server.ranking.dto.response.UpdateRankingResponse( pu.user.id, SUM(p.spendTime), COUNT(pu)) " +
+            "FROM PloggingUser pu " +
+            "JOIN pu.plogging p " +
+            "WHERE p.startTime >= :startOfMonth AND p.startTime < :startOfNextMonth " +
+            "AND p.endTime <= :now " +
+            "AND pu.isAssigned = true " +
+            "AND p.user.role = 'USER' " +
+            "GROUP BY pu.user.id " +
+            "ORDER BY SUM(p.spendTime) DESC, COUNT(pu) DESC")
+    List<UpdateRankingResponse> findMonthlyPloggingTimeByUserId(LocalDateTime startOfMonth, LocalDateTime startOfNextMonth, LocalDateTime now);
 }
