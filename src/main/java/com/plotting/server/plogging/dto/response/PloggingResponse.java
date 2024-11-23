@@ -16,7 +16,7 @@ public record PloggingResponse(
         Long maxPeople,
         PloggingType ploggingType,
         LocalDate recruitEndDate,
-        @JsonFormat(pattern = "HH:mm")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
         LocalDateTime startTime,
         Long spendTime,
         String startLocation
