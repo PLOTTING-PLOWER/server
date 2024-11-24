@@ -5,15 +5,15 @@ import lombok.Builder;
 
 @Builder
 public record HomeResponse(
-        PloggingListResponse ploggingResponseList,
+        PloggingStarListResponse ploggingStarResponseList,
         PlowerListResponse plowerResponseList,
         String userNickname
 ) {
-    public static HomeResponse of(PloggingListResponse ploggingResponseList,
+    public static HomeResponse of(PloggingStarListResponse ploggingStarListResponse,
                                   PlowerListResponse plowerResponseList,
                                   User user) {
         return HomeResponse.builder()
-                .ploggingResponseList(ploggingResponseList)
+                .ploggingStarResponseList(ploggingStarListResponse)
                 .plowerResponseList(plowerResponseList)
                 .userNickname(user.getNickname())
                 .build();
