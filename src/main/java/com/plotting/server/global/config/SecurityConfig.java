@@ -31,7 +31,15 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration; // 추가
 
-    String[] WHITE_LIST = new String[]{"/auth/**", "/swagger-ui/", "/v3/api-docs/", "/swagger-resources/**", "/global/health-check", "/cardnews/**"};
+    private final String[] WHITE_LIST = {
+            "/error",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/*",
+            "/webjars/**",
+            "/auth/**",
+            "/global/health-check"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
