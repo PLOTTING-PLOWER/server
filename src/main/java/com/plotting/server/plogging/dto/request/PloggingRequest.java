@@ -16,7 +16,6 @@ public record PloggingRequest(
         PloggingType type,
         LocalDate recruitStartDate,
         LocalDate recruitEndDate,
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime startTime,
         Long spendTime,
         String startLocation,
