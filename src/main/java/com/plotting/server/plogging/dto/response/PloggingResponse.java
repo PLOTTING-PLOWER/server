@@ -19,7 +19,7 @@ public record PloggingResponse(
         String startLocation
 ) {
 
-    public static PloggingResponse of(Plogging plogging, Long currentPeople) {
+    public static PloggingResponse of(Plogging plogging) {
         return PloggingResponse.builder()
                 .title(plogging.getTitle())
                 .maxPeople(plogging.getMaxPeople())

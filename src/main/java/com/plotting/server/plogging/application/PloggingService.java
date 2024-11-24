@@ -78,7 +78,10 @@ public class PloggingService {
     public List<PloggingResponse> findListByFilter(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                                    Long spendTime, LocalDateTime startTime, Long maxPeople) {
 
-        return ploggingRepository.findByFilters(region, startDate, endDate, type, spendTime, startTime, maxPeople);
+        List<PloggingResponse> result = ploggingRepository.findByFilters(region, startDate, endDate, type, spendTime, startTime, maxPeople);
+        log.info("Found {} ploggings with the given filter", result.size());
+
+        return result;
     }
 
     public PloggingDetailResponse getPloggingDetail(Long ploggingId) {
