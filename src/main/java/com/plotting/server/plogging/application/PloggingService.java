@@ -38,10 +38,14 @@ public class PloggingService {
     private final PloggingUserRepository ploggingUserRepository;
 
     //플로깅 홈
-    public HomeResponse getHome(Long userId, Long ploggingId) {
-        PloggingStarListResponse ploggingStar = getPloggingStar(ploggingId);
+    public HomeResponse getHome(Long userId) {
+        PloggingStarListResponse ploggingStar = getPloggingStar();
         PlowerListResponse plowerStar = getPlowerStar();
         User user = userService.getUser(userId);
+
+        log.info("사용자 정보: {}", user);
+        log.info("인기 플로깅: {}", ploggingStar);
+        log.info("인기 플로워: {}", plowerStar);
 
         return HomeResponse.of(ploggingStar, plowerStar, user);
     }
@@ -56,14 +60,12 @@ public class PloggingService {
     }
 
     // 플로깅 즐겨찾기
-    private PloggingStarListResponse getPloggingStar(Long ploggingId) {
-        Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
-
+    private PloggingStarListResponse getPloggingStar() {
         List<PloggingStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(plogging -> PloggingStarResponse.of(plogging, currentPeople))
+                .map(plogging -> PloggingStarResponse.of(plogging))
                 .toList();
 
-        return PloggingStarListResponse.from(currentPeople, ploggingList);
+        return PloggingStarListResponse.from(ploggingList);
     }
 
     //플로깅 모임 등록

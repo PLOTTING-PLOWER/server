@@ -43,12 +43,11 @@ public class PloggingController {
     private final PloggingMapService ploggingMapService;
 
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
-    @GetMapping("/home/{ploggingId}")
+    @GetMapping("/home")
     public ResponseEntity<ResponseTemplate<?>> getHome(
-            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
-            @PathVariable Long ploggingId) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        ploggingService.getHome(jwtUserDetails.userId(), ploggingId);
+        ploggingService.getHome(jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
