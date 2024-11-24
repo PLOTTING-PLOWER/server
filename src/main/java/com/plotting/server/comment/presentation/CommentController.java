@@ -4,6 +4,7 @@ import com.plotting.server.comment.application.CommentService;
 import com.plotting.server.comment.dto.request.CommentRequest;
 import com.plotting.server.comment.dto.request.CommentUpdateRequest;
 import com.plotting.server.comment.dto.response.CommentListResponse;
+import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,9 +37,9 @@ public class CommentController {
     @GetMapping("/{ploggingId}/comments")
     public ResponseEntity<ResponseTemplate<?>> getCommentList(
             @PathVariable Long ploggingId,
-            @RequestParam Long userId) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        CommentListResponse response = commentService.getCommentList(ploggingId, userId);
+        CommentListResponse response = commentService.getCommentList(ploggingId, jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -49,10 +50,10 @@ public class CommentController {
     @PostMapping("/{ploggingId}/comments")
     public ResponseEntity<ResponseTemplate<?>> saveComment(
             @PathVariable Long ploggingId,
-            @RequestParam Long userId,
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @RequestBody CommentRequest request) {
 
-        commentService.uploadComment(ploggingId, userId, request);
+        commentService.uploadComment(ploggingId, jwtUserDetails.userId(), request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

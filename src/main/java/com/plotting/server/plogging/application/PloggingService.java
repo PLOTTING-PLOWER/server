@@ -1,5 +1,6 @@
 package com.plotting.server.plogging.application;
 
+import com.plotting.server.alarm.application.AlarmService;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.domain.type.PloggingType;
@@ -31,13 +32,14 @@ import static com.plotting.server.plogging.util.PloggingConstants.*;
 public class PloggingService {
 
     private final UserService userService;
+    private final AlarmService alarmService;
     private final UserRepository userRepository;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
     //플로깅 홈
     public HomeResponse getHome(Long userId, Long ploggingId) {
-        PloggingListResponse ploggingStar = getPloggingStar(ploggingId);
+        PloggingStarListResponse ploggingStar = getPloggingStar(ploggingId);
         PlowerListResponse plowerStar = getPlowerStar();
         User user = userService.getUser(userId);
 
@@ -54,14 +56,14 @@ public class PloggingService {
     }
 
     // 플로깅 즐겨찾기
-    private PloggingListResponse getPloggingStar(Long ploggingId) {
+    private PloggingStarListResponse getPloggingStar(Long ploggingId) {
         Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
 
-        List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(ploggingResponse -> PloggingResponse.of(ploggingResponse, currentPeople))
+        List<PloggingStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
+                .map(plogging -> PloggingStarResponse.of(plogging, currentPeople))
                 .toList();
 
-        return PloggingListResponse.from(currentPeople, ploggingList);
+        return PloggingStarListResponse.from(currentPeople, ploggingList);
     }
 
     //플로깅 모임 등록
@@ -101,12 +103,14 @@ public class PloggingService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public String joinDirectPlogging(Plogging plogging, User user) {
         ploggingUserRepository.save(PloggingUser.of(plogging, user, true));
+        alarmService.saveDirectAlarm(user, plogging.getUser(), plogging);
         return DIRECT_COMPLETE.getMessage();
     }
 
     @Transactional
     public String joinAssignPlogging(Plogging plogging, User user) {
         ploggingUserRepository.save(PloggingUser.of(plogging, user, false));
+        alarmService.saveAssignAlarm(user, plogging.getUser(), plogging);
         return ASSIGN_COMPLETE.getMessage();
     }
 

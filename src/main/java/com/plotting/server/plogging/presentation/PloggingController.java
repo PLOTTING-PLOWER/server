@@ -1,11 +1,14 @@
 package com.plotting.server.plogging.presentation;
 
+import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
+import com.plotting.server.plogging.application.PloggingMapService;
 import com.plotting.server.plogging.application.PloggingService;
 import com.plotting.server.plogging.application.PloggingServiceFacade;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import com.plotting.server.plogging.dto.request.PloggingRequest;
 import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
+import com.plotting.server.plogging.dto.response.PloggingMapResponse;
 import com.plotting.server.plogging.dto.response.PloggingResponse;
 import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,8 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,15 +40,15 @@ public class PloggingController {
 
     private final PloggingService ploggingService;
     private final PloggingServiceFacade ploggingServiceFacade;
+    private final PloggingMapService ploggingMapService;
 
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
-    @GetMapping("/home/{ploggingId}/{userId}")
+    @GetMapping("/home/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> getHome(
-            @PathVariable Long userId,
-            @PathVariable Long ploggingId
-    ) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
+            @PathVariable Long ploggingId) {
 
-        ploggingService.getHome(userId, ploggingId);
+        ploggingService.getHome(jwtUserDetails.userId(), ploggingId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -53,11 +58,10 @@ public class PloggingController {
     @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다. <br> startLocation: 서울특별시")
     @PostMapping
     public ResponseEntity<ResponseTemplate<?>> createPlogging(
-            @RequestParam Long userId,
-            @RequestBody PloggingRequest ploggingRequest
-    ) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
+            @RequestBody PloggingRequest ploggingRequest) {
 
-        ploggingServiceFacade.createPlogging(userId, ploggingRequest);
+        ploggingServiceFacade.createPlogging(jwtUserDetails.userId(), ploggingRequest);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -71,7 +75,7 @@ public class PloggingController {
                                                                 @RequestParam(defaultValue = "2025-10-01") LocalDate endDate,
                                                                 @RequestParam PloggingType type,
                                                                 @RequestParam Long spendTime,
-                                                                @RequestParam(defaultValue = "2024-10-01T10:00:00") LocalDateTime startTime,
+                                                                @RequestParam(defaultValue = "2024-10-01T10:00") LocalDateTime startTime,
                                                                 @RequestParam(defaultValue = "1000") Long maxPeople) {
 
         List<PloggingResponse> response = ploggingService.findListByFilter(region, startDate, endDate, type, spendTime, startTime, maxPeople);
@@ -109,9 +113,23 @@ public class PloggingController {
     @PostMapping("/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> joinPlogging(
             @PathVariable Long ploggingId,
-            @RequestParam Long userId) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        String response = ploggingServiceFacade.joinPlogging(ploggingId, userId);
+        String response = ploggingServiceFacade.joinPlogging(ploggingId, jwtUserDetails.userId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "맵 내의 플로깅 조회", description = "지정된 좌표 범위 내에서 플로깅 정보를 조회합니다.")
+    @GetMapping("/map/info")
+    public ResponseEntity<ResponseTemplate<?>> getPloggingInBounds(
+            @RequestParam BigDecimal lat1,
+            @RequestParam BigDecimal lon1,
+            @RequestParam int zoom) {
+
+        List<PloggingMapResponse> response = ploggingMapService.getPloggingInBounds(lat1, lon1, zoom);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
