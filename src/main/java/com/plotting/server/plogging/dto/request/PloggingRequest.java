@@ -1,6 +1,5 @@
 package com.plotting.server.plogging.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import com.plotting.server.user.domain.User;
@@ -16,7 +15,6 @@ public record PloggingRequest(
         PloggingType type,
         LocalDate recruitStartDate,
         LocalDate recruitEndDate,
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime startTime,
         Long spendTime,
         String startLocation,
