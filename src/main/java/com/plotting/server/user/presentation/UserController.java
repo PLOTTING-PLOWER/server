@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @Operation(summary = "알람 변경", description = "마이페이지 알람 업데이트")
-    @PostMapping("/alarm")
+    @PostMapping("/update-alarm")
     public ResponseEntity<ResponseTemplate<?>> updateAlarm(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @RequestParam Boolean isAlarmAllowed) {
