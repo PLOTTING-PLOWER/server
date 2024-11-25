@@ -42,6 +42,18 @@ public class PloggingController {
     private final PloggingServiceFacade ploggingServiceFacade;
     private final PloggingMapService ploggingMapService;
 
+    @Operation(summary = "플로깅 검색", description = "플로깅 검색 화면입니다.")
+    @GetMapping("/{title}")
+    public ResponseEntity<ResponseTemplate<?>> getPloggingWithTitle(
+            @PathVariable String title) {
+
+        PloggingResponse response = ploggingService.getPloggingWithTitle(title);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+    }
+
     @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
     @GetMapping("/home")
     public ResponseEntity<ResponseTemplate<?>> getHome(

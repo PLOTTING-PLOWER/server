@@ -24,4 +24,6 @@ public interface PloggingRepository extends JpaRepository<Plogging, Long>, Plogg
     Long findMaxPeopleById(Long ploggingId);
 
     List<Plogging> findAllByUserId(Long userId);
+
+    List<Plogging> findByTitleContaining(String title); //검색 구현
 }

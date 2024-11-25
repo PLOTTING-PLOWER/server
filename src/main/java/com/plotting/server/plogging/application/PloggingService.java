@@ -37,6 +37,17 @@ public class PloggingService {
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
+    //플로깅 검색-> 상단 제일 첫번째 1개만 검색
+    public PloggingResponse getPloggingWithTitle(String title) {
+        PloggingResponse plogging = ploggingRepository.findByTitleContaining(title)
+                .stream()
+                .map(PloggingResponse::of)
+                .findFirst()
+                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
+
+        return plogging;
+    }
+
     //플로깅 홈
     public HomeResponse getHome(Long userId) {
         PloggingStarListResponse ploggingStar = getPloggingStar();
