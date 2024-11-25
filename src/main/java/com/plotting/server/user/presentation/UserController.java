@@ -37,6 +37,19 @@ public class UserController {
                 .body(ResponseTemplate.from(response));
     }
 
+    @Operation(summary = "알람 변경", description = "마이페이지 알람 업데이트")
+    @PostMapping("/alarm")
+    public ResponseEntity<ResponseTemplate<?>> updateAlarm(
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
+            @RequestParam Boolean isAlarmAllowed) {
+
+        userService.updateAlarm(jwtUserDetails.userId(), isAlarmAllowed);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.EMPTY_RESPONSE);
+    }
+
     @Operation(summary = "프로필 조회", description = "마이페이지 프로필 조회")
     @GetMapping("/profile")
     public ResponseEntity<ResponseTemplate<?>> getMyProfile(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {

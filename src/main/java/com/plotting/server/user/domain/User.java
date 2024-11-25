@@ -96,4 +96,8 @@ public class User extends BaseTimeEntity {
         this.role = role;
     }
 
+    public void updateAlarmAllowed(Boolean isAlarmAllowed){
+        this.isAlarmAllowed = isAlarmAllowed;
+    }
+
 }
