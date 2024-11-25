@@ -13,7 +13,14 @@ public class PloggingUserFixture {
             .isAssigned(true)
             .build();
 
+    public static final PloggingUser PLOGGING_USER2 = PloggingUser.builder()
+            .user(USER)
+            .plogging(PLOGGING)
+            .isAssigned(false)
+            .build();
+
     static {
         ReflectionTestUtils.setField(PLOGGING_USER, "id", 1L);
+        ReflectionTestUtils.setField(PLOGGING_USER2, "id", 2L);
     }
 }

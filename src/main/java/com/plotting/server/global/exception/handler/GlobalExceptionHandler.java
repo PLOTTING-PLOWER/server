@@ -6,6 +6,11 @@ import com.plotting.server.global.exception.errorcode.ErrorCode;
 import com.plotting.server.global.exception.errorcode.GlobalErrorCode;
 import com.plotting.server.global.exception.response.ErrorResponse;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
+import com.plotting.server.plogging.exception.PloggingUserNotFoundException;
+import com.plotting.server.ranking.exception.RankingNotFoundException;
+import com.plotting.server.user.exception.ProfileNotPublicException;
+import com.plotting.server.user.exception.TokenNotValidateException;
+import com.plotting.server.user.exception.UserAlreadyExistsException;
 import com.plotting.server.user.exception.UserNotFoundException;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
@@ -73,6 +78,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleCommentNotFound(final CommentNotFoundException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
+
+    @ExceptionHandler(PloggingUserNotFoundException.class)
+    public ResponseEntity<Object> handlePloggingUserNotFound(final PloggingUserNotFoundException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Object> handleUserAlreadyExistsException(final UserAlreadyExistsException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(TokenNotValidateException.class)
+    public ResponseEntity<Object> handleTokenNotValidateException(final TokenNotValidateException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(ProfileNotPublicException.class)
+    public ResponseEntity<Object> handleProfileNotPublicException(final ProfileNotPublicException e) {
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(RankingNotFoundException.class)
+    public ResponseEntity<Object> handlerRankingNotFoundException(final RankingNotFoundException e){
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+
 
     private ErrorResponse makeErrorResponse(ErrorCode errorCode) {
         return ErrorResponse.builder()

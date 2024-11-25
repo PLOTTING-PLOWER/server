@@ -1,6 +1,8 @@
 package com.plotting.server.plogging.repository;
 
 import com.plotting.server.plogging.domain.Plogging;
+import com.plotting.server.plogging.domain.PloggingUser;
+import com.plotting.server.plogging.dto.response.PloggingTimeResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,4 +24,12 @@ public interface PloggingRepository extends JpaRepository<Plogging, Long>, Plogg
 
     @Query("SELECT p.maxPeople FROM Plogging p WHERE p.id = :ploggingId")
     Long findMaxPeopleById(Long ploggingId);
+
+    List<Plogging> findAllByUserId(Long userId);
+
+    @Query("SELECT new com.plotting.server.plogging.dto.response.PloggingTimeResponse( p.spendTime, p.startTime ) " +
+            "FROM PloggingUser pu " +
+            "JOIN pu.plogging p " +
+            "WHERE pu.user.id = :userId AND pu.isAssigned = true")
+    List<PloggingTimeResponse> findAllPloggingTimeByUserId(Long userId);
 }

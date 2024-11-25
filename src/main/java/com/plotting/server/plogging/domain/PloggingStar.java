@@ -31,4 +31,11 @@ public class PloggingStar {
         this.user = user;
         this.plogging = plogging;
     }
+
+    public static PloggingStar of(User user, Plogging plogging) {
+        return PloggingStar.builder()
+                .user(user)
+                .plogging(plogging)
+                .build();
+    }
 }

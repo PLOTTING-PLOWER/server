@@ -2,6 +2,7 @@ package com.plotting.server.plogging.domain;
 
 import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.plogging.domain.type.PloggingType;
+import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
 import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,6 +13,8 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "plogging")
 @Getter
@@ -65,6 +68,9 @@ public class Plogging extends BaseTimeEntity {
     @Column(name = "end_location")
     private String endLocation;
 
+    @OneToMany(mappedBy = "plogging", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PloggingUser> ploggingUsers = new ArrayList<>();
+
     @Builder
     public Plogging(User user, String title, String content, Long maxPeople, PloggingType ploggingType,
                     LocalDate recruitStartDate, LocalDate recruitEndDate, LocalDateTime startTime, Long spendTime,
@@ -82,5 +88,15 @@ public class Plogging extends BaseTimeEntity {
         this.startLatitude = startLatitude;
         this.startLongitude = startLongitude;
         this.endLocation = endLocation;
+    }
+
+    public void update(PloggingUpdateRequest request) {
+        this.title = request.title();
+        this.content = request.content();
+        this.maxPeople = request.maxPeople();
+        this.recruitStartDate = request.recruitStartDate();
+        this.recruitEndDate = request.recruitEndDate();
+        this.startTime = request.startTime();
+        this.spendTime = request.spendTime();
     }
 }
