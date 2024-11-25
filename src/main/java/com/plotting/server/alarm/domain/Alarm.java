@@ -1,6 +1,7 @@
 package com.plotting.server.alarm.domain;
 
 
+import com.plotting.server.global.domain.BaseTimeEntity;
 import com.plotting.server.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Alarm {
+public class Alarm extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,16 +27,19 @@ public class Alarm {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Column(name = "alarm_date", nullable = false)
-    private LocalDate alarmDate;
-
     @Column(name = "content", nullable = false)
     private String content;
 
     @Builder
-    public Alarm(User user, LocalDate alarmDate, String content){
+    public Alarm(User user, String content){
         this.user = user;
-        this.alarmDate = alarmDate;
         this.content = content;
+    }
+
+    public static Alarm of(User user, String content){
+        return Alarm.builder()
+                .user(user)
+                .content(content)
+                .build();
     }
 }

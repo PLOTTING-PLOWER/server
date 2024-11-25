@@ -11,6 +11,7 @@ import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import com.plotting.server.user.dto.request.SignUpRequest;
 import com.plotting.server.user.dto.response.DetailProfileResponse;
 import com.plotting.server.user.dto.response.MyProfileResponse;
+import com.plotting.server.user.dto.response.MypageResponse;
 import com.plotting.server.user.exception.ProfileNotPublicException;
 import com.plotting.server.user.exception.UserAlreadyExistsException;
 import com.plotting.server.user.exception.UserNotFoundException;
@@ -42,6 +43,8 @@ public class UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
     }
+
+    public MypageResponse getMyPage(Long userId) { return MypageResponse.from(getUser(userId)); }
 
     public MyProfileResponse getMyProfile(Long userId){
         return MyProfileResponse.from(getUser(userId));
