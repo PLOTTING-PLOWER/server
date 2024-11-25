@@ -6,6 +6,7 @@ import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import com.plotting.server.user.dto.response.DetailProfileResponse;
 import com.plotting.server.user.dto.response.MyProfileResponse;
+import com.plotting.server.user.dto.response.MypageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/mypage")
 public class UserController {
     private final UserService userService;
+
+    @Operation(summary = "프로필 조회", description = "마이페이지 프로필 조회")
+    @GetMapping("/main")
+    public ResponseEntity<ResponseTemplate<?>> getMyPage(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+
+        MypageResponse response = userService.getMyPage(jwtUserDetails.userId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+    }
 
     @Operation(summary = "프로필 조회", description = "마이페이지 프로필 조회")
     @GetMapping("/profile")
