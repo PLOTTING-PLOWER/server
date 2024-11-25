@@ -23,10 +23,11 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<PloggingResponse> findByFilters(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
+    public List<PloggingResponse> findByFilters(String region,LocalDate startDate, LocalDate endDate, PloggingType type,
                                                 Long spendTime, LocalDateTime startTime, Long maxPeople) {
         return jpaQueryFactory
                 .select(Projections.constructor(PloggingResponse.class,
+                        plogging.id,
                         plogging.title,
                         plogging.maxPeople,
                         plogging.ploggingType,

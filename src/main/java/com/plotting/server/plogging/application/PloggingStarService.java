@@ -3,7 +3,7 @@ package com.plotting.server.plogging.application;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.PloggingStar;
 import com.plotting.server.plogging.dto.response.MyPloggingStarListResponse;
-import com.plotting.server.plogging.dto.response.PloggingResponse;
+import com.plotting.server.plogging.dto.response.PloggingStarResponse;
 import com.plotting.server.plogging.repository.PloggingStarRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.application.UserService;
@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -29,8 +28,8 @@ public class PloggingStarService {
     public MyPloggingStarListResponse getMyPloggingStarList(Long userId){
 
         return MyPloggingStarListResponse.from(ploggingStarRepository.findPloggingByUserId(userId).stream()
-                .map(plogging -> PloggingResponse.of(plogging, ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId()))                )
-                .toList());
+                        .map(ploggingStar -> PloggingStarResponse.of(ploggingStar, ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingStar.getId())))
+                        .toList());
     }
 
     @Transactional

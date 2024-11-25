@@ -23,36 +23,27 @@ public class CardnewsInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (cardnewsRepository.count() > 0) {
-            log.info("[User]더미 데이터 존재");
+            log.info("[Cardnews]데이터 존재");
         } else {
 
             List<Cardnews> cardnewsList = new ArrayList<>();
 
-            Cardnews DUMMY_Cardnews1 = Cardnews.builder()
-                    .title("title1")
+            final Cardnews CARDNEWS1 = Cardnews.builder()
+                    .title("일회용품제로 챌린지")
                     .build();
 
-            Cardnews DUMMY_Cardnews2 = Cardnews.builder()
-                    .title("title2")
+            final Cardnews CARDNEWS2 = Cardnews.builder()
+                    .title("환경보호 + 운동 = 플로깅으로 시작해요!")
                     .build();
 
-            Cardnews DUMMY_Cardnews3 = Cardnews.builder()
-                    .title("title3")
+
+            final Cardnews CARDNEWS3 = Cardnews.builder()
+                    .title("플로깅에 대해서 알아볼까요?")
                     .build();
 
-            Cardnews DUMMY_Cardnews4 = Cardnews.builder()
-                    .title("title4")
-                    .build();
-
-            Cardnews DUMMY_Cardnews5 = Cardnews.builder()
-                    .title("title5")
-                    .build();
-
-            cardnewsList.add(DUMMY_Cardnews1);
-            cardnewsList.add(DUMMY_Cardnews2);
-            cardnewsList.add(DUMMY_Cardnews3);
-            cardnewsList.add(DUMMY_Cardnews4);
-            cardnewsList.add(DUMMY_Cardnews5);
+            cardnewsList.add(CARDNEWS1);
+            cardnewsList.add(CARDNEWS2);
+            cardnewsList.add(CARDNEWS3);
 
             cardnewsRepository.saveAll(cardnewsList);
         }
