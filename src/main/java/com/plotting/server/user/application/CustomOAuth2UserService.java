@@ -1,6 +1,7 @@
 package com.plotting.server.user.application;
 
 import com.plotting.server.user.domain.User;
+import com.plotting.server.user.domain.UserType.Role;
 import com.plotting.server.user.dto.OAuthAttributes;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,14 @@ public class CustomOAuth2UserService implements OAuth2UserService <OAuth2UserReq
 
     private User saveOrUpdate(OAuthAttributes attributes){
         User user = userRepository.findByEmail(attributes.getEmail())
+                .map(existingUser -> {
+                    // 탈퇴 상태라면 상태를 활성화로 변경
+                    if (existingUser.getRole() == Role.WITHDRAWN) {
+                        existingUser.updateRole(Role.USER);
+                    }
+                    // 기존 정보를 업데이트 (필요한 경우 추가 필드를 업데이트 가능)
+                    return existingUser;
+                })
                 .orElse(attributes.toUser());
 //        user.update(attributes.getName(), attributes.getPicture());    굳이 필요하지 않을것같아서!!!
         return userRepository.save(user);

@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface UserStarRepository extends JpaRepository<UserStar, Long> {
 
-    @Query("SELECT us FROM UserStar us JOIN FETCH us.user WHERE us.user.id = :userId")
-    List<UserStar> findAllByUserIdWithUser(Long userId);
+    @Query("SELECT us FROM UserStar us JOIN FETCH us.user WHERE us.user.id = :userId AND us.user.role != 'WITHDRAWN'")
+    List<UserStar> findAllByUserIdWithFetch(Long userId);
 
     Optional<UserStar> findByUserIdAndStarUserId(Long userId, Long userStarId);
     boolean existsByUserIdAndStarUserId(Long userId, Long starUserId);

@@ -44,9 +44,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)        // CSRF 보호 비활성화 (REST API를 위한 설정)
-                .authorizeHttpRequests(auth -> auth    // 권한 설정
-                        .requestMatchers(WHITE_LIST).permitAll()
+                .csrf(csrf ->csrf.disable())        // CSRF 보호 비활성화 (REST API를 위한 설정)
+                .authorizeHttpRequests(auth->auth    // 권한 설정
+                        .requestMatchers("/auth/**",
+                                "/global/health-check").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
