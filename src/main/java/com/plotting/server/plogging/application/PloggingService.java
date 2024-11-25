@@ -14,6 +14,7 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class PloggingService {
     public PloggingResponse getPloggingWithTitle(String title) {
         PloggingResponse plogging = ploggingRepository.findByTitleContaining(title)
                 .stream()
-                .map(PloggingResponse::of)
+                .map(PloggingResponse::from)
                 .findFirst()
                 .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
 
@@ -50,15 +51,11 @@ public class PloggingService {
 
     //플로깅 홈
     public HomeResponse getHome(Long userId) {
-        PloggingStarListResponse ploggingStar = getPloggingStar();
+        PloggingListResponse plogging = getPloggingStar();
         PlowerListResponse plowerStar = getPlowerStar();
         User user = userService.getUser(userId);
 
-        log.info("사용자 정보: {}", user);
-        log.info("인기 플로깅: {}", ploggingStar);
-        log.info("인기 플로워: {}", plowerStar);
-
-        return HomeResponse.of(ploggingStar, plowerStar, user);
+        return HomeResponse.of(plogging, plowerStar, user);
     }
 
     //플로워 즐겨찾기
@@ -71,12 +68,12 @@ public class PloggingService {
     }
 
     // 플로깅 즐겨찾기
-    private PloggingStarListResponse getPloggingStar() {
-        List<PloggingStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(plogging -> PloggingStarResponse.of(plogging))
+    private PloggingListResponse getPloggingStar() {
+        List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
+                .map(PloggingResponse::from)
                 .toList();
 
-        return PloggingStarListResponse.from(ploggingList);
+        return PloggingListResponse.from(ploggingList);
     }
 
     //플로깅 모임 등록

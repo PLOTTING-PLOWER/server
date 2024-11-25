@@ -27,6 +27,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
                                                 Long spendTime, LocalDateTime startTime, Long maxPeople) {
         return jpaQueryFactory
                 .select(Projections.constructor(PloggingResponse.class,
+                        plogging.id,
                         plogging.title,
                         plogging.maxPeople,
                         plogging.ploggingType,

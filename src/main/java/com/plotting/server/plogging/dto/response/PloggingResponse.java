@@ -1,6 +1,5 @@
 package com.plotting.server.plogging.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import lombok.Builder;
@@ -10,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Builder
 public record PloggingResponse(
+        Long ploggingId,
         String title,
         Long maxPeople,
         PloggingType ploggingType,
@@ -19,8 +19,9 @@ public record PloggingResponse(
         String startLocation
 ) {
 
-    public static PloggingResponse of(Plogging plogging) {
+    public static PloggingResponse from(Plogging plogging) {
         return PloggingResponse.builder()
+                .ploggingId(plogging.getId())
                 .title(plogging.getTitle())
                 .maxPeople(plogging.getMaxPeople())
                 .ploggingType(plogging.getPloggingType())
