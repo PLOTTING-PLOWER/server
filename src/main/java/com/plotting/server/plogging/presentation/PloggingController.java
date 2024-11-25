@@ -63,7 +63,7 @@ public class PloggingController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ResponseTemplate.from(ResponseTemplate.EMPTY_RESPONSE));
+                .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
     @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다. <br> startLocation: 서울특별시")
