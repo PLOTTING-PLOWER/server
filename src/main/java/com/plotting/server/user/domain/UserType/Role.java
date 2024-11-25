@@ -10,6 +10,7 @@ public enum Role {
     GUEST("guest"),
     USER("user"),
     ADMIN("admin"),
+    WITHDRAWN("withdrawn");
     ;
 
     private final String roleName;

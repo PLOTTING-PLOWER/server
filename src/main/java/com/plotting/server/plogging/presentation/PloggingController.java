@@ -42,13 +42,24 @@ public class PloggingController {
     private final PloggingServiceFacade ploggingServiceFacade;
     private final PloggingMapService ploggingMapService;
 
-    @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
-    @GetMapping("/home/{ploggingId}")
-    public ResponseEntity<ResponseTemplate<?>> getHome(
-            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
-            @PathVariable Long ploggingId) {
+    @Operation(summary = "플로깅 검색", description = "플로깅 검색 화면입니다.")
+    @GetMapping("/{title}")
+    public ResponseEntity<ResponseTemplate<?>> getPloggingWithTitle(
+            @PathVariable String title) {
 
-        ploggingService.getHome(jwtUserDetails.userId(), ploggingId);
+        PloggingResponse response = ploggingService.getPloggingWithTitle(title);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "플로깅 홈", description = "플로깅 홈 화면입니다.")
+    @GetMapping("/home")
+    public ResponseEntity<ResponseTemplate<?>> getHome(
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+
+        ploggingService.getHome(jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -75,7 +86,7 @@ public class PloggingController {
                                                                 @RequestParam(defaultValue = "2025-10-01") LocalDate endDate,
                                                                 @RequestParam PloggingType type,
                                                                 @RequestParam Long spendTime,
-                                                                @RequestParam(defaultValue = "2024-10-01T10:00:00") LocalDateTime startTime,
+                                                                @RequestParam(defaultValue = "2024-10-01T10:00") LocalDateTime startTime,
                                                                 @RequestParam(defaultValue = "1000") Long maxPeople) {
 
         List<PloggingResponse> response = ploggingService.findListByFilter(region, startDate, endDate, type, spendTime, startTime, maxPeople);

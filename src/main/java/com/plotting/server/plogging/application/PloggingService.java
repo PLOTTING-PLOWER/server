@@ -14,6 +14,7 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,13 +38,24 @@ public class PloggingService {
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
 
+    //플로깅 검색-> 상단 제일 첫번째 1개만 검색
+    public PloggingResponse getPloggingWithTitle(String title) {
+        PloggingResponse plogging = ploggingRepository.findByTitleContaining(title)
+                .stream()
+                .map(PloggingResponse::from)
+                .findFirst()
+                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
+
+        return plogging;
+    }
+
     //플로깅 홈
-    public HomeResponse getHome(Long userId, Long ploggingId) {
-        PloggingListResponse ploggingStar = getPloggingStar(ploggingId);
+    public HomeResponse getHome(Long userId) {
+        PloggingListResponse plogging = getPloggingStar();
         PlowerListResponse plowerStar = getPlowerStar();
         User user = userService.getUser(userId);
 
-        return HomeResponse.of(ploggingStar, plowerStar, user);
+        return HomeResponse.of(plogging, plowerStar, user);
     }
 
     //플로워 즐겨찾기
@@ -56,14 +68,12 @@ public class PloggingService {
     }
 
     // 플로깅 즐겨찾기
-    private PloggingListResponse getPloggingStar(Long ploggingId) {
-        Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
-
+    private PloggingListResponse getPloggingStar() {
         List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(ploggingResponse -> PloggingResponse.of(ploggingResponse, currentPeople))
+                .map(PloggingResponse::from)
                 .toList();
 
-        return PloggingListResponse.from(currentPeople, ploggingList);
+        return PloggingListResponse.from(ploggingList);
     }
 
     //플로깅 모임 등록
@@ -78,7 +88,10 @@ public class PloggingService {
     public List<PloggingResponse> findListByFilter(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                                    Long spendTime, LocalDateTime startTime, Long maxPeople) {
 
-        return ploggingRepository.findByFilters(region, startDate, endDate, type, spendTime, startTime, maxPeople);
+        List<PloggingResponse> result = ploggingRepository.findByFilters(region, startDate, endDate, type, spendTime, startTime, maxPeople);
+        log.info("Found {} ploggings with the given filter", result.size());
+
+        return result;
     }
 
     public PloggingDetailResponse getPloggingDetail(Long ploggingId) {

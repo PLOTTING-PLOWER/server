@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,13 +31,22 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration; // 추가
 
+    private final String[] WHITE_LIST = {
+            "/error",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/*",
+            "/webjars/**",
+            "/auth/**",
+            "/global/health-check"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf ->csrf.disable())        // CSRF 보호 비활성화 (REST API를 위한 설정)
                 .authorizeHttpRequests(auth->auth    // 권한 설정
                         .requestMatchers("/auth/**",
-                                "/swagger-ui/", "/v3/api-docs/", "/swagger-resources/**",
                                 "/global/health-check").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -76,18 +86,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public CustomOAuth2UserService customOAuth2UserService(){
+    public CustomOAuth2UserService customOAuth2UserService() {
         return new CustomOAuth2UserService(userRepository);
     }
 
     @Bean
-    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(){
-        return new CustomAuthenticationSuccessHandler(userRepository,jwtUtil);
+    public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler(userRepository, jwtUtil);
     }
 
     @Bean
