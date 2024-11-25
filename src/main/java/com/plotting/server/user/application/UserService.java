@@ -1,15 +1,28 @@
 package com.plotting.server.user.application;
 
+import com.plotting.server.global.application.S3Service;
+import com.plotting.server.plogging.application.MyPloggingService;
+import com.plotting.server.plogging.dto.response.PloggingStatsResponse;
+import com.plotting.server.ranking.application.RankingService;
+import com.plotting.server.ranking.domain.Ranking;
 import com.plotting.server.user.domain.User;
+import com.plotting.server.user.domain.UserType.Role;
+import com.plotting.server.user.dto.request.MyProfileUpdateRequest;
 import com.plotting.server.user.dto.request.SignUpRequest;
+import com.plotting.server.user.dto.response.DetailProfileResponse;
+import com.plotting.server.user.dto.response.MyProfileResponse;
+import com.plotting.server.user.dto.response.MypageResponse;
+import com.plotting.server.user.exception.ProfileNotPublicException;
 import com.plotting.server.user.exception.UserAlreadyExistsException;
 import com.plotting.server.user.exception.UserNotFoundException;
 import com.plotting.server.user.repository.UserRepository;
+import com.plotting.server.user.repository.UserStarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_ALREADY_EXISTS;
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NOT_FOUND;
@@ -21,24 +34,50 @@ import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NO
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserStarRepository userStarRepository;
+    private final RankingService rankingService;
+    private final MyPloggingService myPloggingService;
+    private final S3Service s3Service;
 
     public User getUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
     }
 
-    @Transactional
-    public User registerUser(SignUpRequest signUpRequest) {
-        log.info("Registering user with email: {}", signUpRequest.email());
-        // 이메일 중복 체크
-        if (userRepository.existsByEmail(signUpRequest.email())){
-            throw new UserAlreadyExistsException(USER_ALREADY_EXISTS);
+    public MypageResponse getMyPage(Long userId) { return MypageResponse.from(getUser(userId)); }
+
+    public MyProfileResponse getMyProfile(Long userId){
+        return MyProfileResponse.from(getUser(userId));
+    }
+
+    public DetailProfileResponse getDetailProfile(Long profileId, Long viewerId) {
+//        log.info("-----getDetailProfile----- ");
+        User user = getUser(profileId);
+        if (!user.getIsProfilePublic()) {
+            throw new ProfileNotPublicException(USER_NOT_FOUND);
+        }
+        if(user.getRole() == Role.WITHDRAWN){       // 탈퇴여부
+            throw new UserNotFoundException(USER_NOT_FOUND);
         }
 
-        User user = signUpRequest.toUser(passwordEncoder);
+        Boolean isStar = userStarRepository.existsByUserIdAndStarUserId(viewerId, profileId);
+        Ranking ranking = rankingService.getRanking(profileId);
+        PloggingStatsResponse ploggingStats= myPloggingService.getPloggingStats(profileId);
 
-        // DB에 사용자 정보 저장
-        return userRepository.save(user);
+        return DetailProfileResponse.of(user, isStar, ranking, ploggingStats);
+    }
+
+    @Transactional
+    public void updateMyProfile(Long userId, MultipartFile profileImage, MyProfileUpdateRequest myProfileRequest){
+        log.info("-----updateMyProfile-----");
+
+        User user = getUser(userId);
+        if(profileImage!=null && !profileImage.isEmpty()){
+            s3Service.deleteFile(user.getProfileImageUrl());    // 기존 이미지 제거
+            s3Service.uploadFile(profileImage, "profile");   // 이미지 추가
+        }
+
+        user.update(myProfileRequest);
+
     }
 }
