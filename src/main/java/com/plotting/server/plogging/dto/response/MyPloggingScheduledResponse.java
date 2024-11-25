@@ -24,7 +24,7 @@ public record MyPloggingScheduledResponse(
 
 ) {
 
-    public static MyPloggingScheduledResponse of(Plogging plogging, Long currentPeople, PloggingUser ploggingUser) {
+    public static MyPloggingScheduledResponse of(Plogging plogging, Long currentPeople, Boolean isAssigned) {
         return MyPloggingScheduledResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())
@@ -34,7 +34,7 @@ public record MyPloggingScheduledResponse(
                 .startTime(plogging.getStartTime())
                 .spendTime(plogging.getSpendTime())
                 .startLocation(plogging.getStartLocation())
-                .isAssigned(ploggingUser.getIsAssigned())
+                .isAssigned(isAssigned)
                 .build();
     }
 }

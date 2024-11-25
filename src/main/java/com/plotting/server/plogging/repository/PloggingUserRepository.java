@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long> {
@@ -23,4 +24,16 @@ public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long
 
     @Query(value = "SELECT RELEASE_LOCK(:key)", nativeQuery = true)
     void releaseLock(String key);
+
+    // 특정 플로깅과 유저의 관계 조회
+    Optional<PloggingUser> findByPloggingIdAndUserId(Long ploggingId, Long userId);
+
+    List<PloggingUser> findAllByUserIdAndIsAssignedTrue(Long userId);
+
+    // 유저 ID로 PloggingUser 찾기
+    PloggingUser findByUserId(Long userId);
+
+    // ploggingId와 userId로 PloggingUser 삭제
+    void deleteByPlogging_IdAndUser_Id(Long ploggingId, Long userId);
+
 }

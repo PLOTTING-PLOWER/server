@@ -35,7 +35,7 @@ public class UserInitializer implements ApplicationRunner {
                     .nickname("슝슝이")
                     .email("user1@email.com")
                     .password("password1")
-                    .profileImageUrl("profileImage1.png")
+                    .profileImageUrl("https://ibb.co/P4KfrQ4")
                     .profileMessage("플로깅 열심히 하는 1인입니다 :)")
                     .loginType(SELF)
                     .isAlarmAllowed(true)
