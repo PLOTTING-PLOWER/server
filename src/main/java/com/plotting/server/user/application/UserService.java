@@ -72,12 +72,8 @@ public class UserService {
 
         // 랭킹 가져오기 (랭킹이 없으면 null 반환)
         Ranking ranking;
-        try {
-            ranking = rankingService.getRanking(profileId);
-        } catch (Exception e) {
-            // 예외 발생 시 랭킹을 -1로
-            ranking = null;
-        }
+        ranking = rankingService.getRanking(profileId);
+
 
         // 플로깅 통계 가져오기 (없으면 null 반환)
         PloggingStatsResponse ploggingStats = null;
@@ -85,6 +81,7 @@ public class UserService {
             ploggingStats = myPloggingService.getPloggingStats(profileId);
         } catch (Exception e) {
             // 예외 발생 시 플로깅 통계를 null로 처리
+            log.error("getPloggingStats Error occurred: ", e);
             ploggingStats = null;
         }
 
