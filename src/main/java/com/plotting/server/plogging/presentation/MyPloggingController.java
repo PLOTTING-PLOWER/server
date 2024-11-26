@@ -7,6 +7,11 @@ import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
 import com.plotting.server.plogging.dto.response.MonthlyPloggingListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingUserListResponse;
+import com.plotting.server.plogging.application.MyPloggingHomeService;
+import com.plotting.server.plogging.dto.response.MyPloggingParticipatedResponse;
+import com.plotting.server.plogging.dto.response.MyPloggingScheduledResponse;
+import com.plotting.server.plogging.dto.response.MyPloggingSummaryResponse;
+import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +38,8 @@ import static com.plotting.server.global.dto.ResponseTemplate.EMPTY_RESPONSE;
 public class MyPloggingController {
 
     private final MyPloggingService myPloggingService;
+    private final MyPloggingHomeService myPloggingHomeService;
+
 
     @Operation(summary = "내가 만든 플로깅 목록 조회", description = "내가 만든 플로깅 목록을 조회합니다.")
     @GetMapping("/created")
@@ -118,5 +125,43 @@ public class MyPloggingController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "참여했던 플로깅 조회", description = "참여했던 플로깅을 조회합니다.")
+    @GetMapping("/participated")
+    public ResponseEntity<ResponseTemplate<?>> getMyPloggingParticipated(
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+
+        List<MyPloggingParticipatedResponse> response = myPloggingHomeService.getParticipatedPloggings(jwtUserDetails.userId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from(response));
+    }
+
+
+    @Operation(summary = "예정된 플로깅 조회", description = "예정된 플로깅을 조회합니다.")
+    @GetMapping("/scheduled")
+    public ResponseEntity<ResponseTemplate<?>> getMyPloggingScheduled(
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+
+            // 서비스 호출을 통해 데이터를 조회
+            List<MyPloggingScheduledResponse> response = myPloggingHomeService.getScheduledPloggings(jwtUserDetails.userId());
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "나의 플로깅 횟수,시간 조회", description = "나의 플로깅 횟수,시간 조회합니다.")
+    @GetMapping("/summary")
+    public ResponseEntity<ResponseTemplate<?>> getPloggingSummary(
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+
+            MyPloggingSummaryResponse response = myPloggingHomeService.getPloggingSummary(jwtUserDetails.userId());
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(ResponseTemplate.from(response));
     }
 }

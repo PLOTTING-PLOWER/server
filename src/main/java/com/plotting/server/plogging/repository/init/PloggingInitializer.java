@@ -45,7 +45,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .title("한강 플로깅")
                     .content("한강에서 같이 뛰면서 플로깅 하실 분들 구합니다!")
                     .maxPeople(5L)
-                    .ploggingType(DIRECT)
+                    .ploggingType(ASSIGN)
                     .recruitStartDate(LocalDate.parse("2024-10-12"))
                     .recruitEndDate(LocalDate.parse("2024-11-30"))
                     .startTime(LocalDateTime.of(2024, 12, 1, 14, 0, 0))
@@ -55,6 +55,8 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startLongitude(BigDecimal.valueOf(126.933612357))
                     .endLocation("서울특별시 영등포구 여의동로 330")
                     .build();
+
+            DUMMY_PLOGGING1.calculateEndTime();
 
             Plogging DUMMY_PLOGGING2 = Plogging.builder()
                     .user(user)
@@ -71,13 +73,14 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startLongitude(BigDecimal.valueOf(127.1171114))
                     .endLocation("")
                     .build();
+            DUMMY_PLOGGING2.calculateEndTime();
 
             Plogging DUMMY_PLOGGING3 = Plogging.builder()
                     .user(user)
                     .title("동작 공원 플로깅")
                     .content("동작 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(10L)
-                    .ploggingType(ASSIGN)
+                    .ploggingType(DIRECT)
                     .recruitStartDate(LocalDate.parse("2024-09-15"))
                     .recruitEndDate(LocalDate.parse("2024-11-01"))
                     .startTime(LocalDateTime.of(2024, 10, 21, 12, 0, 0))
@@ -87,6 +90,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startLongitude(BigDecimal.valueOf(127.13082790374756))
                     .endLocation("")
                     .build();
+            DUMMY_PLOGGING3.calculateEndTime();
 
             ploggingList.add(DUMMY_PLOGGING1);
             ploggingList.add(DUMMY_PLOGGING2);

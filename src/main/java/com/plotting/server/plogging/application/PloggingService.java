@@ -82,6 +82,7 @@ public class PloggingService {
         User user = userService.getUser(userId);
         Plogging plogging = ploggingRequest.toPlogging(user, start.getLatitude(), start.getLongitude());
         ploggingRepository.save(plogging);
+        plogging.calculateEndTime();
     }
 
     // 필터링 검색
@@ -130,5 +131,10 @@ public class PloggingService {
     public Plogging getPlogging(Long ploggingId) {
         return ploggingRepository.findById(ploggingId)
                 .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
+    }
+
+    // ploggingId와 userId로 해당 플로깅 유저 삭제
+    public void removeUserFromPlogging(Long ploggingId, Long userId) {
+        ploggingUserRepository.deleteByPloggingIdAndUserId(ploggingId, userId);
     }
 }

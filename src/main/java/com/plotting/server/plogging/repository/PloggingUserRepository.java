@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long> {
@@ -35,4 +36,16 @@ public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long
             "WHERE pu.user.id = :userId " +
             "GROUP BY YEAR(p.startTime), MONTH(p.startTime)")
     List<MonthlyPloggingResponse> findMonthlyPloggingStatsByUserId(Long userId);
+
+    // 특정 플로깅과 유저의 관계 조회
+    Optional<PloggingUser> findByPloggingIdAndUserId(Long ploggingId, Long userId);
+
+    List<PloggingUser> findAllByUserIdAndIsAssignedTrue(Long userId);
+
+    // 유저 ID로 PloggingUser 찾기
+    PloggingUser findByUserId(Long userId);
+
+    // ploggingId와 userId로 PloggingUser 삭제
+    void deleteByPloggingIdAndUserId(Long ploggingId, Long userId);
+
 }
