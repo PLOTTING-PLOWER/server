@@ -30,7 +30,7 @@ public class UserStarController {
     }
 
     @Operation(summary = "유저 즐겨 찾기 추가/삭제", description = "내가 즐겨찾기 한 사람 추가")
-    @PostMapping("/update/{starId}")
+    @PostMapping("/{starId}")
     public ResponseEntity<ResponseTemplate<?>> updateUserStar(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @PathVariable Long starId){
