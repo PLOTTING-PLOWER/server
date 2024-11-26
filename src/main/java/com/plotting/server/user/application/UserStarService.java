@@ -46,6 +46,6 @@ public class UserStarService {
             userStarRepository.save(UserStar.of(user, starUser));
         }
 
-        return userStar.isPresent();
+        return !userStar.isPresent();
     }
 }

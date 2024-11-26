@@ -46,6 +46,6 @@ public class PloggingStarService {
             ploggingStarRepository.save(PloggingStar.of(user, plogging));
         }
 
-        return ploggingStar.isPresent();
+        return !ploggingStar.isPresent();
     }
 }
