@@ -38,7 +38,7 @@ public class RankingService {
                 .orElseGet(()-> {
                     User user = userRepository.findById(userId)
                             .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-                    return new RankingResponse(userId, user.getNickname(), user.getProfileImageUrl(), 0L, 0L, 0L);
+                    return RankingResponse.from(user);
                 });
 
     }

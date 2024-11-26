@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 Long userId = jwtUtil.getIdFromToken(token);
                 JwtUserDetails userDetails = userDetailsService.loadUserByUserId(userId);
-                log.info("Extracted userId of JWT: {}", userId);
+                log.info("Extracted userId from JWT: {}", userId);
 
                 if (userDetails != null) {
                     UsernamePasswordAuthenticationToken authenticationToken =
@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     Collections.singletonList(new SimpleGrantedAuthority(userDetails.role().name())));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 } else {
-                    log.error("Invalid userId extracted of token.");
+                    log.error("Invalid userId extracted from token.");
                     throw new UserNotFoundException(USER_NOT_FOUND);
                 }
             }catch (Exception ex){

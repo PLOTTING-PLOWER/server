@@ -40,4 +40,8 @@ public class Ranking {
         this.totalCount = totalCount;
     }
 
+    public static Ranking create(User user, Long hourRank, Long totalHours, Long totalCount) {
+        return new Ranking(user, hourRank, totalHours, totalCount);
+    }
+
 }

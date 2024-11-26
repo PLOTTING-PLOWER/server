@@ -116,7 +116,8 @@ public class MyPloggingService {
         return PloggingStatsResponse.of(totalPloggingNumber, totalPloggingTime);
     }
 
-    public UpdateRankingListResponse getMonthlyPloggingStats(LocalDateTime now){
+    public UpdateRankingListResponse getMonthlyPloggingStats(){
+        LocalDateTime now = LocalDateTime.now();
         LocalDateTime startOfMonth = now.withDayOfMonth(1).toLocalDate().atStartOfDay();
         LocalDateTime startOfNextMonth = startOfMonth.plusMonths(1);
 

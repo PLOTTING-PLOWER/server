@@ -33,16 +33,17 @@ public class RankingUpdateService {
         log.info("Starting updateMonthlyRanking at: "+ LocalDateTime.now());
         try {
             // 기존 랭킹 삭제(전체 삭제)
-            rankingRepository.deleteAllRankings();      // 바로 삭제 위해 JPQL로
+            rankingRepository.deleteAll();
+            rankingRepository.flush();
             log.info("All existing rankings deleted.");
 
             // 새로운 랭킹 데이터 계산
-            UpdateRankingListResponse updateRankingListResponse = myPloggingService.getMonthlyPloggingStats(LocalDateTime.now());
+            UpdateRankingListResponse updateRankingListResponse = myPloggingService.getMonthlyPloggingStats();
 
             AtomicInteger rankCounter = new AtomicInteger(1);
             List<Ranking> newRankings = updateRankingListResponse.rankingListResponse()
                     .stream()
-                    .map(response -> new Ranking(
+                    .map(response -> Ranking.create(
                             userService.getUser(response.userId()),
                             Long.valueOf(rankCounter.getAndIncrement()),
                             response.totalHours(),

@@ -17,10 +17,6 @@ public interface RankingRepository extends JpaRepository<Ranking, Long> {
 
     boolean existsByUserId(Long userId);
 
-    @Modifying
-    @Query("DELETE FROM Ranking")
-    void deleteAllRankings();
-
     @Query("SELECT new com.plotting.server.ranking.dto.response.RankingResponse(" +
             "r.user.id, r.user.nickname, r.user.profileImageUrl, r.hourRank, r.totalHours, r.totalCount) " +
             "FROM Ranking r " +

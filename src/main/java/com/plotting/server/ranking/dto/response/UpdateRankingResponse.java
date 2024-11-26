@@ -8,7 +8,7 @@ public record UpdateRankingResponse(
         Long totalHours,
         Long totalCount
 ){
-    public static UpdateRankingResponse of(UpdateRankingResponse response) {
+    public static UpdateRankingResponse from(UpdateRankingResponse response) {
         return UpdateRankingResponse.builder()
                 .userId(response.userId)
                 .totalHours(response.totalHours)
