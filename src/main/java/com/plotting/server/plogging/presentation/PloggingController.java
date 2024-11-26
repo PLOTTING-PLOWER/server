@@ -7,10 +7,7 @@ import com.plotting.server.plogging.application.PloggingService;
 import com.plotting.server.plogging.application.PloggingServiceFacade;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import com.plotting.server.plogging.dto.request.PloggingRequest;
-import com.plotting.server.plogging.dto.response.PloggingDetailResponse;
-import com.plotting.server.plogging.dto.response.PloggingMapResponse;
-import com.plotting.server.plogging.dto.response.PloggingResponse;
-import com.plotting.server.plogging.dto.response.PloggingUserListResponse;
+import com.plotting.server.plogging.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -59,11 +56,11 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> getHome(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        ploggingService.getHome(jwtUserDetails.userId());
+        HomeResponse response = ploggingService.getHome(jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ResponseTemplate.from(ResponseTemplate.EMPTY_RESPONSE));
+                .body(ResponseTemplate.from(response));
     }
 
     @Operation(summary = "플로깅 모임 등록", description = "플로깅 모임 등록 화면입니다. <br> startLocation: 서울특별시")
