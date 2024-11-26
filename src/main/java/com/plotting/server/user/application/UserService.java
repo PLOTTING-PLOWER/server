@@ -46,6 +46,14 @@ public class UserService {
 
     public MypageResponse getMyPage(Long userId) { return MypageResponse.from(getUser(userId)); }
 
+    @Transactional
+    public void updateAlarm(Long userId, Boolean isAlarmAllowed) {
+        User user = getUser(userId);
+        log.info("updateAlarm", isAlarmAllowed);
+        user.updateAlarmAllowed(isAlarmAllowed);
+        log.info("success updateAlarm");
+    }
+
     public MyProfileResponse getMyProfile(Long userId){
         return MyProfileResponse.from(getUser(userId));
     }

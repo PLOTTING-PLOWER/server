@@ -82,6 +82,7 @@ public class PloggingService {
         User user = userService.getUser(userId);
         Plogging plogging = ploggingRequest.toPlogging(user, start.getLatitude(), start.getLongitude());
         ploggingRepository.save(plogging);
+        plogging.calculateEndTime();
     }
 
     // 필터링 검색

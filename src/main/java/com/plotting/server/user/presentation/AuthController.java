@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복 체크")
-    @GetMapping("/check-nickname")
+    @GetMapping("/validation/nickname")
     public ResponseEntity<ResponseTemplate<?>> checkNickname(@RequestParam String nickname){
         log.info("-----check nickname-----");
         boolean isAvailable = authService.isNicknameAvailable(nickname);

@@ -56,6 +56,8 @@ public class PloggingInitializer implements ApplicationRunner {
                     .endLocation("서울특별시 영등포구 여의동로 330")
                     .build();
 
+            DUMMY_PLOGGING1.calculateEndTime();
+
             Plogging DUMMY_PLOGGING2 = Plogging.builder()
                     .user(user)
                     .title("올림픽 공원 플로깅")
@@ -71,6 +73,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startLongitude(BigDecimal.valueOf(127.1171114))
                     .endLocation("")
                     .build();
+            DUMMY_PLOGGING2.calculateEndTime();
 
             Plogging DUMMY_PLOGGING3 = Plogging.builder()
                     .user(user)
@@ -87,6 +90,7 @@ public class PloggingInitializer implements ApplicationRunner {
                     .startLongitude(BigDecimal.valueOf(127.13082790374756))
                     .endLocation("")
                     .build();
+            DUMMY_PLOGGING3.calculateEndTime();
 
             ploggingList.add(DUMMY_PLOGGING1);
             ploggingList.add(DUMMY_PLOGGING2);
