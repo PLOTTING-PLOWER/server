@@ -22,9 +22,10 @@ public record MyPloggingCreatedResponse(
         String startLocation,
         LocalDate recruitStartDate,
         LocalDate recruitEndDate,
-        Boolean isRecruiting
+        Boolean isRecruiting,
+        Boolean isStar
 ) {
-    public static MyPloggingCreatedResponse of(Plogging plogging, Long currentPeople, Boolean isRecruiting) {
+    public static MyPloggingCreatedResponse of(Plogging plogging, Long currentPeople, Boolean isRecruiting, Boolean isStar) {
         return MyPloggingCreatedResponse.builder()
                 .ploggingId(plogging.getId())
                 .ploggingType(plogging.getPloggingType())
@@ -38,6 +39,7 @@ public record MyPloggingCreatedResponse(
                 .recruitStartDate(plogging.getRecruitStartDate())
                 .recruitEndDate(plogging.getRecruitEndDate())
                 .isRecruiting(isRecruiting)
+                .isStar(isStar)
                 .build();
     }
 }

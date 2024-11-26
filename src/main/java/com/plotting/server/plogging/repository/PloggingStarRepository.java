@@ -16,4 +16,6 @@ public interface PloggingStarRepository extends JpaRepository<PloggingStar, Long
     List<Plogging> findPloggingByUserId(Long userId);
 
     Optional<PloggingStar> findByUserIdAndPloggingId(Long userId, Long ploggingId);
+
+    Boolean existsByUserIdAndPloggingId(Long userId, Long ploggingId);
 }
