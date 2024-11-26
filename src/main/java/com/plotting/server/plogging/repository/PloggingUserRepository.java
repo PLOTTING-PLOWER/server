@@ -46,6 +46,6 @@ public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long
     PloggingUser findByUserId(Long userId);
 
     // ploggingId와 userId로 PloggingUser 삭제
-    void deleteByPlogging_IdAndUser_Id(Long ploggingId, Long userId);
+    void deleteByPloggingIdAndUserId(Long ploggingId, Long userId);
 
 }

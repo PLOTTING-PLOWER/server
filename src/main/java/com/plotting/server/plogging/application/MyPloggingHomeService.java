@@ -7,6 +7,10 @@ import com.plotting.server.plogging.dto.response.MyPloggingScheduledResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingSummaryResponse;
 import com.plotting.server.plogging.repository.MyPloggingRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
+import com.plotting.server.user.application.UserService;
+import com.plotting.server.user.domain.User;
+import com.plotting.server.user.exception.UserNotFoundException;
+import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NOT_FOUND;
+
 @Slf4j
 @Service
 @Transactional
@@ -25,26 +31,26 @@ public class MyPloggingHomeService {
 
     private final MyPloggingRepository myPloggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
+    private final UserRepository userRepository;
 
     public MyPloggingSummaryResponse getPloggingSummary(Long userId) {
+
+        // 유저 정보 가져오기
+        User user = getUser(userId);
+
         // 유저 ID로 참여한 모든 플로깅 데이터 조회
         List<PloggingUser> ploggingUsers = ploggingUserRepository.findAllByUserIdAndIsAssignedTrue(userId);
 
         // 총 소요 시간 계산
         long totalSpendTime = ploggingUsers.stream()
-                .mapToLong(ploggingUser -> {
-                    Plogging plogging = ploggingUser.getPlogging();
-                    return (plogging != null) ? plogging.getSpendTime() : 0L; // null 안전 처리
-                })
+                .mapToLong(ploggingUser -> ploggingUser.getPlogging().getSpendTime())
                 .sum();
 
         // 시 단위로 변환 (1시간 = 60분)
         long totalSpendTimeInHours = totalSpendTime / 60;
 
-        // 유저 정보 가져오기
-        PloggingUser user = ploggingUserRepository.findByUserId(userId);  // 가정: 유저를 PloggingUser에서 찾기
-        String nickname = user.getUser().getNickname(); // 유저의 닉네임
-        String profileImageUrl = user.getUser().getProfileImageUrl(); // 유저의 프로필 이미지 URL
+        String nickname = user.getNickname(); // 유저의 닉네임
+        String profileImageUrl = user.getProfileImageUrl(); // 유저의 프로필 이미지 URL
 
         // MyPloggingSummaryResponse 객체 생성 및 반환
         return MyPloggingSummaryResponse.builder()
@@ -56,7 +62,7 @@ public class MyPloggingHomeService {
     }
 
 
-    public List<MyPloggingParticipatedResponse> getParticipatedPloggings(long userId) {
+    public List<MyPloggingParticipatedResponse> getParticipatedPloggings(Long userId) {
         LocalDate currentDate = LocalDate.now();
         // 특정 사용자의 플로깅 정보 조회
         List<Plogging> ploggings = myPloggingRepository.findParticipatedPloggings(userId, currentDate);
@@ -67,7 +73,7 @@ public class MyPloggingHomeService {
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
                     return MyPloggingParticipatedResponse.of(p, currentPeople);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<MyPloggingScheduledResponse> getScheduledPloggings(long userId) {
@@ -86,14 +92,14 @@ public class MyPloggingHomeService {
 
                     return MyPloggingScheduledResponse.of(p, currentPeople, isAssigned);
                 })
-                .collect(Collectors.toList());
-
-        // 데이터를 출력하는 프린트문 추가
-        System.out.println("Scheduled Ploggings for User ID " + userId + ":");
-        System.out.println("Fetched responseList: " + responseList);
+                .toList();
 
         return responseList;
     }
 
+    public User getUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+    }
 
 }

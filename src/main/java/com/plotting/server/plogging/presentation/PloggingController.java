@@ -137,8 +137,10 @@ public class PloggingController {
     }
 
     @Operation(summary = "플로깅 모임 취소", description = "플로깅 모임에 해당하는 유저를 삭제합니다.")
-    @DeleteMapping("/plogging/{ploggingId}/cancel/{userId}")
-    public ResponseEntity<Void> cancelPlogging(@PathVariable Long ploggingId, @PathVariable Long userId) {
+    @DeleteMapping("/{ploggingId}/cancel")
+    public ResponseEntity<ResponseTemplate<?>> cancelPlogging(
+            @PathVariable Long ploggingId,
+            @PathVariable Long userId) {
         try {
             ploggingService.removeUserFromPlogging(ploggingId, userId);
             return ResponseEntity.noContent().build(); // 삭제 성공 시 204 No Content 반환
