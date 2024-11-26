@@ -31,7 +31,7 @@ public class PloggingStarController {
     }
 
     @Operation(summary = "플로깅 즐겨 찾기 업데이트", description = "내가 즐겨찾기 한 사람 업데이트")
-    @PostMapping("/update/{ploggingId}")
+    @PostMapping("/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> updatePloggingStar(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @PathVariable Long ploggingId){
