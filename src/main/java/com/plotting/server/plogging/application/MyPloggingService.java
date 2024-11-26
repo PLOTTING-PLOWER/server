@@ -52,6 +52,7 @@ public class MyPloggingService {
         Plogging plogging = getPlogging(ploggingId);
         alarmService.saveUpdatePloggingAlarm(plogging);
         plogging.update(request);
+
     }
 
     @Transactional

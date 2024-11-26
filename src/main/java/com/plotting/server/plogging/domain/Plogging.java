@@ -94,7 +94,6 @@ public class Plogging extends BaseTimeEntity {
         this.startLatitude = startLatitude;
         this.startLongitude = startLongitude;
         this.endLocation = endLocation;
-        calculateEndTime();
     }
 
     public void update(PloggingUpdateRequest request) {
