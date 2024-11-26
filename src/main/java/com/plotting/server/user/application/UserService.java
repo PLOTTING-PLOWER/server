@@ -69,8 +69,24 @@ public class UserService {
         }
 
         Boolean isStar = userStarRepository.existsByUserIdAndStarUserId(viewerId, profileId);
-        Ranking ranking = rankingService.getRanking(profileId);
-        PloggingStatsResponse ploggingStats= myPloggingService.getPloggingStats(profileId);
+
+        // 랭킹 가져오기 (랭킹이 없으면 null 반환)
+        Ranking ranking;
+        try {
+            ranking = rankingService.getRanking(profileId);
+        } catch (Exception e) {
+            // 예외 발생 시 랭킹을 -1로
+            ranking = null;
+        }
+
+        // 플로깅 통계 가져오기 (없으면 null 반환)
+        PloggingStatsResponse ploggingStats = null;
+        try {
+            ploggingStats = myPloggingService.getPloggingStats(profileId);
+        } catch (Exception e) {
+            // 예외 발생 시 플로깅 통계를 null로 처리
+            ploggingStats = null;
+        }
 
         return DetailProfileResponse.of(user, isStar, ranking, ploggingStats);
     }
