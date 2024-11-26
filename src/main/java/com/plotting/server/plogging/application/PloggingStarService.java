@@ -33,7 +33,7 @@ public class PloggingStarService {
     }
 
     @Transactional
-    public void updatePloggingStar(Long userId, Long ploggingId){
+    public Boolean updatePloggingStar(Long userId, Long ploggingId){
         Optional<PloggingStar> ploggingStar = ploggingStarRepository.findByUserIdAndPloggingId(userId, ploggingId);
 
         if(ploggingStar.isPresent()){
@@ -45,5 +45,7 @@ public class PloggingStarService {
 
             ploggingStarRepository.save(PloggingStar.of(user, plogging));
         }
+
+        return ploggingStar.isPresent();
     }
 }
