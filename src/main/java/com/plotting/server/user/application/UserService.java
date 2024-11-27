@@ -99,6 +99,15 @@ public class UserService {
         }
 
         user.update(myProfileRequest);
+    }
 
+    @Transactional
+    public void saveFcmToken(Long userId, String token){
+        log.info("-----saveFcmToken-----");
+
+        User user = getUser(userId);
+        if (!token.equals(user.getFcmToken())) {
+            user.updateFcmToken(token);
+        }
     }
 }
