@@ -1,5 +1,6 @@
 package com.plotting.server.global.exception.handler;
 
+import com.plotting.server.alarm.exception.FcmFailedException;
 import com.plotting.server.cardnews.exception.CardNewsNotFoundException;
 import com.plotting.server.comment.exception.CommentNotFoundException;
 import com.plotting.server.global.exception.errorcode.ErrorCode;
@@ -101,6 +102,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RankingNotFoundException.class)
     public ResponseEntity<Object> handlerRankingNotFoundException(final RankingNotFoundException e){
+        return handleExceptionInternal(e.getErrorCode());
+    }
+
+    @ExceptionHandler(FcmFailedException.class)
+    public ResponseEntity<Object> handlerFcmFailedException(final FcmFailedException e){
         return handleExceptionInternal(e.getErrorCode());
     }
 
