@@ -1,5 +1,8 @@
 package com.plotting.server.alarm.presentation;
 
+import com.plotting.server.alarm.application.AlarmService;
+import com.plotting.server.alarm.application.FcmService;
+import com.plotting.server.alarm.dto.response.AlarmListResponse;
 import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.user.application.UserService;
@@ -10,11 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Tag(name = "alarm", description = "알람 관련 API")
@@ -25,6 +26,7 @@ import java.util.Map;
 public class AlarmController {
 
     private final UserService userService;
+    private final AlarmService alarmService;
 
     @Operation(summary = "fcm 토큰 저장", description = "fcm 토큰 저장")
     @PostMapping("/fcm-token")
@@ -35,4 +37,22 @@ public class AlarmController {
         userService.saveFcmToken(jwtUserDetails.userId(), token);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.EMPTY_RESPONSE);
     }
+
+    @Operation(summary = "알림 조회", description = "알림 조회 페이지")
+    @GetMapping("/list")
+    public ResponseEntity<ResponseTemplate<?>> getAlarmList(@AuthenticationPrincipal JwtUserDetails jwtUserDetails){
+
+        AlarmListResponse alarmListResponse = alarmService.getAlarmList(jwtUserDetails.userId());
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(alarmListResponse));
+    }
+
+//    @Operation(summary = "fcm 알림 전송", description = "fcm 알림 전송")
+//    @PostMapping("/test-notification")
+//    public ResponseEntity<?> sendNotification(
+//            @RequestParam Long userId) {
+//
+//        fcmService.sendNotificationForUser(userId); // FCM 전송
+//        return ResponseEntity.ok("Notification sent successfully");
+//    }
+
 }
