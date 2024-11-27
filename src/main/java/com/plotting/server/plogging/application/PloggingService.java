@@ -132,4 +132,9 @@ public class PloggingService {
         return ploggingRepository.findById(ploggingId)
                 .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
     }
+
+    // ploggingId와 userId로 해당 플로깅 유저 삭제
+    public void removeUserFromPlogging(Long ploggingId, Long userId) {
+        ploggingUserRepository.deleteByPloggingIdAndUserId(ploggingId, userId);
+    }
 }

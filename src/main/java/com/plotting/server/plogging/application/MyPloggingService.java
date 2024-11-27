@@ -8,6 +8,7 @@ import com.plotting.server.plogging.dto.response.*;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.exception.PloggingUserNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
+import com.plotting.server.plogging.repository.PloggingStarRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.ranking.dto.response.UpdateRankingListResponse;
 import com.plotting.server.ranking.dto.response.UpdateRankingResponse;
@@ -34,6 +35,7 @@ public class MyPloggingService {
     private final AlarmService alarmService;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
+    private final PloggingStarRepository ploggingStarRepository;
 
     public MyPloggingCreatedListResponse getMyPloggingCreatedList(Long userId) {
         return MyPloggingCreatedListResponse.from(
@@ -41,7 +43,8 @@ public class MyPloggingService {
                         .map(plogging -> {
                             Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
                             Boolean isRecruiting = plogging.getRecruitEndDate().isAfter(LocalDate.now());
-                            return MyPloggingCreatedResponse.of(plogging, currentPeople, isRecruiting);
+                            Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(userId, plogging.getId());
+                            return MyPloggingCreatedResponse.of(plogging, currentPeople, isRecruiting, isStar);
                         })
                         .toList()
         );
