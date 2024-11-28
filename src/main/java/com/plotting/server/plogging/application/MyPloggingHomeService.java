@@ -79,7 +79,7 @@ public class MyPloggingHomeService {
                 .toList();
     }
 
-    public List<MyPloggingScheduledResponse> getScheduledPloggings(long userId) {
+    public List<MyPloggingScheduledResponse> getScheduledPloggings(Long userId) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         // 특정 사용자의 플로깅 정보 조회
         List<Plogging> ploggings = myPloggingRepository.findScheduledPloggings(userId, currentDateTime);

@@ -145,17 +145,4 @@ public class PloggingController {
                 .body(ResponseTemplate.from(response));
     }
 
-    @Operation(summary = "플로깅 모임 취소", description = "플로깅 모임에 해당하는 유저를 삭제합니다.")
-    @DeleteMapping("/{ploggingId}/cancel")
-    public ResponseEntity<ResponseTemplate<?>> cancelPlogging(
-            @PathVariable Long ploggingId,
-            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
-
-        ploggingService.removeUserFromPlogging(ploggingId,jwtUserDetails.userId());
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseTemplate.from("User removed from plogging successfully"));
-
-    }
 }

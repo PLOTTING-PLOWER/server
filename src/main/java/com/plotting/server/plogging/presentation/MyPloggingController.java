@@ -3,6 +3,7 @@ package com.plotting.server.plogging.presentation;
 import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
 import com.plotting.server.plogging.application.MyPloggingService;
+import com.plotting.server.plogging.application.PloggingService;
 import com.plotting.server.plogging.dto.request.PloggingUpdateRequest;
 import com.plotting.server.plogging.dto.response.MonthlyPloggingListResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingCreatedListResponse;
@@ -39,6 +40,7 @@ public class MyPloggingController {
 
     private final MyPloggingService myPloggingService;
     private final MyPloggingHomeService myPloggingHomeService;
+    private final PloggingService ploggingService;
 
 
     @Operation(summary = "내가 만든 플로깅 목록 조회", description = "내가 만든 플로깅 목록을 조회합니다.")
@@ -163,5 +165,19 @@ public class MyPloggingController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(ResponseTemplate.from(response));
+    }
+
+    @Operation(summary = "플로깅 모임 취소", description = "플로깅 모임에 해당하는 유저를 삭제합니다.")
+    @DeleteMapping("/{ploggingId}/cancel")
+    public ResponseEntity<ResponseTemplate<?>> reqeustCancel(
+            @PathVariable Long ploggingId,
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+
+        ploggingService.removeUserFromPlogging(ploggingId,jwtUserDetails.userId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from("User removed from plogging successfully"));
+
     }
 }
