@@ -6,6 +6,7 @@ import com.plotting.server.plogging.dto.response.MyPloggingParticipatedResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingScheduledResponse;
 import com.plotting.server.plogging.dto.response.MyPloggingSummaryResponse;
 import com.plotting.server.plogging.repository.MyPloggingRepository;
+import com.plotting.server.plogging.repository.PloggingStarRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
@@ -32,6 +33,8 @@ public class MyPloggingHomeService {
     private final MyPloggingRepository myPloggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
     private final UserRepository userRepository;
+    private final PloggingStarRepository ploggingStarRepository;
+
 
     public MyPloggingSummaryResponse getPloggingSummary(Long userId) {
 
@@ -72,7 +75,8 @@ public class MyPloggingHomeService {
         return ploggings.stream()
                 .map(p -> {
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
-                    return MyPloggingParticipatedResponse.of(p, currentPeople);
+                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(userId, p.getId());
+                    return MyPloggingParticipatedResponse.of(p, currentPeople, isStar);
                 })
                 .toList();
     }
@@ -83,7 +87,7 @@ public class MyPloggingHomeService {
         List<Plogging> ploggings = myPloggingRepository.findScheduledPloggings(userId, currentDateTime);
 
         // 참여 인원 수를 포함한 DTO 변환
-        List<MyPloggingScheduledResponse> responseList = ploggings.stream()
+        List<MyPloggingScheduledResponse> response = ploggings.stream()
                 .map(p -> {
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
 
@@ -91,11 +95,12 @@ public class MyPloggingHomeService {
                             .map(PloggingUser::getIsAssigned)
                             .orElse(false);
 
-                    return MyPloggingScheduledResponse.of(p, currentPeople, isAssigned);
+                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(userId, p.getId());
+
+                    return MyPloggingScheduledResponse.of(p, currentPeople, isAssigned, isStar);
                 })
                 .toList();
-
-        return responseList;
+        return response;
     }
 
     public User getUser(Long userId) {

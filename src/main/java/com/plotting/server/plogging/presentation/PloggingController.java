@@ -150,11 +150,12 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> cancelPlogging(
             @PathVariable Long ploggingId,
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
-        try {
-            ploggingService.removeUserFromPlogging(ploggingId,jwtUserDetails.userId());
-            return ResponseEntity.noContent().build(); // 삭제 성공 시 204 No Content 반환
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build(); // 실패 시 500 Internal Server Error 반환
-        }
+
+        ploggingService.removeUserFromPlogging(ploggingId,jwtUserDetails.userId());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseTemplate.from("User removed from plogging successfully"));
+
     }
 }

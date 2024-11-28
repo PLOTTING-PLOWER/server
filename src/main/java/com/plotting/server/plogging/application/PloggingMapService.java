@@ -31,6 +31,6 @@ public class PloggingMapService {
                     Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(userId,p.getId());
                     return PloggingMapResponse.of(p, currentPeople, isStar);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 }
