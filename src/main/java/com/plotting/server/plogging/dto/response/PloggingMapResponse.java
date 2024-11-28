@@ -22,10 +22,11 @@ public record PloggingMapResponse(
         Long spendTime,
         String startLocation,
         BigDecimal startLatitude,
-        BigDecimal startLongitude// 클러스터 내 모임 개수
+        BigDecimal startLongitude,
+        Boolean isStar
 ) {
 
-    public static PloggingMapResponse of(Plogging plogging, Long currentPeople) {
+    public static PloggingMapResponse of(Plogging plogging, Long currentPeople, Boolean isStar) {
         return PloggingMapResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())
@@ -38,6 +39,7 @@ public record PloggingMapResponse(
                 .startLocation(plogging.getStartLocation())
                 .startLatitude(plogging.getStartLatitude())
                 .startLongitude(plogging.getStartLongitude())
+                .isStar(isStar)
                 .build();
     }
 }

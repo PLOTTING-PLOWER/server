@@ -18,11 +18,12 @@ public record MyPloggingParticipatedResponse(
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime startTime,
         Long spendTime,
-        String startLocation
+        String startLocation,
+        Boolean isStar
 
 ) {
 
-    public static MyPloggingParticipatedResponse of(Plogging plogging, Long currentPeople) {
+    public static MyPloggingParticipatedResponse of(Plogging plogging, Long currentPeople, Boolean isStar) {
         return MyPloggingParticipatedResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())
@@ -32,6 +33,7 @@ public record MyPloggingParticipatedResponse(
                 .startTime(plogging.getStartTime())
                 .spendTime(plogging.getSpendTime())
                 .startLocation(plogging.getStartLocation())
+                .isStar(isStar)
                 .build();
     }
 }

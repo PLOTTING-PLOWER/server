@@ -138,9 +138,10 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> getPloggingInBounds(
             @RequestParam BigDecimal lat1,
             @RequestParam BigDecimal lon1,
-            @RequestParam int zoom) {
+            @RequestParam int zoom,
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        List<PloggingMapResponse> response = ploggingMapService.getPloggingInBounds(lat1, lon1, zoom);
+        List<PloggingMapResponse> response = ploggingMapService.getPloggingInBounds(lat1, lon1, zoom, jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -151,9 +152,9 @@ public class PloggingController {
     @DeleteMapping("/{ploggingId}/cancel")
     public ResponseEntity<ResponseTemplate<?>> cancelPlogging(
             @PathVariable Long ploggingId,
-            @PathVariable Long userId) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
         try {
-            ploggingService.removeUserFromPlogging(ploggingId, userId);
+            ploggingService.removeUserFromPlogging(ploggingId,jwtUserDetails.userId());
             return ResponseEntity.noContent().build(); // 삭제 성공 시 204 No Content 반환
         } catch (Exception e) {
             return ResponseEntity.status(500).build(); // 실패 시 500 Internal Server Error 반환

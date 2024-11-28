@@ -20,11 +20,12 @@ public record MyPloggingScheduledResponse(
         LocalDateTime startTime,
         Long spendTime,
         String startLocation,
-        Boolean isAssigned
+        Boolean isAssigned,
+        Boolean isStar
 
 ) {
 
-    public static MyPloggingScheduledResponse of(Plogging plogging, Long currentPeople, Boolean isAssigned) {
+    public static MyPloggingScheduledResponse of(Plogging plogging, Long currentPeople, Boolean isAssigned, Boolean isStar) {
         return MyPloggingScheduledResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())
@@ -35,6 +36,7 @@ public record MyPloggingScheduledResponse(
                 .spendTime(plogging.getSpendTime())
                 .startLocation(plogging.getStartLocation())
                 .isAssigned(isAssigned)
+                .isStar(isStar)
                 .build();
     }
 }

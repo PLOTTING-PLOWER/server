@@ -52,13 +52,14 @@ public class MyPloggingHomeService {
         String nickname = user.getNickname(); // 유저의 닉네임
         String profileImageUrl = user.getProfileImageUrl(); // 유저의 프로필 이미지 URL
 
-        // MyPloggingSummaryResponse 객체 생성 및 반환
-        return MyPloggingSummaryResponse.builder()
-                .totalPloggingCount(ploggingUsers.size())
-                .totalSpendTime(totalSpendTimeInHours)
-                .nickname(nickname)
-                .profileImageUrl(profileImageUrl)
-                .build();
+        // DTO 반환
+        return MyPloggingSummaryResponse.of(
+                ploggingUsers.size(),    // 총 플로깅 횟수
+                totalSpendTimeInHours,   // 총 플로깅 시간 (시)
+                nickname,                // 유저 닉네임
+                profileImageUrl          // 유저 프로필 이미지 URL
+        );
+
     }
 
 
