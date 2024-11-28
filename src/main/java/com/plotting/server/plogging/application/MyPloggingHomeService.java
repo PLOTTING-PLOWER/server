@@ -8,7 +8,6 @@ import com.plotting.server.plogging.dto.response.MyPloggingSummaryResponse;
 import com.plotting.server.plogging.repository.MyPloggingRepository;
 import com.plotting.server.plogging.repository.PloggingStarRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
-import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
 import com.plotting.server.user.exception.UserNotFoundException;
 import com.plotting.server.user.repository.UserRepository;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NOT_FOUND;
 
