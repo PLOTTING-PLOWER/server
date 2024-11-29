@@ -9,7 +9,9 @@ public record MyUserStarResponse(
         Long userId,
         String profileImageUrl,
         String nickname,
-        String profileMessage
+        String profileMessage,
+        Boolean isProfilePublic
+
 ) {
     public static MyUserStarResponse from(UserStar userStar) {
         return MyUserStarResponse.builder()
@@ -17,6 +19,7 @@ public record MyUserStarResponse(
                 .profileImageUrl(userStar.getStarUser().getProfileImageUrl())
                 .nickname(userStar.getStarUser().getNickname())
                 .profileMessage(userStar.getStarUser().getProfileMessage())
+                .isProfilePublic(userStar.getStarUser().getIsProfilePublic())
                 .build();
     }
 }
