@@ -2,7 +2,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "develop", "test"]
+    branches: [ "develop", "test" ]
 
 permissions:
   contents: read
@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APPLICATION_PROD: ${{ secrets.APPLICATION_PROD }}
-      FCM_FILE: ${{ secrets.FCM_FILE }}
 
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +24,6 @@ jobs:
       # 설정 파일 생성
       - name: application yml setting
         run: |
-          echo ${{ env.FCM_FILE }} | base64 --decode > ./src/main/resources/firebase-service-account.json
           echo ${{ env.APPLICATION_PROD }} | base64 --decode > ./src/main/resources/application-prod.yml
 
       - name: Check FCM_FILE content
