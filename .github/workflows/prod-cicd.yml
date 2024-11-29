@@ -2,7 +2,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "develop"]
+    branches: [ "develop", "test"]
 
 permissions:
   contents: read
@@ -26,6 +26,7 @@ jobs:
         run: |
           mkdir -p ./src/main/resources
           echo ${{ env.APPLICATION_PROD }} | base64 --decode > ./src/main/resources/application-prod.yml
+          echo ${{ env.FCM_FILE }} | base64 --decode > ./src/main/resources/firebase-service-account.json
 
       # Gradle 실행권한 부여
       - name: Grant execute permission to gradlew

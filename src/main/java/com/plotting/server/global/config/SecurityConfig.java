@@ -38,16 +38,17 @@ public class SecurityConfig {
             "/swagger-resources/*",
             "/webjars/**",
             "/auth/**",
-            "/global/health-check"
+            "/global/health-check",
+            "/metrics/**",
+            "/actuator/**",
     };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf ->csrf.disable())        // CSRF 보호 비활성화 (REST API를 위한 설정)
+                .csrf(AbstractHttpConfigurer::disable)        // CSRF 보호 비활성화 (REST API를 위한 설정)
                 .authorizeHttpRequests(auth->auth    // 권한 설정
-                        .requestMatchers("/auth/**",
-                                "/global/health-check").permitAll()
+                        .requestMatchers(WHITE_LIST).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
