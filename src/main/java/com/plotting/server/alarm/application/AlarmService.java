@@ -59,6 +59,7 @@ public class AlarmService {
                 ));
     }
 
+    @Transactional(readOnly=true)
     public AlarmListResponse getAlarmList(Long userId) {
         List<AlarmResponse> alarmList= alarmRepository.findAllByUserId(userId)
                     .stream()
