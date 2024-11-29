@@ -23,7 +23,7 @@ public record SignUpRequest (
                 .profileImageUrl("")  // 기본은 앱 로고
                 .profileMessage("안녕하세요! "+this.nickname + " 입니다.")
                 .loginType(LoginType.SELF)
-                .isAlarmAllowed(false)
+                .isAlarmAllowed(true)
                 .isProfilePublic(true)
                 .role(Role.USER)
                 .fcmToken("")       //초기값 설정 필요..

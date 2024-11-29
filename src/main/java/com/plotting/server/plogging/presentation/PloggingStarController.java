@@ -31,14 +31,14 @@ public class PloggingStarController {
     }
 
     @Operation(summary = "플로깅 즐겨 찾기 업데이트", description = "내가 즐겨찾기 한 사람 업데이트")
-    @PostMapping("/update/{ploggingId}")
+    @PostMapping("/{ploggingId}")
     public ResponseEntity<ResponseTemplate<?>> updatePloggingStar(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @PathVariable Long ploggingId){
-        ploggingStarService.updatePloggingStar(jwtUserDetails.userId(), ploggingId);
+        Boolean isStar = ploggingStarService.updatePloggingStar(jwtUserDetails.userId(), ploggingId);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ResponseTemplate.EMPTY_RESPONSE);
+                .body(ResponseTemplate.from(isStar));
     }
 
 }

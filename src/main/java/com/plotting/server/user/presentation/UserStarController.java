@@ -34,9 +34,9 @@ public class UserStarController {
     public ResponseEntity<ResponseTemplate<?>> updateUserStar(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @PathVariable Long starId){
-        userStarService.updateUserStar(jwtUserDetails.userId(), starId);
+        Boolean isStar = userStarService.updateUserStar(jwtUserDetails.userId(), starId);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ResponseTemplate.EMPTY_RESPONSE);
+                .body(ResponseTemplate.from(isStar));
     }
 }

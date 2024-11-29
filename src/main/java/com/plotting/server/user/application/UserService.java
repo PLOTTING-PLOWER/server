@@ -69,8 +69,21 @@ public class UserService {
         }
 
         Boolean isStar = userStarRepository.existsByUserIdAndStarUserId(viewerId, profileId);
-        Ranking ranking = rankingService.getRanking(profileId);
-        PloggingStatsResponse ploggingStats= myPloggingService.getPloggingStats(profileId);
+
+        // 랭킹 가져오기 (랭킹이 없으면 null 반환)
+        Ranking ranking;
+        ranking = rankingService.getRanking(profileId);
+
+
+        // 플로깅 통계 가져오기 (없으면 null 반환)
+        PloggingStatsResponse ploggingStats = null;
+        try {
+            ploggingStats = myPloggingService.getPloggingStats(profileId);
+        } catch (Exception e) {
+            // 예외 발생 시 플로깅 통계를 null로 처리
+            log.error("getPloggingStats Error occurred: ", e);
+            ploggingStats = null;
+        }
 
         return DetailProfileResponse.of(user, isStar, ranking, ploggingStats);
     }
@@ -86,6 +99,15 @@ public class UserService {
         }
 
         user.update(myProfileRequest);
+    }
 
+    @Transactional
+    public void saveFcmToken(Long userId, String token){
+        log.info("-----saveFcmToken-----");
+
+        User user = getUser(userId);
+        if (!token.equals(user.getFcmToken())) {
+            user.updateFcmToken(token);
+        }
     }
 }

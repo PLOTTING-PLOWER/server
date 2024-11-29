@@ -24,9 +24,9 @@ public record DetailProfileResponse(
                 .profileMessage(user.getProfileMessage())
                 .profileImageUrl(user.getProfileImageUrl())
                 .isStar(isStar)
-                .totalPloggingNumber(ploggingStatsResponse.totalPloggingNumber())
-                .totalPloggingTime(ploggingStatsResponse.totalPloggingTime())
-                .ranking(ranking.getHourRank())
+                .totalPloggingNumber(ploggingStatsResponse != null ? ploggingStatsResponse.totalPloggingNumber() : 0) // 기본값 처리
+                .totalPloggingTime(ploggingStatsResponse != null ? ploggingStatsResponse.totalPloggingTime() : 0L) // 기본값 처리
+                .ranking(ranking != null ? ranking.getHourRank() : null) // 랭킹이 없으면 null
                 .build();
     }
 }

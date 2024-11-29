@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.plotting.server.ranking.exception.errorCode.RankingErrorCode.RANKING_NOT_FOUND;
 import static com.plotting.server.user.exception.errorcode.UserErrorCode.USER_NOT_FOUND;
 
 @Slf4j
@@ -24,9 +25,10 @@ public class RankingService {
     private final RankingRepository rankingRepository;
     private final UserRepository userRepository;
 
-    public Ranking getRanking(Long userId){
+    public Ranking getRanking(Long userId){  
         return rankingRepository.findByUserId(userId)
-                .orElseThrow(() -> new RankingNotFoundException(USER_NOT_FOUND));
+                .orElseThrow(null);
+      
     }
 
     public List<RankingResponse> getTop7Rankings(){

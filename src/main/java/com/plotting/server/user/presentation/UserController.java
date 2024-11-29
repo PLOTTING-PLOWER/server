@@ -41,8 +41,8 @@ public class UserController {
     @PostMapping("/update-alarm")
     public ResponseEntity<ResponseTemplate<?>> updateAlarm(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
-            @RequestParam Boolean isAlarmAllowed) {
-
+            @RequestParam("isAlarmAllowed") Boolean isAlarmAllowed) {
+        log.info("--------update-alarm--------"+ isAlarmAllowed);
         userService.updateAlarm(jwtUserDetails.userId(), isAlarmAllowed);
 
         return ResponseEntity

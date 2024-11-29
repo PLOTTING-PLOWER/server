@@ -33,7 +33,7 @@ public class UserStarService {
     }
 
     @Transactional
-    public void updateUserStar(Long userId, Long starUserId) {
+    public Boolean updateUserStar(Long userId, Long starUserId) {
         Optional<UserStar> userStar = userStarRepository.findByUserIdAndStarUserId(userId, starUserId);
 
         if(userStar.isPresent()){       // 있으면 삭제
@@ -45,5 +45,7 @@ public class UserStarService {
             User starUser = userService.getUser(starUserId);
             userStarRepository.save(UserStar.of(user, starUser));
         }
+
+        return !userStar.isPresent();
     }
 }

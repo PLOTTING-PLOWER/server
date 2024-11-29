@@ -100,4 +100,8 @@ public class User extends BaseTimeEntity {
         this.isAlarmAllowed = isAlarmAllowed;
     }
 
+    public void updateFcmToken(String fcmToken){
+        this.fcmToken = fcmToken;
+    }
+
 }
