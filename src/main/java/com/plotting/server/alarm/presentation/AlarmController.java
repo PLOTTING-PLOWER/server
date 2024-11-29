@@ -2,6 +2,7 @@ package com.plotting.server.alarm.presentation;
 
 import com.plotting.server.alarm.application.AlarmService;
 import com.plotting.server.alarm.application.FcmService;
+import com.plotting.server.alarm.dto.request.AlarmRequest;
 import com.plotting.server.alarm.dto.response.AlarmListResponse;
 import com.plotting.server.global.dto.JwtUserDetails;
 import com.plotting.server.global.dto.ResponseTemplate;
@@ -32,8 +33,8 @@ public class AlarmController {
     @PostMapping("/fcm-token")
     public ResponseEntity<ResponseTemplate<?>> saveFcmToken(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
-            @RequestBody Map<String, String> request) {
-        String token = request.get("token");
+            @RequestBody AlarmRequest request) {
+        String token = request.token();
         userService.saveFcmToken(jwtUserDetails.userId(), token);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.EMPTY_RESPONSE);
     }
