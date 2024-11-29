@@ -46,13 +46,4 @@ public class AlarmController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseTemplate.from(alarmListResponse));
     }
 
-//    @Operation(summary = "fcm 알림 전송", description = "fcm 알림 전송")
-//    @PostMapping("/test-notification")
-//    public ResponseEntity<?> sendNotification(
-//            @RequestParam Long userId) {
-//
-//        fcmService.sendNotificationForUser(userId); // FCM 전송
-//        return ResponseEntity.ok("Notification sent successfully");
-//    }
-
 }
