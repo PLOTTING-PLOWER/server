@@ -135,25 +135,14 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> getPloggingInBounds(
             @RequestParam BigDecimal lat1,
             @RequestParam BigDecimal lon1,
-            @RequestParam int zoom) {
+            @RequestParam int zoom,
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
 
-        List<PloggingMapResponse> response = ploggingMapService.getPloggingInBounds(lat1, lon1, zoom);
+        List<PloggingMapResponse> response = ploggingMapService.getPloggingInBounds(lat1, lon1, zoom, jwtUserDetails.userId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(response));
     }
 
-    @Operation(summary = "플로깅 모임 취소", description = "플로깅 모임에 해당하는 유저를 삭제합니다.")
-    @DeleteMapping("/{ploggingId}/cancel")
-    public ResponseEntity<ResponseTemplate<?>> cancelPlogging(
-            @PathVariable Long ploggingId,
-            @PathVariable Long userId) {
-        try {
-            ploggingService.removeUserFromPlogging(ploggingId, userId);
-            return ResponseEntity.noContent().build(); // 삭제 성공 시 204 No Content 반환
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build(); // 실패 시 500 Internal Server Error 반환
-        }
-    }
 }
