@@ -61,7 +61,7 @@ public class AlarmService {
 
     @Transactional(readOnly=true)
     public AlarmListResponse getAlarmList(Long userId) {
-        List<AlarmResponse> alarmList= alarmRepository.findAllByUserId(userId)
+        List<AlarmResponse> alarmList= alarmRepository.findAllByUserIdOrderByCreatedDateDesc(userId)
                     .stream()
                     .map(AlarmResponse::from)
                     .toList();
