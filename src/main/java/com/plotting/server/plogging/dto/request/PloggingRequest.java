@@ -17,6 +17,7 @@ public record PloggingRequest(
         LocalDate recruitEndDate,
         LocalDateTime startTime,
         Long spendTime,
+        LocalDateTime endTime,
         String startLocation,
         String endLocation
 ) {
@@ -31,6 +32,7 @@ public record PloggingRequest(
                 .startTime(startTime)
                 .recruitEndDate(recruitEndDate)
                 .spendTime(spendTime)
+                .endTime(startTime.plusMinutes(spendTime))
                 .startLocation(startLocation)
                 .endLocation(endLocation)
                 .startLatitude(startLatitude)
