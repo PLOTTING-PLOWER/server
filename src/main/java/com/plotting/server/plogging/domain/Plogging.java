@@ -59,16 +59,16 @@ public class Plogging extends BaseTimeEntity {
     @Column(name = "spend_time", nullable = false)
     private Long spendTime;
 
-    @Column(name ="end_time", nullable = false)
+    @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
     @Column(name = "start_location", nullable = false)
     private String startLocation;
 
-    @Column(name = "start_latitude",  precision = 12, scale = 6, nullable = false)
+    @Column(name = "start_latitude", precision = 12, scale = 6, nullable = false)
     private BigDecimal startLatitude;
 
-    @Column(name = "start_longitude",  precision = 12, scale = 6, nullable = false)
+    @Column(name = "start_longitude", precision = 12, scale = 6, nullable = false)
     private BigDecimal startLongitude;
 
     @Column(name = "end_location")
@@ -80,7 +80,7 @@ public class Plogging extends BaseTimeEntity {
     @Builder
     public Plogging(User user, String title, String content, Long maxPeople, PloggingType ploggingType,
                     LocalDate recruitStartDate, LocalDate recruitEndDate, LocalDateTime startTime, Long spendTime,
-                    String startLocation, BigDecimal startLatitude, BigDecimal startLongitude, String endLocation) {
+                    LocalDateTime endTime, String startLocation, BigDecimal startLatitude, BigDecimal startLongitude, String endLocation) {
         this.user = user;
         this.title = title;
         this.content = content;
@@ -90,6 +90,7 @@ public class Plogging extends BaseTimeEntity {
         this.recruitEndDate = recruitEndDate;
         this.startTime = startTime;
         this.spendTime = spendTime;
+        this.endTime = endTime;
         this.startLocation = startLocation;
         this.startLatitude = startLatitude;
         this.startLongitude = startLongitude;
@@ -107,10 +108,10 @@ public class Plogging extends BaseTimeEntity {
         calculateEndTime();
     }
 
-    public void calculateEndTime(){
-        if(this.startTime != null && this.spendTime != null){
+    public void calculateEndTime() {
+        if (this.startTime != null && this.spendTime != null) {
             this.endTime = this.startTime.plusMinutes(this.spendTime);
-        }else{
+        } else {
             throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
         }
     }
