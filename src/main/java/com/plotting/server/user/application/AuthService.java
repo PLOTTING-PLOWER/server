@@ -33,6 +33,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final UserService userService;
+    private final CustomOAuth2UserService  customOAuth2UserService;
 
     @Transactional
     public LoginResponse login(LoginRequest loginRequest) {
@@ -66,6 +67,30 @@ public class AuthService {
             return LoginResponse.of(token, refreshToken);
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid email or password");
+        }
+    }
+
+    @Transactional
+    public LoginResponse loginWithNaver(String accessToken) {
+        try {
+            log.info("1. Attempting to fetch user data from Naver with token: {}", accessToken);
+            // 네이버 토큰으로 사용자 정보 조회
+            User user = customOAuth2UserService.loadUserFromToken(accessToken);
+            log.info("User found: {}, Role: {}", user.getEmail(), user.getRole());
+
+            // 탈퇴한 회원 일때,
+            if (user.getRole() == Role.WITHDRAWN) {
+                throw new UserNotFoundException(USER_NOT_FOUND);
+            }
+
+            // JWT 토큰 생성
+            String token = jwtUtil.generateToken(user);
+            String refreshToken = jwtUtil.generateRefreshToken(user);
+
+            // 토큰 및 로그인 성공 메시지 반환
+            return LoginResponse.of(token, refreshToken);
+        }catch (BadCredentialsException e) {
+            throw new BadCredentialsException("Invalid Naver Token");
         }
     }
 

@@ -72,7 +72,7 @@ public class OAuthAttributes {
                 .loginType(loginType)
                 .role(Role.USER)
                 .fcmToken("z")
-                .isAlarmAllowed(false) // 기본값 명시적으로 설정
+                .isAlarmAllowed(true) // 기본값 명시적으로 설정
                 .isProfilePublic(true) // 기본값 설정
                 .profileMessage("Welcome!") // 기본 메시지 설정
                 .build();
