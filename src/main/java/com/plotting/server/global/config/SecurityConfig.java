@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @EnableMethodSecurity
@@ -93,7 +94,7 @@ public class SecurityConfig {
 
     @Bean
     public CustomOAuth2UserService customOAuth2UserService() {
-        return new CustomOAuth2UserService(userRepository);
+        return new CustomOAuth2UserService(userRepository, webClientBuilder());
     }
 
     @Bean
@@ -109,5 +110,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public WebClient.Builder webClientBuilder() {
+        return WebClient.builder();
     }
 }

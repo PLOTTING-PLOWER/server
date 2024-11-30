@@ -14,7 +14,6 @@ public record DetailProfileResponse(
         Long totalPloggingNumber,   // 총 플로깅 획수
         Long totalPloggingTime,     // 총 플로깅 시간
         Long ranking                // 랭킹
-
         // 활동 정보는 미정,,
 
 ) {

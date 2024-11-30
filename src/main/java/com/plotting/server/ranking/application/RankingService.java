@@ -25,10 +25,8 @@ public class RankingService {
     private final RankingRepository rankingRepository;
     private final UserRepository userRepository;
 
-    public Ranking getRanking(Long userId){  
-        return rankingRepository.findByUserId(userId)
-                .orElseThrow(null);
-      
+    public Ranking getRanking(Long userId){
+        return rankingRepository.findByUserId(userId).orElse(null);
     }
 
     public List<RankingResponse> getTop7Rankings(){
@@ -42,6 +40,5 @@ public class RankingService {
                             .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
                     return RankingResponse.from(user);
                 });
-
     }
 }
