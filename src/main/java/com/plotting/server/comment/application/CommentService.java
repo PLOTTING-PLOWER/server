@@ -29,7 +29,9 @@ public class CommentService {
     private final PloggingService ploggingService;
 
     public CommentListResponse getCommentList(Long ploggingId, Long userId) {
-        return CommentListResponse.from(
+        User user = userService.getUser(userId);
+
+        return CommentListResponse.from(user,
                 commentRepository.findParentCommentsWithFetch(ploggingId)
                         .stream()
                         .map(comment -> CommentResponse.of(userId, comment))
