@@ -177,7 +177,7 @@ public class MyPloggingController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ResponseTemplate.from("User removed from plogging successfully"));
+                .body(EMPTY_RESPONSE);
 
     }
 }
