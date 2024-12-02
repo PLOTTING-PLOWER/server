@@ -1,6 +1,5 @@
 package com.plotting.server.plogging.dto.response;
 
-import com.plotting.server.plogging.domain.PloggingStar;
 import lombok.Builder;
 
 import java.util.List;

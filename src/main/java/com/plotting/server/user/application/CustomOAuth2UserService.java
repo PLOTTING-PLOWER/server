@@ -4,6 +4,7 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.domain.UserType.Role;
 import com.plotting.server.user.dto.OAuthAttributes;
 import com.plotting.server.user.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
