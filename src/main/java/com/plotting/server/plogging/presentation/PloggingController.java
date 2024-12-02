@@ -44,7 +44,7 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> getPloggingWithTitle(
             @PathVariable String title) {
 
-        PloggingResponse response = ploggingService.getPloggingWithTitle(title);
+        PloggingGetStarResponse response = ploggingService.getPloggingWithTitle(title);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -76,7 +76,7 @@ public class PloggingController {
                 .body(ResponseTemplate.EMPTY_RESPONSE);
     }
 
-    @Operation(summary = "플로깅 리스트 조회", description = "플로깅 리스트 조회 화면입니다.<br> region: 서울, startDate: 2024-10-01, endDate: 2025-10-01, type: DIRECT, spendTime: 60, startTime: 2024-10-01T10:00:00, maxPeople: 10")
+    @Operation(summary = "플로깅 리스트 조회", description = "플로깅 리스트 조회 화면입니다.<br> region: 서울, startDate: 2024-10-01, endDate: 2025-10-01, type: ASSIGN, spendTime: 120, startTime: 2024-10-01T10:00:00, maxPeople: 10")
     @GetMapping("/filter")
     public ResponseEntity<ResponseTemplate<?>> findListByFilter(@RequestParam(defaultValue = "서울") String region,
                                                                 @RequestParam(defaultValue = "2024-10-01") LocalDate startDate,

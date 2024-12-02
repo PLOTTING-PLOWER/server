@@ -1,18 +1,17 @@
 package com.plotting.server.plogging.dto.response;
 
-import com.plotting.server.plogging.domain.PloggingStar;
 import lombok.Builder;
 
 import java.util.List;
 
 @Builder
 public record PloggingStarListResponse(
-        Long currentPeople,
+//        Long currentPeople,
         List<PloggingStarResponse> ploggingStarResponseList
 ) {
-    public static PloggingStarListResponse from(Long currentPeople, List<PloggingStarResponse> ploggingStarResponseList) {
+    public static PloggingStarListResponse from(List<PloggingStarResponse> ploggingStarResponseList) {
         return PloggingStarListResponse.builder()
-                .currentPeople(currentPeople)
+//                .currentPeople(currentPeople)
                 .ploggingStarResponseList(ploggingStarResponseList)
                 .build();
     }

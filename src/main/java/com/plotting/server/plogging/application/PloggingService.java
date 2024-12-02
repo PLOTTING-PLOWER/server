@@ -8,6 +8,7 @@ import com.plotting.server.plogging.dto.request.PloggingRequest;
 import com.plotting.server.plogging.dto.response.*;
 import com.plotting.server.plogging.exception.PloggingNotFoundException;
 import com.plotting.server.plogging.repository.PloggingRepository;
+import com.plotting.server.plogging.repository.PloggingStarRepository;
 import com.plotting.server.plogging.repository.PloggingUserRepository;
 import com.plotting.server.user.application.UserService;
 import com.plotting.server.user.domain.User;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.plotting.server.plogging.domain.QPlogging.plogging;
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 import static com.plotting.server.plogging.util.PloggingConstants.*;
 
@@ -37,21 +39,24 @@ public class PloggingService {
     private final UserRepository userRepository;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
+    private final PloggingStarRepository  ploggingStarRepository;
 
     //플로깅 검색-> 상단 제일 첫번째 1개만 검색
-    public PloggingResponse getPloggingWithTitle(String title) {
-        PloggingResponse plogging = ploggingRepository.findByTitleContaining(title)
+    public PloggingGetStarResponse getPloggingWithTitle(String title) {
+        return ploggingRepository.findByTitleContaining(title)
                 .stream()
-                .map(PloggingResponse::from)
-                .findFirst()
-                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND));
-
-        return plogging;
+                .map(plogging -> {
+                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(plogging.getUser().getId(), plogging.getId());
+                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+                    return PloggingGetStarResponse.of(plogging, currentPeople ,isStar);
+                })
+                .findFirst() // 첫 번째 항목을 선택
+                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND)); // 예외 처리
     }
 
     //플로깅 홈
     public HomeResponse getHome(Long userId) {
-        PloggingListResponse plogging = getPloggingStar();
+        PloggingGetStarListResponse plogging = getPloggingStar();
         PlowerListResponse plowerStar = getPlowerStar();
         User user = userService.getUser(userId);
 
@@ -68,13 +73,18 @@ public class PloggingService {
     }
 
     // 플로깅 즐겨찾기
-    private PloggingListResponse getPloggingStar() {
-        List<PloggingResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(PloggingResponse::from)
+    private PloggingGetStarListResponse getPloggingStar() {
+        List<PloggingGetStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
+                .map(plogging -> {
+                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(plogging.getUser().getId(), plogging.getId());
+                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+                    return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
+                })
                 .toList();
 
-        return PloggingListResponse.from(ploggingList);
+        return PloggingGetStarListResponse.from(ploggingList);
     }
+
 
     //플로깅 모임 등록
     @Transactional
