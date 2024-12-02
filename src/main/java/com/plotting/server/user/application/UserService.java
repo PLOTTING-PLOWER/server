@@ -94,12 +94,14 @@ public class UserService {
         log.info("-----updateMyProfile-----");
 
         User user = getUser(userId);
+        String s3Url = user.getProfileImageUrl();
         if(profileImage!=null && !profileImage.isEmpty()){
             s3Service.deleteFile(user.getProfileImageUrl());    // 기존 이미지 제거
-            s3Service.uploadFile(profileImage, "profile");   // 이미지 추가
+            s3Url = s3Service.uploadFile(profileImage, "profile");   // 이미지 추가
         }
 
-        user.update(myProfileRequest);
+        user.update(myProfileRequest, s3Url);
+
     }
 
     @Transactional

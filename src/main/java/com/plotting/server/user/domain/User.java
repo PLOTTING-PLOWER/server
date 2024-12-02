@@ -86,10 +86,11 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
-    public void update(MyProfileUpdateRequest request){
+    public void update(MyProfileUpdateRequest request, String profileImageUrl){
         this.nickname = request.nickname();
         this.profileMessage = request.profileMessage();
         this.isProfilePublic = request.isProfilePublic();
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateRole(Role role){
