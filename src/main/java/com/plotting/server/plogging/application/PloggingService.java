@@ -40,12 +40,15 @@ public class PloggingService {
     private final PloggingStarRepository  ploggingStarRepository;
 
     //플로깅 검색-> 상단 제일 첫번째 1개만 검색
-    public PloggingGetStarResponse getPloggingWithTitle(String title) {
+    public PloggingGetStarResponse getPloggingWithTitle(Long userId, String title) {
+        User user = userService.getUser(userId);
+
         return ploggingRepository.findByTitleContaining(title)
                 .stream()
                 .map(plogging -> {
-                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(plogging.getUser().getId(), plogging.getId());
+                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+
                     return PloggingGetStarResponse.of(plogging, currentPeople ,isStar);
                 })
                 .findFirst() // 첫 번째 항목을 선택
