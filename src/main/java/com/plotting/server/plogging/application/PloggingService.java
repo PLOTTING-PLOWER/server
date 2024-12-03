@@ -15,7 +15,6 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +23,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.plotting.server.plogging.domain.QPlogging.plogging;
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 import static com.plotting.server.plogging.util.PloggingConstants.*;
 
@@ -42,12 +40,15 @@ public class PloggingService {
     private final PloggingStarRepository  ploggingStarRepository;
 
     //플로깅 검색-> 상단 제일 첫번째 1개만 검색
-    public PloggingGetStarResponse getPloggingWithTitle(String title) {
+    public PloggingGetStarResponse getPloggingWithTitle(Long userId, String title) {
+        User user = userService.getUser(userId);
+
         return ploggingRepository.findByTitleContaining(title)
                 .stream()
                 .map(plogging -> {
-                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(plogging.getUser().getId(), plogging.getId());
+                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+
                     return PloggingGetStarResponse.of(plogging, currentPeople ,isStar);
                 })
                 .findFirst() // 첫 번째 항목을 선택
@@ -56,9 +57,10 @@ public class PloggingService {
 
     //플로깅 홈
     public HomeResponse getHome(Long userId) {
-        PloggingGetStarListResponse plogging = getPloggingStar();
-        PlowerListResponse plowerStar = getPlowerStar();
         User user = userService.getUser(userId);
+
+        PloggingGetStarListResponse plogging = getPloggingStar(user);
+        PlowerListResponse plowerStar = getPlowerStar();
 
         return HomeResponse.of(plogging, plowerStar, user);
     }
@@ -73,11 +75,12 @@ public class PloggingService {
     }
 
     // 플로깅 즐겨찾기
-    private PloggingGetStarListResponse getPloggingStar() {
+    private PloggingGetStarListResponse getPloggingStar(User user) {
         List<PloggingGetStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
                 .map(plogging -> {
-                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(plogging.getUser().getId(), plogging.getId());
+                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+
                     return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
                 })
                 .toList();

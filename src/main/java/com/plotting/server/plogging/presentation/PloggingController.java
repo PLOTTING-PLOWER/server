@@ -42,9 +42,11 @@ public class PloggingController {
     @Operation(summary = "플로깅 검색", description = "플로깅 검색 화면입니다.")
     @GetMapping("/{title}")
     public ResponseEntity<ResponseTemplate<?>> getPloggingWithTitle(
-            @PathVariable String title) {
+            @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
+            @PathVariable String title
+    ) {
 
-        PloggingGetStarResponse response = ploggingService.getPloggingWithTitle(title);
+        PloggingGetStarResponse response = ploggingService.getPloggingWithTitle(jwtUserDetails.userId(), title);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
