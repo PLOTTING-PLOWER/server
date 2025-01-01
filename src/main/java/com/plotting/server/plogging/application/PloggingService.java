@@ -15,6 +15,9 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,7 @@ import java.util.List;
 
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 import static com.plotting.server.plogging.util.PloggingConstants.*;
+import static org.hibernate.query.Page.page;
 
 @Slf4j
 @Service
@@ -39,18 +43,16 @@ public class PloggingService {
     private final PloggingUserRepository ploggingUserRepository;
     private final PloggingStarRepository ploggingStarRepository;
 
-    public List<PloggingGetStarResponse> getPloggingWithTitle(Long userId, String title) {
+    public Page<PloggingGetStarResponse> getPloggingWithTitle(Long userId, String title, int page, int size) {
         User user = userService.getUser(userId);
 
-        List<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(title)
-                .stream()
+        Page<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(title, PageRequest.of(page, size))
                 .map(plogging -> {
                     Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
 
                     return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
-                })
-                .toList();
+                });
 
         if (list.isEmpty()) {
             throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
