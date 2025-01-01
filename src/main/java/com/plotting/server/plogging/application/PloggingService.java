@@ -37,22 +37,26 @@ public class PloggingService {
     private final UserRepository userRepository;
     private final PloggingRepository ploggingRepository;
     private final PloggingUserRepository ploggingUserRepository;
-    private final PloggingStarRepository  ploggingStarRepository;
+    private final PloggingStarRepository ploggingStarRepository;
 
-    //플로깅 검색-> 상단 제일 첫번째 1개만 검색
-    public PloggingGetStarResponse getPloggingWithTitle(Long userId, String title) {
+    public List<PloggingGetStarResponse> getPloggingWithTitle(Long userId, String title) {
         User user = userService.getUser(userId);
 
-        return ploggingRepository.findByTitleContaining(title)
+        List<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(title)
                 .stream()
                 .map(plogging -> {
                     Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
                     Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
 
-                    return PloggingGetStarResponse.of(plogging, currentPeople ,isStar);
+                    return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
                 })
-                .findFirst() // 첫 번째 항목을 선택
-                .orElseThrow(() -> new PloggingNotFoundException(PLOGGING_NOT_FOUND)); // 예외 처리
+                .toList();
+
+        if (list.isEmpty()) {
+            throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
+        }
+
+        return list;
     }
 
     //플로깅 홈

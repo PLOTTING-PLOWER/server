@@ -29,6 +29,7 @@ public interface PloggingRepository extends JpaRepository<Plogging, Long>, Plogg
     List<Plogging> findAllByUserId(Long userId);
 
     List<Plogging> findByTitleContaining(String title); //검색 구현
+
     @Query("SELECT new com.plotting.server.plogging.dto.response.PloggingTimeResponse( p.spendTime, p.startTime ) " +
             "FROM PloggingUser pu " +
             "JOIN pu.plogging p " +

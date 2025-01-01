@@ -11,4 +11,7 @@ public interface PloggingRepositoryCustom {
 
     List<PloggingResponse> findByFilters(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                        Long spendTime, LocalDateTime startTime, Long maxPeople);
+
+//    List<> findByTitleContaining(String title); //검색 구현
+
 }

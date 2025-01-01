@@ -42,7 +42,7 @@ public class PloggingInitializer implements ApplicationRunner {
 
             Plogging DUMMY_PLOGGING1 = Plogging.builder()
                     .user(user)
-                    .title("한강 플로깅")
+                    .title("상도동 한강 플로깅")
                     .content("한강에서 같이 뛰면서 플로깅 하실 분들 구합니다!")
                     .maxPeople(5L)
                     .ploggingType(ASSIGN)
@@ -60,7 +60,7 @@ public class PloggingInitializer implements ApplicationRunner {
 
             Plogging DUMMY_PLOGGING2 = Plogging.builder()
                     .user(user)
-                    .title("올림픽 공원 플로깅")
+                    .title("상도동 올림픽 공원 플로깅")
                     .content("올림픽 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(8L)
                     .ploggingType(ASSIGN)
@@ -77,7 +77,7 @@ public class PloggingInitializer implements ApplicationRunner {
 
             Plogging DUMMY_PLOGGING3 = Plogging.builder()
                     .user(user)
-                    .title("동작 공원 플로깅")
+                    .title("동작구 상도동 공원 플로깅")
                     .content("동작 공원에서 같이 플로깅 어떄요?")
                     .maxPeople(10L)
                     .ploggingType(DIRECT)

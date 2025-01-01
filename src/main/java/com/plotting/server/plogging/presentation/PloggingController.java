@@ -46,7 +46,7 @@ public class PloggingController {
             @PathVariable String title
     ) {
 
-        PloggingGetStarResponse response = ploggingService.getPloggingWithTitle(jwtUserDetails.userId(), title);
+        List<PloggingGetStarResponse> response = ploggingService.getPloggingWithTitle(jwtUserDetails.userId(), title);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
