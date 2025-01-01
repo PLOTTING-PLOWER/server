@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,6 @@ import java.util.List;
 
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
 import static com.plotting.server.plogging.util.PloggingConstants.*;
-import static org.hibernate.query.Page.page;
 
 @Slf4j
 @Service
@@ -44,15 +42,9 @@ public class PloggingService {
     private final PloggingStarRepository ploggingStarRepository;
 
     public Page<PloggingGetStarResponse> getPloggingWithTitle(Long userId, String title, int page, int size) {
-        User user = userService.getUser(userId);
+//        User user = userService.getUser(userId);
 
-        Page<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(title, PageRequest.of(page, size))
-                .map(plogging -> {
-                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
-                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
-
-                    return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
-                });
+        Page<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(userId, title, PageRequest.of(page, size));
 
         if (list.isEmpty()) {
             throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
@@ -85,7 +77,7 @@ public class PloggingService {
         List<PloggingGetStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
                 .map(plogging -> {
                     Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
-                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+                    Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
 
                     return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
                 })
@@ -116,7 +108,7 @@ public class PloggingService {
 
     public PloggingDetailResponse getPloggingDetail(Long ploggingId) {
         Plogging plogging = getPlogging(ploggingId);
-        Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
+        Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(ploggingId);
 
         return PloggingDetailResponse.of(plogging, currentPeople);
     }

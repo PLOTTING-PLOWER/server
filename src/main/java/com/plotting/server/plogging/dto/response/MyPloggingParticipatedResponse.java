@@ -13,7 +13,7 @@ public record MyPloggingParticipatedResponse(
         Long ploggingId,
         PloggingType ploggingType,
         String title,
-        Long currentPeople,
+        Integer currentPeople,
         Long maxPeople,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime startTime,
@@ -23,7 +23,7 @@ public record MyPloggingParticipatedResponse(
 
 ) {
 
-    public static MyPloggingParticipatedResponse of(Plogging plogging, Long currentPeople, Boolean isStar) {
+    public static MyPloggingParticipatedResponse of(Plogging plogging, Integer currentPeople, Boolean isStar) {
         return MyPloggingParticipatedResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())

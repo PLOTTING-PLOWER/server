@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public record PloggingMapResponse(
         Long ploggingId,
         String title,
-        Long currentPeople,
+        Integer currentPeople,
         Long maxPeople,
         PloggingType ploggingType,
         LocalDate recruitEndDate,
@@ -26,7 +26,7 @@ public record PloggingMapResponse(
         Boolean isStar
 ) {
 
-    public static PloggingMapResponse of(Plogging plogging, Long currentPeople, Boolean isStar) {
+    public static PloggingMapResponse of(Plogging plogging, Integer currentPeople, Boolean isStar) {
         return PloggingMapResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())

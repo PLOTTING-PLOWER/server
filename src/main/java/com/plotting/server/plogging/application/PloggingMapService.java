@@ -26,7 +26,7 @@ public class PloggingMapService {
         List<Plogging> ploggings = ploggingMapRepository.findAllWithinRadius(lat1, lon1, 5.0);
         return ploggings.stream()
                 .map(p -> {
-                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
+                    Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
                     Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(userId,p.getId());
                     return PloggingMapResponse.of(p, currentPeople, isStar);
                 })

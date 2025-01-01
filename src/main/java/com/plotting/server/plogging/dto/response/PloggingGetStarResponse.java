@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public record PloggingGetStarResponse(
         Long ploggingId,
         String title,
-        Long currentPeople,
+        Integer currentPeople,
         Long maxPeople,
         PloggingType ploggingType,
         LocalDate recruitEndDate,
@@ -20,7 +20,7 @@ public record PloggingGetStarResponse(
         String startLocation,
         Boolean isStar
 ) {
-    public static PloggingGetStarResponse of(Plogging plogging, Long currentPeople, Boolean isStar) {
+    public static PloggingGetStarResponse of(Plogging plogging, int currentPeople, Boolean isStar) {
         return PloggingGetStarResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())

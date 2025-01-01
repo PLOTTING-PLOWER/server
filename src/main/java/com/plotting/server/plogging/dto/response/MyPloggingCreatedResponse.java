@@ -17,7 +17,7 @@ public record MyPloggingCreatedResponse(
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         LocalDateTime startTime,
         Long spendTime,
-        Long currentPeople,
+        Integer currentPeople,
         Long maxPeople,
         String startLocation,
         LocalDate recruitStartDate,
@@ -25,7 +25,7 @@ public record MyPloggingCreatedResponse(
         Boolean isRecruiting,
         Boolean isStar
 ) {
-    public static MyPloggingCreatedResponse of(Plogging plogging, Long currentPeople, Boolean isRecruiting, Boolean isStar) {
+    public static MyPloggingCreatedResponse of(Plogging plogging, Integer currentPeople, Boolean isRecruiting, Boolean isStar) {
         return MyPloggingCreatedResponse.builder()
                 .ploggingId(plogging.getId())
                 .ploggingType(plogging.getPloggingType())

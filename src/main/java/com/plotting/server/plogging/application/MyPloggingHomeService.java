@@ -72,7 +72,7 @@ public class MyPloggingHomeService {
         // 참여 인원 수를 포함한 DTO 변환
         return ploggings.stream()
                 .map(p -> {
-                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
+                    Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
                     Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(userId, p.getId());
                     return MyPloggingParticipatedResponse.of(p, currentPeople, isStar);
                 })
@@ -87,7 +87,7 @@ public class MyPloggingHomeService {
         // 참여 인원 수를 포함한 DTO 변환
         List<MyPloggingScheduledResponse> response = ploggings.stream()
                 .map(p -> {
-                    Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
+                    Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(p.getId());
 
                     Boolean isAssigned = ploggingUserRepository.findByPloggingIdAndUserId(p.getId(), userId)
                             .map(PloggingUser::getIsAssigned)

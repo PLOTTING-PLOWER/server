@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface PloggingUserRepository extends JpaRepository<PloggingUser, Long> {
 
     @Query("SELECT COUNT(pu) FROM PloggingUser pu WHERE pu.plogging.id = :ploggingId AND pu.isAssigned = true")
-    Long countActivePloggingUsersByPloggingId(Long ploggingId);
+    Integer countActivePloggingUsersByPloggingId(Long ploggingId);
 
     @Query("SELECT pu FROM PloggingUser pu WHERE pu.plogging.id = :ploggingId AND pu.isAssigned = true")
     List<PloggingUser> findActivePloggingUsersByPloggingId(Long ploggingId);

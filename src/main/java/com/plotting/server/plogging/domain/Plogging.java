@@ -77,6 +77,9 @@ public class Plogging extends BaseTimeEntity {
     @OneToMany(mappedBy = "plogging", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PloggingUser> ploggingUsers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "plogging", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PloggingStar> ploggingStars = new ArrayList<>();
+
     @Builder
     public Plogging(User user, String title, String content, Long maxPeople, PloggingType ploggingType,
                     LocalDate recruitStartDate, LocalDate recruitEndDate, LocalDateTime startTime, Long spendTime,

@@ -3,8 +3,6 @@ package com.plotting.server.plogging.repository;
 import com.plotting.server.plogging.domain.Plogging;
 import com.plotting.server.plogging.dto.response.PloggingTimeResponse;
 import com.plotting.server.ranking.dto.response.UpdateRankingResponse;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -30,7 +28,7 @@ public interface PloggingRepository extends JpaRepository<Plogging, Long>, Plogg
 
     List<Plogging> findAllByUserId(Long userId);
 
-    Page<Plogging> findByTitleContaining(String title, Pageable pageable); //검색 구현
+//    Page<Plogging> findByTitleContaining(String title, Pageable pageable); //검색 구현
 
     @Query("SELECT new com.plotting.server.plogging.dto.response.PloggingTimeResponse( p.spendTime, p.startTime ) " +
             "FROM PloggingUser pu " +

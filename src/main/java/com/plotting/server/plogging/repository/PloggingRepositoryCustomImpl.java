@@ -1,14 +1,20 @@
 package com.plotting.server.plogging.repository;
 
 import static com.plotting.server.plogging.domain.QPlogging.plogging;
+import static com.plotting.server.plogging.domain.QPloggingStar.ploggingStar;
+import static com.plotting.server.plogging.domain.QPloggingUser.ploggingUser;
+
 import com.plotting.server.plogging.domain.type.PloggingType;
+import com.plotting.server.plogging.dto.response.PloggingGetStarResponse;
 import com.plotting.server.plogging.dto.response.PloggingResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ObjectUtils;
 
@@ -22,6 +28,31 @@ import java.util.List;
 public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    @Override
+    public Page<PloggingGetStarResponse> findByTitleContaining(Long userId, String title, Pageable pageable) {
+
+        List<PloggingGetStarResponse> list = jpaQueryFactory
+                .select(Projections.constructor(PloggingGetStarResponse.class,
+                        plogging.id,
+                        plogging.title,
+                        plogging.ploggingUsers.size(),
+                        plogging.maxPeople,
+                        plogging.ploggingType,
+                        plogging.recruitEndDate,
+                        plogging.startTime,
+                        plogging.spendTime,
+                        plogging.startLocation,
+                        ploggingStar.id.isNotNull()))   // isStar
+                .from(plogging)
+                .leftJoin(ploggingUser).on(plogging.id.eq(ploggingUser.plogging.id))
+                .leftJoin(ploggingStar).on(plogging.id.eq(ploggingStar.plogging.id).and(ploggingStar.user.id.eq(userId)))
+                .where(plogging.title.contains(title))
+                .groupBy(plogging.id, ploggingStar.id)
+                .fetch();
+
+        return new PageImpl<>(list, pageable, list.size());
+    }
 
     @Override
     public List<PloggingResponse> findByFilters(String region,LocalDate startDate, LocalDate endDate, PloggingType type,

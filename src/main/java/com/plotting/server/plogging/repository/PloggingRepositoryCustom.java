@@ -1,7 +1,10 @@
 package com.plotting.server.plogging.repository;
 
 import com.plotting.server.plogging.domain.type.PloggingType;
+import com.plotting.server.plogging.dto.response.PloggingGetStarResponse;
 import com.plotting.server.plogging.dto.response.PloggingResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +15,6 @@ public interface PloggingRepositoryCustom {
     List<PloggingResponse> findByFilters(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                        Long spendTime, LocalDateTime startTime, Long maxPeople);
 
-//    List<> findByTitleContaining(String title); //검색 구현
+    Page<PloggingGetStarResponse> findByTitleContaining(Long userId, String title, Pageable pageable);
 
 }

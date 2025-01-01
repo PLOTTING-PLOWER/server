@@ -13,7 +13,7 @@ public record PloggingDetailResponse(
         String creator,
         String title,
         String content,
-        Long currentPeople,
+        Integer currentPeople,
         Long maxPeople,
         PloggingType ploggingType,
         LocalDate recruitStartDate,
@@ -24,7 +24,7 @@ public record PloggingDetailResponse(
         String startLocation,
         String endLocation
 ) {
-    public static PloggingDetailResponse of(Plogging plogging, Long currentPeople) {
+    public static PloggingDetailResponse of(Plogging plogging, Integer currentPeople) {
         return PloggingDetailResponse.builder()
                 .creator(plogging.getUser().getNickname())
                 .title(plogging.getTitle())

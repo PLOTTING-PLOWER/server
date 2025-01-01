@@ -2,7 +2,6 @@ package com.plotting.server.plogging.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.plotting.server.plogging.domain.Plogging;
-import com.plotting.server.plogging.domain.PloggingUser;
 import com.plotting.server.plogging.domain.type.PloggingType;
 import lombok.Builder;
 
@@ -14,7 +13,7 @@ public record MyPloggingScheduledResponse(
         Long ploggingId,
         PloggingType ploggingType,
         String title,
-        Long currentPeople,
+        Integer currentPeople,
         Long maxPeople,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime startTime,
@@ -25,7 +24,7 @@ public record MyPloggingScheduledResponse(
 
 ) {
 
-    public static MyPloggingScheduledResponse of(Plogging plogging, Long currentPeople, Boolean isAssigned, Boolean isStar) {
+    public static MyPloggingScheduledResponse of(Plogging plogging, Integer currentPeople, Boolean isAssigned, Boolean isStar) {
         return MyPloggingScheduledResponse.builder()
                 .ploggingId(plogging.getId())
                 .title(plogging.getTitle())

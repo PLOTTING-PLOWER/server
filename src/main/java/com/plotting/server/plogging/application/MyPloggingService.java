@@ -41,7 +41,7 @@ public class MyPloggingService {
         return MyPloggingCreatedListResponse.from(
                 ploggingRepository.findAllByUserId(userId).stream()
                         .map(plogging -> {
-                            Long currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+                            Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
                             Boolean isRecruiting = plogging.getRecruitEndDate().isAfter(LocalDate.now());
                             Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(userId, plogging.getId());
                             return MyPloggingCreatedResponse.of(plogging, currentPeople, isRecruiting, isStar);
