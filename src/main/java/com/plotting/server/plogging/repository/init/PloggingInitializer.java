@@ -92,9 +92,47 @@ public class PloggingInitializer implements ApplicationRunner {
                     .build();
             DUMMY_PLOGGING3.calculateEndTime();
 
+            Plogging DUMMY_PLOGGING4 = Plogging.builder()
+                    .user(user)
+                    .title("상도 롯데리아 플로깅")
+                    .content("동작 공원에서 같이 플로깅 어떄요?")
+                    .maxPeople(10L)
+                    .ploggingType(DIRECT)
+                    .recruitStartDate(LocalDate.parse("2024-09-15"))
+                    .recruitEndDate(LocalDate.parse("2024-11-01"))
+                    .startTime(LocalDateTime.of(2024, 11, 21, 12, 0, 0))
+                    .spendTime(60L)
+                    .startLocation("서울특별시 송파구 올림픽로 424")
+                    .startLatitude(BigDecimal.valueOf(37.515887298579436))
+                    .startLongitude(BigDecimal.valueOf(127.13082790374756))
+                    .endLocation("")
+                    .build();
+            DUMMY_PLOGGING4.calculateEndTime();
+
+            for (int i = 5; i < 100000; i++) {
+                Plogging plogging = Plogging.builder()
+                        .user(user)
+                        .title("상도 롯데리아 플로깅")
+                        .content("동작 공원에서 같이 플로깅 어떄요?")
+                        .maxPeople(10L)
+                        .ploggingType(DIRECT)
+                        .recruitStartDate(LocalDate.parse("2024-09-15"))
+                        .recruitEndDate(LocalDate.parse("2024-11-01"))
+                        .startTime(LocalDateTime.of(2024, 11, 21, 12, 0, 0))
+                        .spendTime(60L)
+                        .startLocation("서울특별시 송파구 올림픽로 424")
+                        .startLatitude(BigDecimal.valueOf(37.515887298579436))
+                        .startLongitude(BigDecimal.valueOf(127.13082790374756))
+                        .endLocation("")
+                        .build();
+                plogging.calculateEndTime();
+                ploggingList.add(plogging);
+             }
+
             ploggingList.add(DUMMY_PLOGGING1);
             ploggingList.add(DUMMY_PLOGGING2);
             ploggingList.add(DUMMY_PLOGGING3);
+            ploggingList.add(DUMMY_PLOGGING4);
 
             ploggingRepository.saveAll(ploggingList);
         }

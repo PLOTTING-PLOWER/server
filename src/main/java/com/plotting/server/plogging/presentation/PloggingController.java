@@ -41,10 +41,10 @@ public class PloggingController {
     private final PloggingMapService ploggingMapService;
 
     @Operation(summary = "플로깅 검색", description = "플로깅 검색 화면입니다.")
-    @GetMapping("/{title}")
+    @GetMapping
     public ResponseEntity<ResponseTemplate<?>> getPloggingWithTitle(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
-            @PathVariable String title,
+            @RequestParam String title,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size
     ) {

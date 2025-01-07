@@ -40,5 +40,4 @@ public class PloggingStarController {
                 .status(HttpStatus.OK)
                 .body(ResponseTemplate.from(isStar));
     }
-
 }

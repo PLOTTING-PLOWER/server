@@ -30,45 +30,45 @@ public class Plogging extends BaseTimeEntity {
     @Column(name = "id")
     private Long id;
 
-    @JoinColumn(name = "user_id", nullable = false)
+//    @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Column(name = "title", nullable = false)
+//    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content", nullable = false)
+//    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "max_people", nullable = false)
+//    @Column(name = "max_people", nullable = false)
     private Long maxPeople;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "plogging_type", nullable = false)
+//    @Column(name = "plogging_type", nullable = false)
     private PloggingType ploggingType;
 
-    @Column(name = "start_date", nullable = false)
+//    @Column(name = "start_date", nullable = false)
     private LocalDate recruitStartDate;
 
-    @Column(name = "end_date", nullable = false)
+//    @Column(name = "end_date", nullable = false)
     private LocalDate recruitEndDate;
 
-    @Column(name = "start_time", nullable = false)
+//    @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "spend_time", nullable = false)
+//    @Column(name = "spend_time", nullable = false)
     private Long spendTime;
 
-    @Column(name = "end_time", nullable = false)
+//    @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
-    @Column(name = "start_location", nullable = false)
+//    @Column(name = "start_location", nullable = false)
     private String startLocation;
 
-    @Column(name = "start_latitude", precision = 12, scale = 6, nullable = false)
+//    @Column(name = "start_latitude", precision = 12, scale = 6, nullable = false)
     private BigDecimal startLatitude;
 
-    @Column(name = "start_longitude", precision = 12, scale = 6, nullable = false)
+//    @Column(name = "start_longitude", precision = 12, scale = 6, nullable = false)
     private BigDecimal startLongitude;
 
     @Column(name = "end_location")

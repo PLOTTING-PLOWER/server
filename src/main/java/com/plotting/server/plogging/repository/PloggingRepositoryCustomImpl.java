@@ -49,6 +49,8 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
                 .leftJoin(ploggingStar).on(plogging.id.eq(ploggingStar.plogging.id).and(ploggingStar.user.id.eq(userId)))
                 .where(plogging.title.contains(title))
                 .groupBy(plogging.id, ploggingStar.id)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl<>(list, pageable, list.size());
