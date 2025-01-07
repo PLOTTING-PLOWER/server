@@ -12,9 +12,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ObjectUtils;
 
@@ -30,7 +27,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<PloggingGetStarResponse> findByTitleContaining(Long userId, String title, Pageable pageable) {
+    public List<PloggingGetStarResponse> findByTitleContaining(Long userId, String title, int size, Long lastSearchId) {
 
         List<PloggingGetStarResponse> list = jpaQueryFactory
                 .select(Projections.constructor(PloggingGetStarResponse.class,
@@ -47,17 +44,25 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
                 .from(plogging)
                 .leftJoin(ploggingUser).on(plogging.id.eq(ploggingUser.plogging.id))
                 .leftJoin(ploggingStar).on(plogging.id.eq(ploggingStar.plogging.id).and(ploggingStar.user.id.eq(userId)))
-                .where(plogging.title.contains(title))
+                .orderBy(plogging.id.desc())
+                .where(plogging.title.contains(title), plogging.id.lt(lastSearchId))
                 .groupBy(plogging.id, ploggingStar.id)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(size)
                 .fetch();
 
-        return new PageImpl<>(list, pageable, list.size());
+        return list;
     }
 
     @Override
-    public List<PloggingResponse> findByFilters(String region,LocalDate startDate, LocalDate endDate, PloggingType type,
+    public Boolean hasNext(String title, Long lastSearchId, int size) {
+        return jpaQueryFactory.selectOne()
+                .from(plogging)
+                .where(plogging.title.contains(title), plogging.id.lt(lastSearchId - size))
+                .fetchFirst() != null;
+    }
+
+    @Override
+    public List<PloggingResponse> findByFilters(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                                 Long spendTime, LocalDateTime startTime, Long maxPeople) {
         return jpaQueryFactory
                 .select(Projections.constructor(PloggingResponse.class,
@@ -88,7 +93,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
         }
     }
 
-    private BooleanExpression filterByDate (LocalDate startDate, LocalDate endDate) {
+    private BooleanExpression filterByDate(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
             return null;
         } else {

@@ -41,27 +41,26 @@ public class PloggingService {
     private final PloggingUserRepository ploggingUserRepository;
     private final PloggingStarRepository ploggingStarRepository;
 
-    public Page<PloggingGetStarResponse> getPloggingWithTitle(Long userId, String title, int page, int size) {
-//        User user = userService.getUser(userId);
-
-        Page<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(userId, title, PageRequest.of(page, size));
+    public PloggingGetStarListResponse getPloggingWithTitle(Long userId, String title, int size, Long lastSearchId) {
+        List<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(userId, title, size, lastSearchId);
+        Boolean hasNext = ploggingRepository.hasNext(title, lastSearchId, size);
 
         if (list.isEmpty()) {
             throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
         }
 
-        return list;
+        return PloggingGetStarListResponse.from(hasNext, list);
     }
 
-    //플로깅 홈
-    public HomeResponse getHome(Long userId) {
-        User user = userService.getUser(userId);
-
-        PloggingGetStarListResponse plogging = getPloggingStar(user);
-        PlowerListResponse plowerStar = getPlowerStar();
-
-        return HomeResponse.of(plogging, plowerStar, user);
-    }
+//    //플로깅 홈
+//    public HomeResponse getHome(Long userId) {
+//        User user = userService.getUser(userId);
+//
+//        PloggingGetStarListResponse plogging = getPloggingStar(user);
+//        PlowerListResponse plowerStar = getPlowerStar();
+//
+//        return HomeResponse.of(plogging, plowerStar, user);
+//    }
 
     //플로워 즐겨찾기
     private PlowerListResponse getPlowerStar() {
@@ -72,19 +71,19 @@ public class PloggingService {
         return PlowerListResponse.from(userList);
     }
 
-    // 플로깅 즐겨찾기
-    private PloggingGetStarListResponse getPloggingStar(User user) {
-        List<PloggingGetStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
-                .map(plogging -> {
-                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
-                    Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
-
-                    return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
-                })
-                .toList();
-
-        return PloggingGetStarListResponse.from(ploggingList);
-    }
+//    // 플로깅 즐겨찾기
+//    private PloggingGetStarListResponse getPloggingStar(User user) {
+//        List<PloggingGetStarResponse> ploggingList = ploggingRepository.findTop3Ploggings().stream()
+//                .map(plogging -> {
+//                    Boolean isStar = ploggingStarRepository.existsByUserIdAndPloggingId(user.getId(), plogging.getId());
+//                    Integer currentPeople = ploggingUserRepository.countActivePloggingUsersByPloggingId(plogging.getId());
+//
+//                    return PloggingGetStarResponse.of(plogging, currentPeople, isStar);
+//                })
+//                .toList();
+//
+//        return PloggingGetStarListResponse.from(ploggingList);
+//    }
 
 
     //플로깅 모임 등록

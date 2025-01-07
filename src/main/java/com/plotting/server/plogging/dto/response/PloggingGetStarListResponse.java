@@ -6,11 +6,12 @@ import java.util.List;
 
 @Builder
 public record PloggingGetStarListResponse(
+        Boolean hasNext,
         List<PloggingGetStarResponse> ploggingGetStarResponseList
 ) {
-    public static PloggingGetStarListResponse from(List<PloggingGetStarResponse> ploggingGetStarResponseList) {
+    public static PloggingGetStarListResponse from(Boolean hasNext, List<PloggingGetStarResponse> ploggingGetStarResponseList) {
         return PloggingGetStarListResponse.builder()
-//                .currentPeople(currentPeople)
+                .hasNext(hasNext)
                 .ploggingGetStarResponseList(ploggingGetStarResponseList)
                 .build();
     }

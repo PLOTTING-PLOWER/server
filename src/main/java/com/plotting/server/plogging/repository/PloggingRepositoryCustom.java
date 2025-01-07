@@ -15,6 +15,7 @@ public interface PloggingRepositoryCustom {
     List<PloggingResponse> findByFilters(String region, LocalDate startDate, LocalDate endDate, PloggingType type,
                                        Long spendTime, LocalDateTime startTime, Long maxPeople);
 
-    Page<PloggingGetStarResponse> findByTitleContaining(Long userId, String title, Pageable pageable);
+    List<PloggingGetStarResponse> findByTitleContaining(Long userId, String title, int size, Long lastSearchId);
 
+    Boolean hasNext(String title, Long lastSearchId, int size);
 }
