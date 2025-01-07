@@ -41,7 +41,8 @@ public class PloggingService {
     private final PloggingStarRepository ploggingStarRepository;
 
     public PloggingGetStarListResponse getPloggingWithTitle(Long userId, String title, int size, Long lastSearchId) {
-        List<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(userId, title, size, lastSearchId);
+        List<PloggingGetStarResponse> list = ploggingRepository.findAllByTitleContaining(userId, title, size, lastSearchId);
+
         if (list.isEmpty()) {
             throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
         }

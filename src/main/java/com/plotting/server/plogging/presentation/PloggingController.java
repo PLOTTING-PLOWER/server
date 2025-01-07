@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> getPloggingWithTitle(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @RequestParam String title,
-            @RequestParam Long lastSearchId,
+            @RequestParam(defaultValue = "0") Long lastSearchId,
             @RequestParam(defaultValue = "2") int size
     ) {
 
