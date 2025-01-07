@@ -15,8 +15,6 @@ import com.plotting.server.user.domain.User;
 import com.plotting.server.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +24,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.plotting.server.plogging.exception.errorcode.PloggingErrorCode.PLOGGING_NOT_FOUND;
-import static com.plotting.server.plogging.util.PloggingConstants.*;
+import static com.plotting.server.plogging.util.PloggingConstants.ASSIGN_COMPLETE;
+import static com.plotting.server.plogging.util.PloggingConstants.DIRECT_COMPLETE;
 
 @Slf4j
 @Service
@@ -43,11 +42,11 @@ public class PloggingService {
 
     public PloggingGetStarListResponse getPloggingWithTitle(Long userId, String title, int size, Long lastSearchId) {
         List<PloggingGetStarResponse> list = ploggingRepository.findByTitleContaining(userId, title, size, lastSearchId);
-        Boolean hasNext = ploggingRepository.hasNext(title, lastSearchId, size);
-
         if (list.isEmpty()) {
             throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
         }
+
+        boolean hasNext = ploggingRepository.hasNext(title, lastSearchId, size);
 
         return PloggingGetStarListResponse.from(hasNext, list);
     }
