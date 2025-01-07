@@ -54,7 +54,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
     }
 
     @Override
-    public Boolean hasNext(String title, Long lastSearchId, int size) {
+    public boolean hasNext(String title, Long lastSearchId, int size) {
         return jpaQueryFactory.selectOne()
                 .from(plogging)
                 .where(plogging.title.contains(title), plogging.id.lt(lastSearchId - size))

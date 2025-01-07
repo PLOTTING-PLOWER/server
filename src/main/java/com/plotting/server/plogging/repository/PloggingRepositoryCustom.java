@@ -17,5 +17,5 @@ public interface PloggingRepositoryCustom {
 
     List<PloggingGetStarResponse> findByTitleContaining(Long userId, String title, int size, Long lastSearchId);
 
-    Boolean hasNext(String title, Long lastSearchId, int size);
+    boolean hasNext(String title, Long lastSearchId, int size);
 }
