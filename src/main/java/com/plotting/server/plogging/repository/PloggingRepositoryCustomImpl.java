@@ -27,7 +27,7 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<PloggingGetStarResponse> findAllByTitleContaining(Long userId, String title, int size, Long lastSearchId) {
+    public List<PloggingGetStarResponse> findAllByTitleContaining(Long userId, String title, int size, Long lastViewPloggingId) {
 
         return jpaQueryFactory
                 .select(Projections.constructor(PloggingGetStarResponse.class,
@@ -45,23 +45,23 @@ public class PloggingRepositoryCustomImpl implements PloggingRepositoryCustom {
                 .leftJoin(ploggingUser).on(plogging.id.eq(ploggingUser.plogging.id))
                 .leftJoin(ploggingStar).on(plogging.id.eq(ploggingStar.plogging.id).and(ploggingStar.user.id.eq(userId)))
                 .orderBy(plogging.id.desc())
-                .where(isFirstPloggingPaging(lastSearchId), plogging.title.contains(title))
+                .where(isFirstPloggingPaging(lastViewPloggingId), plogging.title.contains(title))
                 .groupBy(plogging.id, ploggingStar.id)
-                .limit(size)
+                .limit(size + 1)
                 .fetch();
     }
 
     private BooleanExpression isFirstPloggingPaging(Long lastViewPloggingId) {
         return lastViewPloggingId == 0 ? null : plogging.id.lt(lastViewPloggingId);
     }
-
-    @Override
-    public boolean hasNext(String title, Long lastSearchId, int size) {
-        return jpaQueryFactory.selectOne()
-                .from(plogging)
-                .where(plogging.title.contains(title), plogging.id.lt(lastSearchId - size))
-                .fetchFirst() != null;
-    }
+//
+//    @Override
+//    public boolean hasNext(String title, Long lastSearchId, int size) {
+//        return jpaQueryFactory.selectOne()
+//                .from(plogging)
+//                .where(plogging.title.contains(title), plogging.id.lt(lastSearchId - size))
+//                .fetchFirst() != null;
+//    }
 
     @Override
     public List<PloggingResponse> findByFilters(String region, LocalDate startDate, LocalDate endDate, PloggingType type,

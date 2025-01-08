@@ -40,14 +40,18 @@ public class PloggingService {
     private final PloggingUserRepository ploggingUserRepository;
     private final PloggingStarRepository ploggingStarRepository;
 
-    public PloggingGetStarListResponse getPloggingWithTitle(Long userId, String title, int size, Long lastSearchId) {
-        List<PloggingGetStarResponse> list = ploggingRepository.findAllByTitleContaining(userId, title, size, lastSearchId);
+    public PloggingGetStarListResponse getPloggingWithTitle(Long userId, String title, int size, Long lastViewPloggingId) {
+        List<PloggingGetStarResponse> list = ploggingRepository.findAllByTitleContaining(userId, title, size, lastViewPloggingId);
 
         if (list.isEmpty()) {
             throw new PloggingNotFoundException(PLOGGING_NOT_FOUND);
         }
 
-        boolean hasNext = ploggingRepository.hasNext(title, lastSearchId, size);
+        boolean hasNext = list.size() == size + 1;
+
+        if (hasNext) {
+            list.remove(list.size() - 1);
+        }
 
         return PloggingGetStarListResponse.from(hasNext, list);
     }

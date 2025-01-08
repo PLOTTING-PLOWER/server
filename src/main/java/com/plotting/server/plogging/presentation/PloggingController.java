@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,11 +45,11 @@ public class PloggingController {
     public ResponseEntity<ResponseTemplate<?>> getPloggingWithTitle(
             @AuthenticationPrincipal JwtUserDetails jwtUserDetails,
             @RequestParam String title,
-            @RequestParam(defaultValue = "0") Long lastSearchId,
+            @RequestParam(defaultValue = "0") Long lastViewPloggingId,
             @RequestParam(defaultValue = "2") int size
     ) {
 
-        PloggingGetStarListResponse response = ploggingService.getPloggingWithTitle(jwtUserDetails.userId(), title, size, lastSearchId);
+        PloggingGetStarListResponse response = ploggingService.getPloggingWithTitle(jwtUserDetails.userId(), title, size, lastViewPloggingId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
